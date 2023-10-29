@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public float jumpHeight = 2.0f;
     public float gravityValue = -50f;
     public bool isUsable;
-    private IsUsable usableObj;
+    private GameObject usableObj;
     
 
     private void Start()
@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
         controller.minMoveDistance = 0;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         groundedPlayer = controller.isGrounded;
 
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
             playerVelocity.y = 0f;
             doubleJump = true;
         }
-        
+
         Vector2 move = new Vector2(Input.GetAxis("Horizontal"), 0);
         controller.Move(move * Time.deltaTime * playerSpeed);
 
@@ -50,14 +50,16 @@ public class Player : MonoBehaviour
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
-        if (Input.GetKeyDown(KeyCode.E))
-            usableObj.UseMoment();
+        if ((Input.GetKeyDown(KeyCode.E))&&(usableObj!=null))
+            usableObj.GetComponent<IsUsable>().UseMoment();
+    
        
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Usable")
-            usableObj = other.GetComponent<IsUsable>();
+            usableObj = other.gameObject;
 
     }
     private void OnTriggerExit(Collider other)

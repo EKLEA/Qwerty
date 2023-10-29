@@ -7,18 +7,18 @@ public class TranslateOBj : MonoBehaviour,IsUsable
 {
     [SerializeField] GameObject obj;
     
-    public GameObject _operator { get; set; }
-    public GameObject _subject { get; set; }
+    public GameObject Operator { get; set; }
+    public GameObject Subject { get; set; }
 
     void Start()
     {
-        _subject = obj;
+        Subject = obj;
         
     }
    
     public void UseMoment ()
     {
-        _subject.transform.position = transform.position + new Vector3(0, 2f, 0);
+        Subject.transform.position = transform.position + new Vector3(0, 2f, 0);
     }
    
 }
