@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fe6711b94989c2468735ac804106927, type: 3}
-  m_Name: InventoryItemInfo
+  m_Name: InventoryItemInfo 1
   m_EditorClassIdentifier: 
-  _id: 1
-  _title: 213
-  _description: 123
-  _maxItemsInInventortySlot: 1
-  _spriteIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  _id: 2
+  _title: sad
+  _description: asddsa
+  _maxItemsInInventortySlot: 0
+  _spriteIcon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}

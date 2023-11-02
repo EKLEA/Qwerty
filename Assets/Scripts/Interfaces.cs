@@ -6,7 +6,6 @@ using UnityEngine;
 
 interface IsUsable
 {
-    public GameObject Operator { get; }
     public GameObject Subject {get; }
     void UseMoment();
 
@@ -15,7 +14,7 @@ interface IsUsable
 public interface IItem
 {
     IItemInfo info { get; }
-    IItemState state { get; }
+    IItemState state { get;  }
     Type itemType { get; }
     IItem Clone();
     
@@ -61,15 +60,5 @@ public interface IInventory
     bool HasItem(Type itemtype, out IItem item);
 }
 
-public interface IsDamagable
-{
-    public float hp { get; }
-    public GameObject _subject { get; }
-    void DamageMoment();
-}
-public enum ItemTypes
-{
-    consumables = 0,
-    craftComponents = 1,
-    itemsToUse = 2
-}
+
+

@@ -9,6 +9,7 @@ public class InventoryWithSlots : IInventory
 {
     public event Action<object, IItem, int> OnInventoryItemAddedEvent;
     public event Action<object, Type, int> OnInventoryItemRemovedEvent;
+    public event Action<object> OnInventoryStateChangedEvent;
     public int invCapacity { get; set; }
 
     public bool isFull => _slots.All(slot => slot.isFull);
@@ -102,6 +103,7 @@ public class InventoryWithSlots : IInventory
 
         Debug.Log($"item added to inventort. ItemType: {item.itemType}, amount {amountToAdd}");
         OnInventoryItemAddedEvent?.Invoke(sender, item, amountToAdd);
+        OnInventoryStateChangedEvent?.Invoke(sender);
 
         if (amountLeft <= 0)
             return true;
@@ -111,7 +113,37 @@ public class InventoryWithSlots : IInventory
 
     }
 
-    public void Remove(object sender, Type itemType, int count = 1)
+    public void TransitFromSlotToSlot(object sender,IInventorySlot fromSlot, IInventorySlot toSlot)
+    {
+        if (fromSlot.isEmpty)
+            return;
+        if (toSlot.isEmpty)
+            return;
+
+        if (toSlot.isEmpty && fromSlot.itemType != toSlot.itemType)
+            return;
+
+        var slotCapacity = fromSlot.capacity;
+        var fits = fromSlot.count+ toSlot.count<=slotCapacity;
+        var amountToAdd = fits ? fromSlot.count : slotCapacity - toSlot.count;
+        var amountLeft = fromSlot.count - amountToAdd;
+
+        if (toSlot.isEmpty)
+        {
+            toSlot.SetItem(fromSlot.item);
+            fromSlot.CLear();
+            OnInventoryStateChangedEvent?.Invoke(sender);
+        }
+
+        toSlot.item.state.count += amountToAdd;
+        if(fits)
+            fromSlot.CLear();
+        else
+            fromSlot.item.state.count= amountLeft;
+        OnInventoryStateChangedEvent?.Invoke(sender);
+    }
+
+ public void Remove(object sender, Type itemType, int count = 1)
     {
        var slotsWithItem = GetAllSlots(itemType);
         if (slotsWithItem.Length == 0)
@@ -130,6 +162,7 @@ public class InventoryWithSlots : IInventory
                     slot.CLear();
                 Debug.Log($"item removed from inventort. ItemType: {itemType}, amount {amountToRemove}");
                 OnInventoryItemRemovedEvent?.Invoke(sender, itemType, amountToRemove);
+                OnInventoryStateChangedEvent?.Invoke(sender);
 
                 break;
             }
@@ -138,6 +171,7 @@ public class InventoryWithSlots : IInventory
             slot.CLear();
             Debug.Log($"item removed from inventort. ItemType: {itemType}, amount {amountRemoved}");
             OnInventoryItemRemovedEvent?.Invoke(sender, itemType, amountRemoved);
+            OnInventoryStateChangedEvent?.Invoke(sender);
         }
     }
     public bool HasItem(Type itemtype, out IItem item)
