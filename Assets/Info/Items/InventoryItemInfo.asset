@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fe6711b94989c2468735ac804106927, type: 3}
   m_Name: InventoryItemInfo
   m_EditorClassIdentifier: 
-  _id: 1
+  _id: Test
   _title: 213
   _description: 123
-  _maxItemsInInventortySlot: 1
+  _maxItemsInInventortySlot: 5
   _spriteIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  _itemType: 0

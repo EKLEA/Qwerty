@@ -8,8 +8,6 @@ public class —raft—omponents:  IItem
     public IItemInfo info { get; }
 
     public IItemState state { get; }
-
-    public Type itemType => GetType();
     
     public —raft—omponents(IItemInfo info)
     {

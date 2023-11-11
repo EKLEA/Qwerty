@@ -31,7 +31,7 @@ public class UIInventorySlot : UISlot
         Refresh();
         otherSlotUI.Refresh();
     }
-    private void Refresh()
+    public void Refresh()
     {
         if (slot != null)
         {

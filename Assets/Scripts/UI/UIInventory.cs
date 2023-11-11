@@ -1,12 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UIInventory : MonoBehaviour
 {
-   public InventoryWithSlots inventory {  get; private set; }
-    private void Awake()
+    private  PlayerInventory playerInv;
+    public InventoryWithSlots inventory => playerInv.inventory;
+
+    private void Start()
     {
-        inventory = new InventoryWithSlots(15);
+        var uiSlots= GetComponentsInChildren<UIInventorySlot>();
+        playerInv = new PlayerInventory();
+        playerInv.SetUiSlots(uiSlots);
     }
+
+
+
 }

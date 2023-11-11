@@ -27,9 +27,6 @@ public class UIInventoryItem :  UIItem
         if (textAmountEnabled)
             _textAmount.text = $"x{slot.count.ToString()}";
     }
-    
-
-
     private void Cleanup()
     {
         _textAmount.gameObject.SetActive(false);

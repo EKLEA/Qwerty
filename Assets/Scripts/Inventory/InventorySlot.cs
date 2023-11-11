@@ -11,7 +11,7 @@ public class InventorySlot : IInventorySlot
 
     public IItem item { get; private set; }
 
-    public Type itemType => item.itemType;
+    
 
     public int count => isEmpty ? 0 : item.state.count;
 

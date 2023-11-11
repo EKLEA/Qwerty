@@ -8,7 +8,7 @@ using static UnityEditor.Progress;
 public class InventoryWithSlots : IInventory
 {
     public event Action<object, IItem, int> OnInventoryItemAddedEvent;
-    public event Action<object, Type, int> OnInventoryItemRemovedEvent;
+    public event Action<object, IItem, int> OnInventoryItemRemovedEvent;
     public event Action<object> OnInventoryStateChangedEvent;
     public int invCapacity { get; set; }
 
@@ -23,9 +23,9 @@ public class InventoryWithSlots : IInventory
         for (int i = 0; i < capacity; i++)
             _slots.Add(new InventorySlot());
     }
-     public IItem GetItem(Type itemType)
+     public IItem GetItem(string ItemID)
      {
-        return _slots.Find(slot => slot.itemType == itemType).item;
+        return _slots.Find(slot => slot.item.info.id == ItemID).item;
      }
 
     public IItem[] GetAllItems()
@@ -39,11 +39,11 @@ public class InventoryWithSlots : IInventory
         return allItems.ToArray();
     }
 
-    public IItem[] GetAllItems(Type itemType)
+    public IItem[] GetAllItems(string ItemID)
     {
         var allItemsOfType = new List<IItem>();
         var slotOfType = _slots.
-            FindAll(slot=> !slot.isEmpty && slot.itemType==itemType);
+            FindAll(slot=> !slot.isEmpty && slot.item.info.id ==ItemID);
         foreach (var slot in slotOfType)
             allItemsOfType.Add(slot.item);
         return allItemsOfType.ToArray();
@@ -58,11 +58,11 @@ public class InventoryWithSlots : IInventory
             equippedItems.Add(slot.item);
         return equippedItems.ToArray();
     }
-    public int GetItemCount(Type itemtype)
+    public int GetItemCount(string ItemID)
     {
         var count = 0;
         var allItemsSlost = _slots.
-            FindAll(slot => slot.itemType == itemtype);
+            FindAll(slot => slot.item.info.id == ItemID);
         foreach (var itemSlot in allItemsSlost)
             count += itemSlot.count;
         return count;
@@ -72,7 +72,7 @@ public class InventoryWithSlots : IInventory
     {
         var slotWithSameItemButNotEmpty = _slots.
             Find(slot => !slot.isEmpty
-                    && slot.itemType == item.itemType && !slot.isFull);
+                    && slot.item.info.id == item.info.id && !slot.isFull);
 
         if (slotWithSameItemButNotEmpty!=null)
             return TryAddToSlot(sender, slotWithSameItemButNotEmpty,item);
@@ -82,11 +82,11 @@ public class InventoryWithSlots : IInventory
         if (emptySlot!=null)
             return TryAddToSlot(sender, emptySlot,item);
 
-        Debug.Log($"Cannot add item ({item.itemType}), count: {item.state.count}, " +
+        Debug.Log($"Cannot add item ({item.info.id}), count: {item.state.count}, " +
             $"because there is no place for that.");
         return false;
     }
-    private bool TryAddToSlot (object sender, IInventorySlot slot,IItem item)
+    public bool TryAddToSlot (object sender, IInventorySlot slot,IItem item)
     {
         var fits = slot.count + item.state.count <= item.info.maxItemsInInventortySlot;
         var amountToAdd = fits
@@ -101,7 +101,7 @@ public class InventoryWithSlots : IInventory
         else
             slot.item.state.count += amountToAdd;
 
-        Debug.Log($"item added to inventort. ItemType: {item.itemType}, amount {amountToAdd}");
+        Debug.Log($"item added to inventort. ItemId: {item.info.id}, amount {amountToAdd}");
         OnInventoryItemAddedEvent?.Invoke(sender, item, amountToAdd);
         OnInventoryStateChangedEvent?.Invoke(sender);
 
@@ -120,7 +120,7 @@ public class InventoryWithSlots : IInventory
         if (toSlot.isEmpty)
             return;
 
-        if (toSlot.isEmpty && fromSlot.itemType != toSlot.itemType)
+        if (toSlot.isEmpty && fromSlot.item.info.id != toSlot.item.info.id)
             return;
 
         var slotCapacity = fromSlot.capacity;
@@ -143,9 +143,9 @@ public class InventoryWithSlots : IInventory
         OnInventoryStateChangedEvent?.Invoke(sender);
     }
 
- public void Remove(object sender, Type itemType, int count = 1)
+ public void Remove(object sender, string ItemID, int count = 1)
     {
-       var slotsWithItem = GetAllSlots(itemType);
+       var slotsWithItem = GetAllSlots(ItemID);
         if (slotsWithItem.Length == 0)
             return;
 
@@ -160,8 +160,8 @@ public class InventoryWithSlots : IInventory
                 slot.item.state.count -= amountToRemove;
                 if (slot.count <= 0)
                     slot.CLear();
-                Debug.Log($"item removed from inventort. ItemType: {itemType}, amount {amountToRemove}");
-                OnInventoryItemRemovedEvent?.Invoke(sender, itemType, amountToRemove);
+                Debug.Log($"item removed from inventort. ItemId: {ItemID}, amount {amountToRemove}");
+                OnInventoryItemRemovedEvent?.Invoke(sender, slot.item, amountToRemove);
                 OnInventoryStateChangedEvent?.Invoke(sender);
 
                 break;
@@ -169,21 +169,21 @@ public class InventoryWithSlots : IInventory
             var amountRemoved = slot.count;
             amountToRemove-= slot.count;
             slot.CLear();
-            Debug.Log($"item removed from inventort. ItemType: {itemType}, amount {amountRemoved}");
-            OnInventoryItemRemovedEvent?.Invoke(sender, itemType, amountRemoved);
+            Debug.Log($"item removed from inventort. ItemId: {ItemID}, amount {amountRemoved}");
+            OnInventoryItemRemovedEvent?.Invoke(sender, slot.item, amountRemoved);
             OnInventoryStateChangedEvent?.Invoke(sender);
         }
     }
-    public bool HasItem(Type itemtype, out IItem item)
+    public bool HasItem(string ItemID, out IItem item)
     {
-        item = GetItem(itemtype);
+        item = GetItem(ItemID);
         return item != null;
     }
-    public IInventorySlot[] GetAllSlots(Type itemType)
+    public IInventorySlot[] GetAllSlots(string ItemID)
     {
         return _slots.
             FindAll(slot => !slot.isEmpty
-                            && slot.itemType == itemType).ToArray();
+                            && slot.item.info.id == ItemID).ToArray();
     }
     public IInventorySlot[] GetAllSlots()
     {

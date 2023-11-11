@@ -6,6 +6,7 @@ using UnityEngine;
 
 interface IsUsable
 {
+    public PlayerUseMoment playerUseMoment {  get; }
     public GameObject Subject {get; }
     void UseMoment();
 
@@ -15,9 +16,15 @@ public interface IItem
 {
     IItemInfo info { get; }
     IItemState state { get;  }
-    Type itemType { get; }
+   
     IItem Clone();
     
+}
+public enum ItemTypes
+{
+    Consumables,
+    CraftConsumables,
+    UsableItem
 }
 public interface IItemState
 {
@@ -32,6 +39,7 @@ public interface IItemInfo
     string discription { get; }
     int maxItemsInInventortySlot { get; }
     Sprite spriteIcon { get; }
+    ItemTypes itemType { get; }
 }
 
     public interface IInventorySlot
@@ -39,7 +47,7 @@ public interface IItemInfo
     bool isFull { get; }
     bool isEmpty { get; }
     IItem item{ get; }
-    Type itemType { get; }
+   
     int count { get; }
     int capacity { get; }
 
@@ -50,14 +58,25 @@ public interface IInventory
 {
     int invCapacity { get; set; }
     bool isFull { get; }
-    IItem GetItem(Type itemType);
+    IItem GetItem(string ItemID);
     IItem[] GetAllItems();
-    IItem[] GetAllItems(Type itemType);
+    IItem[] GetAllItems(string ItemID);
     IItem[] GetEquippedItems();
-    int GetItemCount(Type itemtype);
+    int GetItemCount(string ItemID);
     bool TryToAdd(object sender, IItem item);
-    void Remove(object sender, Type itemType, int count = 1);
-    bool HasItem(Type itemtype, out IItem item);
+    void Remove(object sender, string ItemID, int count = 1);
+    bool HasItem(string ItemID, out IItem item);
+}
+
+public interface IMoveHandler
+{
+    public CharacterController controller { get; }
+    public float speed { get;   }
+    public float jumpHeight { get; }
+    public float gravityValue { get;  }
+    public void Move(Vector2 vec);
+    public void JumpMoment();
+    public void SetValues(float _speed,float _gravity,float _jumpHeight, CharacterController _controller);
 }
 
 

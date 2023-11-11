@@ -1,19 +1,13 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class ExampleItem : MonoBehaviour, IItem
+[System.Serializable]
+
+public class ExampleItem : IItem
 {
 
     public IItemInfo info {get; }
 
-public IItemState state { get; }
-
-    public Type itemType => GetType();
-
-    
-
+    public IItemState state { get; }
     public ExampleItem(IItemInfo info)
     {
         this.info = info;
