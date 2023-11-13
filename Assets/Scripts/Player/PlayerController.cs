@@ -13,8 +13,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private IMoveHandler moveHandler;
     private void Awake()
     {
-        controller = gameObject.GetComponent<CharacterController>();
-        moveHandler = gameObject.GetComponent<IMoveHandler>();
+        controller = GetComponent<CharacterController>();
+        moveHandler = GetComponent<IMoveHandler>();
         controller.minMoveDistance = 0;
         moveHandler.SetValues(playerSpeed,gravityValue,jumpHeight,controller);
     }
@@ -31,6 +31,10 @@ public class PlayerController : MonoBehaviour
         {
             moveHandler.JumpMoment();
             doubleJump = false;
+        }
+        if (groundedPlayer)
+        {
+            doubleJump = true;
         }
     }
 }

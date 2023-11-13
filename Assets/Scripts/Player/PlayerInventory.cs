@@ -6,69 +6,21 @@ using UnityEngine;
 using static UnityEditor.Progress;
 
 
-public class PlayerInventory
+public class PlayerInventory: MonoBehaviour
 {
-    
+    public int invCapavity;
     public InventoryWithSlots inventory;
-    private ExampleItem item;
-    private UIInventorySlot[] _uiSlots;
-    private int invCapacity;
-    
-
-
-    public PlayerInventory()
+    void Awake()
     {
-        inventory = new InventoryWithSlots(invCapacity);
-        inventory.OnInventoryStateChangedEvent += OnInventoryStateCganged;
-        SetupInventoryUI(inventory);
-        
+        inventory = new InventoryWithSlots(invCapavity);
     }
-
-    public void SetUiSlots(UIInventorySlot[] uiSlots)
+    private void OnTriggerEnter(Collider other)
     {
-        _uiSlots = uiSlots;
-    }
-    public void SetInvCapacity(int _invCapacity)
-    {
-        invCapacity= _invCapacity;
-    }
-    private InventoryWithSlots SetInventory(int _invCapacity)
-    {
-        return new InventoryWithSlots(_invCapacity);
-    }
-    private void SetupInventoryUI(InventoryWithSlots inventory)
-    {
-        var allSlots= inventory.GetAllSlots();
-        var allSlotsCount = allSlots.Length;
-        for (int i = 0; i < allSlotsCount; i++) { 
-            var slot = allSlots[i];
-            var uiSlot = _uiSlots[i];
-            uiSlot.SetSlot(slot);
-            uiSlot.Refresh();
+        if (other.tag == ("Item"))
+        {
+            inventory.TryToAdd(this,other.GetComponent<Item>().GetExItem());
         }
+    }
 
-    } 
-    private IInventorySlot AddItemToSlot(List<IInventorySlot> slots)
-    {
-        
-        var rIndex = UnityEngine.Random.Range(0, slots.Count);
-        var rSlot = slots[rIndex];
-        inventory.TryAddToSlot(this, rSlot, item);
-        return rSlot;
-    }
-    public void AddItem( ExampleItem _item)
-    {
-        item=_item;
-        var allSlots = inventory.GetAllSlots();
-        var aviableslots=new List<IInventorySlot>(allSlots);
-        var filledSlot = AddItemToSlot(aviableslots);
-        aviableslots.Remove(filledSlot);
 
-    }
-    private void OnInventoryStateCganged(object sender)
-    {
-        foreach (var uiSlot in _uiSlots)
-            uiSlot.Refresh();
-    }
-    
 }

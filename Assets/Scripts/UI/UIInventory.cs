@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class UIInventory : MonoBehaviour
 {
-    private  PlayerInventory playerInv;
-    public InventoryWithSlots inventory => playerInv.inventory;
+    private UIInventoryScript uiScript;
+    [SerializeField] public PlayerInventory playerInventory;
+    public InventoryWithSlots inventory => playerInventory.inventory;
 
     private void Start()
     {
         var uiSlots= GetComponentsInChildren<UIInventorySlot>();
-        playerInv = new PlayerInventory();
-        playerInv.SetUiSlots(uiSlots);
+        uiScript= new UIInventoryScript(uiSlots,inventory);
     }
 
 

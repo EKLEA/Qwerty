@@ -6,8 +6,6 @@ using UnityEngine;
 public class TranslateOBj : MonoBehaviour,IsUsable
 {
     public GameObject Subject => gameObject;
-    private bool isTriggered;
-
    
 
     [SerializeField] private PlayerUseMoment _playerUseMoment;
@@ -15,30 +13,25 @@ public class TranslateOBj : MonoBehaviour,IsUsable
     void Start()
     {
         playerUseMoment = _playerUseMoment;
-        playerUseMoment.OnUsedEvent += Cheker;
     }
 
     private void Cheker(object obj)
     {
-        if (isTriggered)
-        {
-            UseMoment();
-        }
+        UseMoment();
     }
     public void UseMoment ()
     {
         Subject.transform.position = transform.position + new Vector3(0, 2f, 0);
     }
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == ("Player"))
-            isTriggered = true;
+        if (other.gameObject.tag == "Player")
+            playerUseMoment.OnUsedEvent += Cheker;
     }
-
-    void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag==("Player"))
-            isTriggered = false;
+        if (other.gameObject.tag == "Player")
+            playerUseMoment.OnUsedEvent -= Cheker;
     }
 
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+
 [CreateAssetMenu(fileName="InventoryItemInfo",menuName= "Gameplay/Items/Create new ItemInfo")]
 public class InventoryItemInfo : ScriptableObject, IItemInfo
 {

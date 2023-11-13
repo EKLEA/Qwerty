@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class InventorySlot : IInventorySlot
 {
-    public bool isFull => count == capacity;
+    public bool isFull => !isEmpty && count == capacity;
 
     public bool isEmpty => item==null;
 

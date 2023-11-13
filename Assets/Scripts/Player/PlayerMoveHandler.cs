@@ -18,7 +18,7 @@ public class PlayerMoveHandler : MonoBehaviour, IMoveHandler
     }
     public void JumpMoment()
     {
-        playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+        playerVelocity.y = jumpHeight*10;
     }
     public void SetValues(float _speed, float _gravity, float _jumpHeight, CharacterController _controller)
     {

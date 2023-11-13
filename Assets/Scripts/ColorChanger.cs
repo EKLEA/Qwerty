@@ -8,40 +8,33 @@ public class ColorChanger : MonoBehaviour,IsUsable
 { 
 
     public GameObject Subject => gameObject;
-    private bool isTriggered;
 
     [SerializeField] private PlayerUseMoment _playerUseMoment;
     public PlayerUseMoment playerUseMoment { get; private set; }
     void Start()
     {
         playerUseMoment = _playerUseMoment;
-        playerUseMoment.OnUsedEvent += Cheker;
     }
 
     private void Cheker(object obj)
     {
-        if (isTriggered)
-        {
-            UseMoment();
-        }
+        UseMoment();
     }
 
     public void UseMoment ()
     {
         Subject.GetComponent<Renderer>().material.color = new Color(0, 204, 102);
     }
-   
 
-    void OnTriggerEnter(Collider other)
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
-            isTriggered = true;
+        if (other.gameObject.tag == "Player")
+            playerUseMoment.OnUsedEvent += Cheker;
     }
-
-    void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
-            isTriggered = false;
+        if (other.gameObject.tag == "Player")
+            playerUseMoment.OnUsedEvent -= Cheker;
     }
-
 }
