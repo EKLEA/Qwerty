@@ -117,14 +117,11 @@ public class InventoryWithSlots : IInventory
     {
         if (fromSlot.isEmpty)
             return;
-        if (toSlot.isEmpty)
+        if (toSlot.isFull)
             return;
 
-        if (toSlot.isEmpty && fromSlot.item.info.id != toSlot.item.info.id)
+        if (!toSlot.isEmpty && fromSlot.item.info.id != toSlot.item.info.id)
             return;
-        if ( fromSlot.item.info.id != toSlot.item.info.id)
-            return;
-
         if (fromSlot == toSlot) return;
 
         var slotCapacity = fromSlot.capacity;

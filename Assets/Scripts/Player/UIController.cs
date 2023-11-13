@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] Camera _camera;
+    [SerializeField] public GameObject _interface;
+    private void Awake()
+    {
+        _interface.SetActive(false);
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
-            _camera.depth = -2;
+            _interface.SetActive(true);
         if (Input.GetKeyUp(KeyCode.I))
-            _camera.depth = 0;
+            _interface.SetActive(false);
     }
 }
