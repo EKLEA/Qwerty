@@ -5,13 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-interface IsUsable
-{
-    public PlayerUseMoment playerUseMoment {  get; }
-    public GameObject Subject {get; }
-    void UseMoment();
 
-}
 
 public interface IItem
 {
@@ -24,7 +18,7 @@ public interface IItem
 public enum ItemTypes
 {
     Consumables,
-    CraftConsumables,
+    CraftComponentss,
     UsableItem
 }
 public interface IItemState
@@ -78,6 +72,7 @@ public interface IMoveHandler
     public void Move(Vector2 vec);
     public void JumpMoment();
     public void SetValues(float _speed,float _gravity,float _jumpHeight, CharacterController _controller);
+    public void SetVelocity(Vector2 vec);
 }
 
 

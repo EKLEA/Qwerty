@@ -8,9 +8,8 @@ public class UIInventoryItem :  UIItem
 
     [SerializeField] private Image _imageIcon;
     [SerializeField] private Text _textAmount;
-
     public IItem item { get; private set; }
-
+    
     public void Refresh (IInventorySlot slot)
     {
         if (slot.isEmpty)
@@ -28,6 +27,7 @@ public class UIInventoryItem :  UIItem
         if (textAmountEnabled)
             _textAmount.text = $"x{slot.count.ToString()}";
     }
+   
     private void Cleanup()
     {
         _textAmount.gameObject.SetActive(false);

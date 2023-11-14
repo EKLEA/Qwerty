@@ -22,15 +22,15 @@ public class InventorySlot : IInventorySlot
         {
             return;
         }
-        this.item = item; ;
+        this.item = item;
         this.capacity = item.info.maxItemsInInventortySlot;
     }
     public void CLear()
     {
         if (isEmpty)
             return;
-        item.state.count = 0;
-        item=null;
+        item = null;
+        this.capacity = 0;
     }
 
    

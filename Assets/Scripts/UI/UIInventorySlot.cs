@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,11 +8,18 @@ using UnityEngine.UIElements;
 public class UIInventorySlot : UISlot
 
 {
+    
     [SerializeField] private UIInventoryItem _uiInventoryItem;
     private UIInventory _uiInventory;
+    public bool GetItemDragState()
+    {
+        return _uiInventoryItem.GetItemDragState();
+    }
+
     private void Awake()
     {
         _uiInventory = GetComponentInParent<UIInventory>();
+        
     }
     public IInventorySlot slot { get; private set; }
 
@@ -25,11 +33,11 @@ public class UIInventorySlot : UISlot
         var otherSlotUI = otherItemUI.GetComponentInParent<UIInventorySlot>();
         var otherSlot = otherSlotUI.slot;
         var inventory = _uiInventory.inventory;
-
+        
         inventory.TransitFromSlotToSlot(this, otherSlot, slot);
-
         Refresh();
         otherSlotUI.Refresh();
+        
     }
     public void Refresh()
     {

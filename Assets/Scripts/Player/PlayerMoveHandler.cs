@@ -27,4 +27,9 @@ public class PlayerMoveHandler : MonoBehaviour, IMoveHandler
         gravityValue = _gravity;
         jumpHeight = _jumpHeight;
     }
+
+    public void SetVelocity(Vector2 vec)
+    {
+        playerVelocity = vec;
+    }
 }

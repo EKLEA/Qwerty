@@ -16,6 +16,7 @@ public class UIInventoryScript
         _inventory.OnInventoryStateChangedEvent += OnInventoryStateChanged;
         SetupInvntoryUI(inventory);
     }
+
     private void SetupInvntoryUI(InventoryWithSlots inventory)
     {
         var allSlots = inventory.GetAllSlots();
