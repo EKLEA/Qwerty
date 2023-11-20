@@ -19,6 +19,7 @@ public class UIInventoryItem :  UIItem
         }
 
         item = slot.item;
+        _imageIcon.color = Color.white;
         _imageIcon.sprite = item.info.spriteIcon;
         _imageIcon.gameObject.SetActive(true);
 

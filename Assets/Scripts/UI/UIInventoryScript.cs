@@ -20,13 +20,18 @@ public class UIInventoryScript
     private void SetupInvntoryUI(InventoryWithSlots inventory)
     {
         var allSlots = inventory.GetAllSlots();
+        
         for (int i = 0; i < allSlots.Length; i++)
         {
             var slot = allSlots[i];
             var uiSlot = _uiSlots[i];
             uiSlot.SetSlot(slot);
             uiSlot.Refresh();
+             
         }
+        
+ 
+        
     }
 
     private void OnInventoryStateChanged(object obj)

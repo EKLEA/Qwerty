@@ -9,7 +9,7 @@ public abstract class ExampleUsable : MonoBehaviour
     public PlayerUseMoment playerUseMoment =>_playerUseMoment;
 
 
-    public void Cheker(object obj)
+    public void Cheker(object s)
     {
         UseMoment();
     }

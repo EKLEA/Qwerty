@@ -8,6 +8,7 @@ public class InventorySlot : IInventorySlot
     public bool isFull => !isEmpty && count == capacity;
 
     public bool isEmpty => item==null;
+   
 
     public IItem item { get; private set; }
 

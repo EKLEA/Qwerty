@@ -29,14 +29,14 @@ public class UIInventorySlot : UISlot
     }
     public override void OnDrop(PointerEventData eventData)
     {
-        var otherItemUI = eventData.pointerDrag.GetComponent<UIInventoryItem>();
+        
+        var otherItemUI = eventData.pointerDrag.GetComponent<UIInventoryItem>(); 
         var otherSlotUI = otherItemUI.GetComponentInParent<UIInventorySlot>();
         var otherSlot = otherSlotUI.slot;
-        var inventory = _uiInventory.inventory;
-        
-        inventory.TransitFromSlotToSlot(this, otherSlot, slot);
-        Refresh();
-        otherSlotUI.Refresh();
+            var inventory = _uiInventory.inventory;
+            inventory.TransitFromSlotToSlot(this, otherSlot, slot);
+            Refresh();
+            otherSlotUI.Refresh();
         
     }
     public void Refresh()

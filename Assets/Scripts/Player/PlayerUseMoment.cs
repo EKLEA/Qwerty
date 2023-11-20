@@ -7,16 +7,21 @@ using static UnityEditor.Progress;
 public class PlayerUseMoment : MonoBehaviour
 {
     public event Action<object> OnUsedEvent;
-    public event Action<object> OnOpenInventoryEvent;
-    public event Action<object> OnCloseInventoryEvent;
+    public event Action<bool> OnOpenInventoryEvent;
+    public event Action<bool> OnOpenContextMenuEvent;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
             OnUsedEvent?.Invoke(this);
         if (Input.GetKeyDown(KeyCode.I))
-            OnOpenInventoryEvent ? .Invoke(this);
+            OnOpenInventoryEvent ? .Invoke(true);
         if (Input.GetKeyUp(KeyCode.I))
-            OnCloseInventoryEvent ? .Invoke(this);
+            OnOpenInventoryEvent? .Invoke(false);
+        if (Input.GetMouseButtonDown(1))
+            OnOpenContextMenuEvent?.Invoke(true);
+        if (Input.GetMouseButtonDown(1))
+            OnOpenContextMenuEvent?.Invoke(false);
 
     }
 }

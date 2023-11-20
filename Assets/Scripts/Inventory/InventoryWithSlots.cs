@@ -115,10 +115,12 @@ public class InventoryWithSlots : IInventory
 
     public void TransitFromSlotToSlot(object sender, IInventorySlot fromSlot, IInventorySlot toSlot)
     {
+        if (toSlot ==null)
+            return;
         if (fromSlot.isEmpty)
             return;
-
-        if ((!toSlot.isEmpty&& fromSlot.item.info.id != toSlot.item.info.id)&&(toSlot.isFull))
+        
+        if ((!toSlot.isEmpty|| toSlot.isFull) && fromSlot.item.info.id != toSlot.item.info.id)
         {
             IItem a = fromSlot.item;
             IItem b = toSlot.item;

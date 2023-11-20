@@ -5,7 +5,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-
+public interface IWeapon
+{
+    IItem item { get; }
+    public float damage { get;  }
+}
 
 public interface IItem
 {
