@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
         groundedPlayer = controller.isGrounded;
         if (Input.GetKeyDown(KeyCode.Space) && groundedPlayer)
         {
+            doubleJump = true;
+            if (Input.GetKeyDown(KeyCode.Space))
+                moveHandler.JumpMoment();
             moveHandler.SetVelocity(Vector2.zero);
             moveHandler.JumpMoment();
         }
