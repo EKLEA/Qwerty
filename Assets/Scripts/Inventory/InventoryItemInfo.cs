@@ -12,6 +12,7 @@ public class InventoryItemInfo : ScriptableObject, IItemInfo
     [SerializeField] private int _maxItemsInInventortySlot;
     [SerializeField] private Sprite _spriteIcon;
     [SerializeField] private ItemTypes _itemType;
+    [SerializeField] private GameObject _gameObject;
 
 
 
@@ -28,4 +29,6 @@ public class InventoryItemInfo : ScriptableObject, IItemInfo
     public Sprite spriteIcon => _spriteIcon;
 
     public ItemTypes itemType => _itemType;
+
+    public GameObject gameObject => _gameObject;
 }

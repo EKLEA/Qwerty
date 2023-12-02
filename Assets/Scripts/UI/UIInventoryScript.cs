@@ -29,9 +29,6 @@ public class UIInventoryScript
             uiSlot.Refresh();
              
         }
-        
- 
-        
     }
 
     private void OnInventoryStateChanged(object obj)

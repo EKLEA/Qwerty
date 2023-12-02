@@ -21,10 +21,18 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        var slotTransform = _rectTransform.parent;
-        slotTransform.SetAsLastSibling();
-        _canvasGroup.blocksRaycasts = false;
-        isUsed = false;
+        if(GetComponentInParent<UIInventorySlot>().slot==null) 
+        {
+            isUsed = true;
+            eventData.pointerDrag = null; 
+        }
+        else
+        {
+            var slotTransform = _rectTransform.parent;
+            slotTransform.SetAsLastSibling();
+            _canvasGroup.blocksRaycasts = false;
+            isUsed = false;
+        }
     }
 
     public void OnDrag(PointerEventData eventData)

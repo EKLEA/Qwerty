@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -5,27 +6,47 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ContextMenu : MonoBehaviour
 {
-   
-    public GameObject contextMenu;
-    public Button option1Button;
-    public Button option2Button;
-    
+
+    public GameObject contextMenu => gameObject;
+    public Button activeBT;
+    public Button equipBT;
+    public Button dropBT;
+    public UISlot slot;
+    public event Action<UISlot> OnActiveBTClickedEvent;
+    public event Action<UISlot> OnEquipBTClickedEvent;
+    public event Action<UISlot> OnDropBTClickedEvent;
     private void Start()
     {
-        option1Button.onClick.AddListener(Option1Callback);
-        option2Button.onClick.AddListener(Option2Callback);
-        
+        activeBT.onClick.AddListener(Option1Callback);
+        equipBT.onClick.AddListener(Option2Callback);
+        dropBT.onClick.AddListener(Option3Callback);
     }
-
+    public void SetButtons(IItem item)
+    {
+        if (item.info.itemType == ItemTypes.Consumables)
+        {
+            activeBT.image.color = new Color(61f / 255f, 169f / 255f, 1, 1);
+            equipBT.image.color = new Color(61f/255f, 169f/255f, 1, 1);
+            activeBT.interactable = false;
+            equipBT.interactable = false;
+            activeBT.onClick.RemoveListener(Option1Callback);
+            equipBT.onClick.RemoveListener(Option2Callback);
+        }
+    }
     private void Option1Callback()
     {
-        Debug.Log("Option 1 selected!");
+        OnActiveBTClickedEvent?.Invoke(slot);
         contextMenu.SetActive(false);
     }
 
     private void Option2Callback()
     {
-        Debug.Log("Option 2 selected!");
+        OnEquipBTClickedEvent?.Invoke(slot);
+        contextMenu.SetActive(false);
+    }
+    private void Option3Callback()
+    {
+        OnDropBTClickedEvent?.Invoke(slot);
         contextMenu.SetActive(false);
     }
 }

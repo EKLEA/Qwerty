@@ -39,6 +39,7 @@ public interface IItemInfo
     int maxItemsInInventortySlot { get; }
     Sprite spriteIcon { get; }
     ItemTypes itemType { get; }
+    GameObject gameObject { get; }
 }
 
     public interface IInventorySlot

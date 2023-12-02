@@ -17,4 +17,5 @@ MonoBehaviour:
   _description: 123213
   _maxItemsInInventortySlot: 1
   _spriteIcon: {fileID: 21300000, guid: e6981d59e7481764990ffaf067663b61, type: 3}
-  _itemType: 0
+  _itemType: 2
+  _gameObject: {fileID: 0}
