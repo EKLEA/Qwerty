@@ -34,15 +34,16 @@ public class UIInventory : MonoBehaviour
     {
         if (b)
         {
-            var c = slot.GetComponentInParent<UIInventorySlot>().slot;
-            if (c.item == null)
+            var c = slot;
+            if (slot.GetComponentInParent<UIInventorySlot>().slot.item == null)
                 return;
             else
             {
                 ctMenu.OnActiveBTClickedEvent += ActiveBTClicked;
                 ctMenu.OnEquipBTClickedEvent += EquipBTClicked;
                 ctMenu.OnDropBTClickedEvent += DropBTClicked;
-                ctMenu.SetButtons(c.item);
+                ctMenu.slot = c;
+                ctMenu.SetButtons();
                 contextMenu.SetActive(true);
                 var pos = new Vector3(slot.transform.position.x + 15, slot.transform.position.y - 15, slot.transform.position.z);
                 contextMenu.transform.position = pos;
@@ -60,17 +61,34 @@ public class UIInventory : MonoBehaviour
 
     private void DropBTClicked(UISlot slot)
     {
-        throw new NotImplementedException();
+        var dropItem = slot.GetComponentInParent<UIInventorySlot>().slot.item;
+        var vec = new Vector3(playerInventory.gameObject.transform.position.x, playerInventory.gameObject.transform.position.y, 0f);
+        var gm = Instantiate(dropItem.info.itemGO, vec, Quaternion.identity);
+        gm.GetComponent<Item>().item.info = dropItem.info;
+        gm.GetComponent<Item>().item.state = dropItem.state;
+        playerInventory.inventory.Remove(this, dropItem.info.id, dropItem.state.count);
     }
 
     private void EquipBTClicked(UISlot slot)
     {
-        throw new NotImplementedException();
+        if (playerInventory.activeItem==null) 
+        { 
+            playerInventory.activeItem = slot.GetComponentInParent<UIInventorySlot>().slot.item;
+            var vec = new Vector3(playerInventory.gameObject.transform.position.x, playerInventory.gameObject.transform.position.y, 0f);
+            var gm = Instantiate(playerInventory.activeItem.info.itemGO, vec, Quaternion.identity);
+            playerInventory.activeItem.state.IsEquipped = true;
+        }
+        else
+        {
+            Destroy(playerInventory.activeItem.info.itemGO);
+            playerInventory.activeItem = null;
+        }
+
     }
 
     private void ActiveBTClicked(UISlot slot)
     {
-        throw new NotImplementedException();
+
     }
 
     private void invUpdate(object sender)

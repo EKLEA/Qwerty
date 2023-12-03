@@ -5,16 +5,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public interface IWeapon
+
+
+public interface IUsableItemInfo
 {
-    IItem item { get; }
-    public float damage { get;  }
+    public float damage { get; }
+    public float coolDown { get; }
+    public float range { get; }
+
 }
 
 public interface IItem
 {
-    IItemInfo info { get; }
-    IItemState state { get;  }
+    IItemInfo info { get; set; }//adssada
+    IItemState state { get; set; }
    
     IItem Clone();
     
@@ -37,9 +41,10 @@ public interface IItemInfo
     string title { get; }
     string discription { get; }
     int maxItemsInInventortySlot { get; }
+    IUsableItemInfo usableItemInfo { get; }
     Sprite spriteIcon { get; }
     ItemTypes itemType { get; }
-    GameObject gameObject { get; }
+    GameObject itemGO { get; }
 }
 
     public interface IInventorySlot

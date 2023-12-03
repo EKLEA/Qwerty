@@ -9,6 +9,7 @@ public class InventoryItemInfo : ScriptableObject, IItemInfo
     [SerializeField] private string _id;
     [SerializeField] private string _title;
     [SerializeField] private string _description;
+    [SerializeField] private UsableItemInfo _usInfo;
     [SerializeField] private int _maxItemsInInventortySlot;
     [SerializeField] private Sprite _spriteIcon;
     [SerializeField] private ItemTypes _itemType;
@@ -30,5 +31,7 @@ public class InventoryItemInfo : ScriptableObject, IItemInfo
 
     public ItemTypes itemType => _itemType;
 
-    public GameObject gameObject => _gameObject;
+    public GameObject itemGO=> _gameObject;
+
+    public IUsableItemInfo usableItemInfo => _usInfo;
 }

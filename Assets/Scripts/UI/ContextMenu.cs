@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,15 +16,16 @@ public class ContextMenu : MonoBehaviour
     public event Action<UISlot> OnActiveBTClickedEvent;
     public event Action<UISlot> OnEquipBTClickedEvent;
     public event Action<UISlot> OnDropBTClickedEvent;
-    private void Start()
+    
+    public void SetButtons()
     {
-        activeBT.onClick.AddListener(Option1Callback);
-        equipBT.onClick.AddListener(Option2Callback);
         dropBT.onClick.AddListener(Option3Callback);
-    }
-    public void SetButtons(IItem item)
-    {
-        if (item.info.itemType == ItemTypes.Consumables)
+        activeBT.interactable = false;
+        equipBT.interactable = false;
+        activeBT.onClick.RemoveListener(Option1Callback);
+        equipBT.onClick.RemoveListener(Option2Callback);
+
+        if (slot.GetComponentInParent<UIInventorySlot>().slot.item.info.itemType == ItemTypes.Consumables)
         {
             activeBT.image.color = new Color(61f / 255f, 169f / 255f, 1, 1);
             equipBT.image.color = new Color(61f/255f, 169f/255f, 1, 1);
@@ -31,6 +33,21 @@ public class ContextMenu : MonoBehaviour
             equipBT.interactable = false;
             activeBT.onClick.RemoveListener(Option1Callback);
             equipBT.onClick.RemoveListener(Option2Callback);
+        }
+        else
+        {
+            activeBT.interactable = true;
+            equipBT.interactable = true;
+            activeBT.onClick.AddListener(Option1Callback);
+            equipBT.onClick.AddListener(Option2Callback);
+            if (slot.GetComponentInParent<UIInventorySlot>().slot.item.state.IsEquipped != false)
+            {
+                equipBT.GetComponent<TextMeshProUGUI>().text = "Снять";
+            }
+            else
+            {
+                equipBT.GetComponent<TextMeshProUGUI>().text = "";
+            }
         }
     }
     private void Option1Callback()

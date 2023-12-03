@@ -5,9 +5,9 @@ using System;
 public class ExampleItem : IItem
 {
 
-    public IItemInfo info {get; }
+    public IItemInfo info { get; set; }
 
-    public IItemState state { get; }
+    public IItemState state { get; set; }
     public ExampleItem(IItemInfo info)
     {
         this.info = info;
