@@ -32,6 +32,7 @@ public class UIInventory : MonoBehaviour
 
     private void OpenContextMenu(UISlot slot,bool b)
     {
+        contextMenu.SetActive(false);
         if (b)
         {
             var c = slot;
@@ -61,12 +62,11 @@ public class UIInventory : MonoBehaviour
 
     private void DropBTClicked(UISlot slot)
     {
-        var dropItem = slot.GetComponentInParent<UIInventorySlot>().slot.item;
-        var vec = new Vector3(playerInventory.gameObject.transform.position.x, playerInventory.gameObject.transform.position.y, 0f);
-        var gm = Instantiate(dropItem.info.itemGO, vec, Quaternion.identity);
-        gm.GetComponent<Item>().item.info = dropItem.info;
-        gm.GetComponent<Item>().item.state = dropItem.state;
-        playerInventory.inventory.Remove(this, dropItem.info.id, dropItem.state.count);
+        
+        var slotD = slot.GetComponentInParent<UIInventorySlot>();
+        slotD.slot.item.info.itemGO.GetComponent<ItemTakeDrop>().SpawnItem(slotD.slot.item);
+        playerInventory.inventory.Remove(this, slotD.slot.item.info.id, slotD.slot.count);
+        ctMenu.OnDropBTClickedEvent -= DropBTClicked;
     }
 
     private void EquipBTClicked(UISlot slot)

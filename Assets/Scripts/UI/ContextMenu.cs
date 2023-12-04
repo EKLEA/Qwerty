@@ -19,11 +19,12 @@ public class ContextMenu : MonoBehaviour
     
     public void SetButtons()
     {
-        dropBT.onClick.AddListener(Option3Callback);
+        dropBT.interactable = false;
         activeBT.interactable = false;
         equipBT.interactable = false;
         activeBT.onClick.RemoveListener(Option1Callback);
         equipBT.onClick.RemoveListener(Option2Callback);
+        dropBT.onClick.RemoveListener(Option3Callback);
 
         if (slot.GetComponentInParent<UIInventorySlot>().slot.item.info.itemType == ItemTypes.Consumables)
         {
@@ -42,13 +43,15 @@ public class ContextMenu : MonoBehaviour
             equipBT.onClick.AddListener(Option2Callback);
             if (slot.GetComponentInParent<UIInventorySlot>().slot.item.state.IsEquipped != false)
             {
-                equipBT.GetComponent<TextMeshProUGUI>().text = "—н€ть";
+                equipBT.GetComponentInChildren<TextMeshProUGUI>().text = "—н€ть";
             }
             else
             {
-                equipBT.GetComponent<TextMeshProUGUI>().text = "";
+                equipBT.GetComponentInChildren<TextMeshProUGUI>().text = "Ёкипировать";
             }
         }
+        dropBT.onClick.AddListener(Option3Callback);
+        dropBT.interactable = true;
     }
     private void Option1Callback()
     {

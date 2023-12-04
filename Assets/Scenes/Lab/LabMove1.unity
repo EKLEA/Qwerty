@@ -3410,7 +3410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 900b8e531ffadf74c8ccb6099c4ec58d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerUseMoment: {fileID: 79587910}
+  subject: {fileID: 0}
 --- !u!1 &525780130
 GameObject:
   m_ObjectHideFlags: 0
@@ -10272,6 +10272,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1807694504}
   m_CullTransparentMesh: 1
+--- !u!1 &1817623267 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1256111181909976, guid: afe0ac3b9a4f00b44a6d0b3ae0d39bf6, type: 3}
+  m_PrefabInstance: {fileID: 5620126140721156381}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1836329378
 GameObject:
   m_ObjectHideFlags: 0
@@ -11324,7 +11329,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4922991965527604, guid: afe0ac3b9a4f00b44a6d0b3ae0d39bf6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -42.195965
+      value: -110
       objectReference: {fileID: 0}
     - target: {fileID: 4922991965527604, guid: afe0ac3b9a4f00b44a6d0b3ae0d39bf6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11362,6 +11367,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7720772732629007874, guid: afe0ac3b9a4f00b44a6d0b3ae0d39bf6, type: 3}
+      propertyPath: subject
+      value: 
+      objectReference: {fileID: 1817623267}
     - target: {fileID: 7720772732629007874, guid: afe0ac3b9a4f00b44a6d0b3ae0d39bf6, type: 3}
       propertyPath: _playerUseMoment
       value: 

@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public abstract class ExampleUsable : MonoBehaviour
 {
-    public GameObject subject => gameObject;
-    [SerializeField] PlayerUseMoment _playerUseMoment;
-    public PlayerUseMoment playerUseMoment =>_playerUseMoment;
+    public GameObject subject;
+    public static PlayerUseMoment playerUseMoment;
 
-
+    void OnEnable()
+    {
+        subject = gameObject;
+        playerUseMoment = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerUseMoment>();
+    }
     public void Cheker(object s)
     {
         UseMoment();
@@ -18,10 +22,13 @@ public abstract class ExampleUsable : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
             playerUseMoment.OnUsedEvent += Cheker;
+        Debug.Log("in");
     }
     public void OnTriggerExit(Collider other)
     {
+        
         if (other.gameObject.tag == "Player")
             playerUseMoment.OnUsedEvent -= Cheker;
+        Debug.Log("out");
     }
 }

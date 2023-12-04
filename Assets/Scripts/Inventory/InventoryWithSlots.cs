@@ -157,7 +157,7 @@ public class InventoryWithSlots : IInventory
         }
     }
 
- public void Remove(object sender, string ItemID, int count = 1)
+    public void Remove(object sender, string ItemID, int count = 1)
     {
        var slotsWithItem = GetAllSlots(ItemID);
         if (slotsWithItem.Length == 0)
@@ -188,6 +188,7 @@ public class InventoryWithSlots : IInventory
             OnInventoryStateChangedEvent?.Invoke(sender);
         }
     }
+   
     public bool HasItem(string ItemID, out IItem item)
     {
         item = GetItem(ItemID);
