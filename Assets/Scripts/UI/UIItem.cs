@@ -21,23 +21,26 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(GetComponentInParent<UIInventorySlot>().slot==null) 
-        {
-            isUsed = true;
-            eventData.pointerDrag = null; 
-        }
-        else
-        {
-            var slotTransform = _rectTransform.parent;
-            slotTransform.SetAsLastSibling();
-            _canvasGroup.blocksRaycasts = false;
-            isUsed = false;
-        }
+        if (GetComponentInParent<UIInventorySlot>().slot == null)
+            {
+                isUsed = true;
+                eventData.pointerDrag = null;
+            }
+            else
+            {
+                var slotTransform = _rectTransform.parent;
+                slotTransform.SetAsLastSibling();
+                slotTransform.parent.SetAsLastSibling();
+                _canvasGroup.blocksRaycasts = false;
+                isUsed = false;
+            }
+        
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         _rectTransform.anchoredPosition += eventData.delta/_mainCanvas.scaleFactor;
+        
         
     }
 
@@ -46,6 +49,7 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
         transform.localPosition = Vector3.zero;
         _canvasGroup.blocksRaycasts = true;
         isUsed= true;
+
     }
     public bool GetItemDragState()
     {

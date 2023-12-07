@@ -22,13 +22,11 @@ public abstract class ExampleUsable : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
             playerUseMoment.OnUsedEvent += Cheker;
-        Debug.Log("in");
     }
     public void OnTriggerExit(Collider other)
     {
         
         if (other.gameObject.tag == "Player")
             playerUseMoment.OnUsedEvent -= Cheker;
-        Debug.Log("out");
     }
 }

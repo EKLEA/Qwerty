@@ -27,7 +27,16 @@ public enum ItemTypes
 {
     Consumables,
     CraftComponentss,
-    UsableItem
+    UsableItem,
+    Upgrade,
+    RobotPart,
+    Ability,
+    NONE
+}
+public enum SlotTypes
+{
+    Inventory,
+    EquippedItems
 }
 public interface IItemState
 {
@@ -47,8 +56,11 @@ public interface IItemInfo
     GameObject itemGO { get; }
 }
 
+
     public interface IInventorySlot
 {
+    ItemTypes requieItem { get; set; }
+    SlotTypes slotType { get; set; }
     bool isFull { get; }
     bool isEmpty { get; }
     IItem item{ get; }

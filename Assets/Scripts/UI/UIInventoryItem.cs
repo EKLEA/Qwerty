@@ -19,7 +19,10 @@ public class UIInventoryItem :  UIItem
         }
 
         item = slot.item;
-        _imageIcon.color = Color.white;
+        if (slot.item.state.IsEquipped == true && slot.slotType==SlotTypes.Inventory)
+            _imageIcon.color = new Color(120 / 255f, 120 / 255f, 120 / 255f, 1);
+        else
+            _imageIcon.color = Color.white;
         _imageIcon.sprite = item.info.spriteIcon;
         _imageIcon.gameObject.SetActive(true);
 

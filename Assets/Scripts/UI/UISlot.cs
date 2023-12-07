@@ -13,6 +13,7 @@ public class UISlot : MonoBehaviour, IDropHandler,IPointerClickHandler
         var otherItemTransform = eventData.pointerDrag.transform;
         otherItemTransform.SetParent(transform);
         otherItemTransform.localPosition = Vector3.zero;
+
     }
 
     public void OnPointerClick(PointerEventData eventData)

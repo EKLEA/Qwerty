@@ -112,49 +112,82 @@ public class InventoryWithSlots : IInventory
         return TryToAdd(sender, item);
 
     }
+    
 
     public void TransitFromSlotToSlot(object sender, IInventorySlot fromSlot, IInventorySlot toSlot)
     {
-        if (toSlot ==null)
+
+        if (toSlot == null)
             return;
         if (fromSlot.isEmpty)
             return;
-        
-        if ((!toSlot.isEmpty|| toSlot.isFull) && fromSlot.item.info.id != toSlot.item.info.id)
-        {
-            IItem a = fromSlot.item;
-            IItem b = toSlot.item;
-            toSlot.CLear();
-            toSlot.SetItem(a);
-            toSlot.item.state.count= a.state.count;
-            fromSlot.CLear();
-            fromSlot.SetItem(b);
-            fromSlot.item.state.count= b.state.count;
-            
-            OnInventoryStateChangedEvent?.Invoke(sender);
 
-        }
-        if (toSlot.isEmpty)
+        var c = fromSlot.item;
+        if (toSlot.slotType == SlotTypes.EquippedItems)
         {
-            toSlot.SetItem(fromSlot.item);
-            toSlot.item.state.count = fromSlot.item.state.count;
-            fromSlot.CLear();
-            OnInventoryStateChangedEvent?.Invoke(sender);
+            if (fromSlot.slotType == SlotTypes.EquippedItems)
+                return;
+            if (fromSlot.slotType == SlotTypes.Inventory)
+            {
+                if (toSlot.requieItem!= c.info.itemType) return;
+                if (c.state.IsEquipped == true) return;
+                else
+                {
+                    c.state.IsEquipped = true;
+                    toSlot.SetItem(c);
+                    OnInventoryStateChangedEvent?.Invoke(sender);
+                }
+            }
         }
-        if (fromSlot == toSlot) return;
-        if ((!toSlot.isEmpty&&!fromSlot.isEmpty) &&(fromSlot.item.info.id == toSlot.item.info.id))
+        if (toSlot.slotType == SlotTypes.Inventory)
         {
-            var slotCapacity = toSlot.capacity;
-            var fits = fromSlot.count + toSlot.count <= slotCapacity;
-            var amountToAdd = fits ? fromSlot.count : slotCapacity - toSlot.count;
-            var amountLeft = fromSlot.count - amountToAdd;
-            toSlot.item.state.count += amountToAdd;
-            if (fits)
+            if (fromSlot.slotType == SlotTypes.EquippedItems)
+            {
+               
+                c.state.IsEquipped = false;
                 fromSlot.CLear();
+                OnInventoryStateChangedEvent?.Invoke(sender);
+            }
             else
-                fromSlot.item.state.count = amountLeft;
-            OnInventoryStateChangedEvent?.Invoke(sender);
+            {
+                if ((!toSlot.isEmpty || toSlot.isFull) && fromSlot.item.info.id != toSlot.item.info.id)
+                {
+                    IItem a = fromSlot.item;
+                    IItem b = toSlot.item;
+                    toSlot.CLear();
+                    toSlot.SetItem(a);
+                    toSlot.item.state.count = a.state.count;
+                    fromSlot.CLear();
+                    fromSlot.SetItem(b);
+                    fromSlot.item.state.count = b.state.count;
+
+                    OnInventoryStateChangedEvent?.Invoke(sender);
+
+                }
+                if (toSlot.isEmpty)
+                {
+                    toSlot.SetItem(fromSlot.item);
+                    toSlot.item.state.count = fromSlot.item.state.count;
+                    fromSlot.CLear();
+                    OnInventoryStateChangedEvent?.Invoke(sender);
+                }
+                if (fromSlot == toSlot) return;
+                if ((!toSlot.isEmpty && !fromSlot.isEmpty) && (fromSlot.item.info.id == toSlot.item.info.id))
+                {
+                    var slotCapacity = toSlot.capacity;
+                    var fits = fromSlot.count + toSlot.count <= slotCapacity;
+                    var amountToAdd = fits ? fromSlot.count : slotCapacity - toSlot.count;
+                    var amountLeft = fromSlot.count - amountToAdd;
+                    toSlot.item.state.count += amountToAdd;
+                    if (fits)
+                        fromSlot.CLear();
+                    else
+                        fromSlot.item.state.count = amountLeft;
+                    OnInventoryStateChangedEvent?.Invoke(sender);
+                }
+            }
         }
+       
     }
 
     public void Remove(object sender, string ItemID, int count = 1)

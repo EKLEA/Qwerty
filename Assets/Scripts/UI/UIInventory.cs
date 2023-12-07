@@ -13,15 +13,19 @@ public class UIInventory : MonoBehaviour
     public InventoryWithSlots inventory;
     public GameObject contextMenu;
     public GameObject inventoryUIInterface;
-    UIInventorySlot[] uiSlots;
+    public GameObject inventoryGrid; 
+    public GameObject EquippedGrid;
+    private UIInventorySlot[] uiSlots;
+    private UIInventorySlot[] uiActSlots;
     private void Start()
     {
         inventory= playerInventory.inventory;
         ctMenu=contextMenu.GetComponent<ContextMenu>();
-        uiSlots= GetComponentsInChildren<UIInventorySlot>();
+        uiSlots= inventoryGrid.GetComponentsInChildren<UIInventorySlot>();
+        uiActSlots = EquippedGrid.GetComponentsInChildren<UIInventorySlot>();
         for (int i = 0; i < uiSlots.Length; i++)
             uiSlots[i].OnSlotContextClickedEvent += OpenContextMenu;
-        uiScript= new UIInventoryScript(uiSlots,inventory);
+        uiScript= new UIInventoryScript(uiSlots,inventory, uiActSlots, playerInventory.actItems);
 
         playerUseMoment.OnOpenInventoryEvent += OpenInv;
         playerInventory.OnInventoryUpdate += invUpdate;
@@ -48,12 +52,6 @@ public class UIInventory : MonoBehaviour
                 contextMenu.SetActive(true);
                 var pos = new Vector3(slot.transform.position.x + 15, slot.transform.position.y - 15, slot.transform.position.z);
                 contextMenu.transform.position = pos;
-                if (contextMenu.activeSelf==false)
-                {
-                    ctMenu.OnActiveBTClickedEvent -= ActiveBTClicked;
-                    ctMenu.OnEquipBTClickedEvent -= EquipBTClicked;
-                    ctMenu.OnDropBTClickedEvent -= DropBTClicked;
-                }
             }
         }
         else
@@ -66,24 +64,38 @@ public class UIInventory : MonoBehaviour
         var slotD = slot.GetComponentInParent<UIInventorySlot>();
         slotD.slot.item.info.itemGO.GetComponent<ItemTakeDrop>().SpawnItem(slotD.slot.item);
         playerInventory.inventory.Remove(this, slotD.slot.item.info.id, slotD.slot.count);
+        ctMenu.OnActiveBTClickedEvent -= ActiveBTClicked;
+        ctMenu.OnEquipBTClickedEvent -= EquipBTClicked;
         ctMenu.OnDropBTClickedEvent -= DropBTClicked;
+        
     }
 
-    private void EquipBTClicked(UISlot slot)
+    bool TryToAddToEquippedInv(IInventorySlot slot,bool b)
     {
-        if (playerInventory.activeItem==null) 
-        { 
-            playerInventory.activeItem = slot.GetComponentInParent<UIInventorySlot>().slot.item;
-            var vec = new Vector3(playerInventory.gameObject.transform.position.x, playerInventory.gameObject.transform.position.y, 0f);
-            var gm = Instantiate(playerInventory.activeItem.info.itemGO, vec, Quaternion.identity);
-            playerInventory.activeItem.state.IsEquipped = true;
-        }
-        else
+        var slots = playerInventory.actItems.GetAllSlots();
+        for (int i = 0; i < slots.Length; i++)
         {
-            Destroy(playerInventory.activeItem.info.itemGO);
-            playerInventory.activeItem = null;
-        }
+            if (slots[i].requieItem == slot.item.info.itemType)
+            {
+                if (b == true)
+                    playerInventory.actItems.TransitFromSlotToSlot(this, slot, slots[i]);
+                
+                else
+                    playerInventory.actItems.TransitFromSlotToSlot(this, slots[i], slot);
 
+                return true;
+            }
+
+        }
+        return false;
+    }
+    private void EquipBTClicked(UISlot slot,bool b)
+    {
+            var slotE = slot.GetComponentInParent<UIInventorySlot>();
+            TryToAddToEquippedInv(slotE.slot,b);
+            ctMenu.OnActiveBTClickedEvent -= ActiveBTClicked;
+            ctMenu.OnEquipBTClickedEvent -= EquipBTClicked;
+            ctMenu.OnDropBTClickedEvent -= DropBTClicked;
     }
 
     private void ActiveBTClicked(UISlot slot)
@@ -94,7 +106,7 @@ public class UIInventory : MonoBehaviour
     private void invUpdate(object sender)
     {
         inventory = playerInventory.inventory;
-        uiScript = new UIInventoryScript(uiSlots, inventory);
+        uiScript = new UIInventoryScript(uiSlots, inventory, uiActSlots, playerInventory.actItems);
     }
 
     bool chek(UIInventorySlot[] slots)
@@ -115,6 +127,7 @@ public class UIInventory : MonoBehaviour
                 inventoryUIInterface.SetActive(false);
         
     }
-    
-   
+
+
+
 }

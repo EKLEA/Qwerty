@@ -10,7 +10,7 @@ using static UnityEditor.Progress;
 public class PlayerInventory: MonoBehaviour
 {
     public event Action<object> OnInventoryUpdate;
-    public IItem activeItem;
+    public InventoryWithSlots actItems;
     public int invCapacity
     {
         get { return cashInvCapacity; }
@@ -33,6 +33,6 @@ public class PlayerInventory: MonoBehaviour
     {
         cashInvCapacity = invCapacity;
         inventory = new InventoryWithSlots(cashInvCapacity);
-        activeItem= null;
+        actItems= new InventoryWithSlots(2);
     }
 }
