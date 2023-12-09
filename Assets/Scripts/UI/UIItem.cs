@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
+    public Action<object> OnDraggingEvent;
     private CanvasGroup _canvasGroup;
     private Canvas _mainCanvas;
     private RectTransform _rectTransform;
@@ -21,7 +22,12 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (GetComponentInParent<UIInventorySlot>().slot == null)
+        OnDraggingEvent?.Invoke(this);
+        if (eventData.button == PointerEventData.InputButton.Right)
+            eventData.pointerDrag = null;
+        else
+        {
+            if (GetComponentInParent<UIInventorySlot>().slot == null)
             {
                 isUsed = true;
                 eventData.pointerDrag = null;
@@ -34,6 +40,7 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
                 _canvasGroup.blocksRaycasts = false;
                 isUsed = false;
             }
+        }
         
     }
 

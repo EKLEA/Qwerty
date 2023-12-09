@@ -20,7 +20,7 @@ public class PlayerUseMoment : MonoBehaviour
             OnOpenInventoryEvent? .Invoke(false);
         if (Input.GetMouseButtonDown(1))
             OnOpenContextMenuEvent?.Invoke(true);
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(0))
             OnOpenContextMenuEvent?.Invoke(false);
 
     }

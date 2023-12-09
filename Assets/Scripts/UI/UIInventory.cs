@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static UnityEditor.Progress;
 
@@ -23,9 +24,11 @@ public class UIInventory : MonoBehaviour
         ctMenu=contextMenu.GetComponent<ContextMenu>();
         uiSlots= inventoryGrid.GetComponentsInChildren<UIInventorySlot>();
         uiActSlots = EquippedGrid.GetComponentsInChildren<UIInventorySlot>();
-        for (int i = 0; i < uiSlots.Length; i++)
-            uiSlots[i].OnSlotContextClickedEvent += OpenContextMenu;
-        uiScript= new UIInventoryScript(uiSlots,inventory, uiActSlots, playerInventory.actItems);
+        foreach (UIInventorySlot c in uiSlots)
+            c.OnSlotContextClickedEvent += OpenContextMenu;
+        foreach (UIInventorySlot f in uiActSlots)
+            f.OnSlotContextClickedEvent += OpenContextMenu;
+        uiScript = new UIInventoryScript(uiSlots,inventory, uiActSlots, playerInventory.actItems);
 
         playerUseMoment.OnOpenInventoryEvent += OpenInv;
         playerInventory.OnInventoryUpdate += invUpdate;
@@ -36,9 +39,12 @@ public class UIInventory : MonoBehaviour
 
     private void OpenContextMenu(UISlot slot,bool b)
     {
-        contextMenu.SetActive(false);
         if (b)
         {
+            ctMenu.OnActiveBTClickedEvent -= ActiveBTClicked;
+            ctMenu.OnEquipBTClickedEvent -= EquipBTClicked;
+            ctMenu.OnDropBTClickedEvent -= DropBTClicked;
+            ctMenu.Clear();
             var c = slot;
             if (slot.GetComponentInParent<UIInventorySlot>().slot.item == null)
                 return;
@@ -55,7 +61,10 @@ public class UIInventory : MonoBehaviour
             }
         }
         else
+        {
+            ctMenu.Clear ();
             contextMenu.SetActive(false);
+        }
     }
 
     private void DropBTClicked(UISlot slot)
@@ -70,8 +79,9 @@ public class UIInventory : MonoBehaviour
         
     }
 
-    bool TryToAddToEquippedInv(IInventorySlot slot,bool b)
+    bool TryToAddToEquippedInv(UIInventorySlot slotUI,bool b)
     {
+        var slot = slotUI.slot;
         var slots = playerInventory.actItems.GetAllSlots();
         for (int i = 0; i < slots.Length; i++)
         {
@@ -79,9 +89,12 @@ public class UIInventory : MonoBehaviour
             {
                 if (b == true)
                     playerInventory.actItems.TransitFromSlotToSlot(this, slot, slots[i]);
-                
+
                 else
-                    playerInventory.actItems.TransitFromSlotToSlot(this, slots[i], slot);
+                    if(slot.slotType==SlotTypes.Inventory)
+                        playerInventory.actItems.TransitFromSlotToSlot(this, slots[i], slot);
+                    else
+                        playerInventory.actItems.TransitFromSlotToSlot(this, slots[i], playerInventory.inventory.GetAllSlots()[0]);
 
                 return true;
             }
@@ -92,7 +105,7 @@ public class UIInventory : MonoBehaviour
     private void EquipBTClicked(UISlot slot,bool b)
     {
             var slotE = slot.GetComponentInParent<UIInventorySlot>();
-            TryToAddToEquippedInv(slotE.slot,b);
+            TryToAddToEquippedInv(slotE,b);
             ctMenu.OnActiveBTClickedEvent -= ActiveBTClicked;
             ctMenu.OnEquipBTClickedEvent -= EquipBTClicked;
             ctMenu.OnDropBTClickedEvent -= DropBTClicked;
