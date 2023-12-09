@@ -13,11 +13,11 @@ public class ItemTakeDrop : ExampleUsable
         playerUseMoment.OnUsedEvent -= Cheker;
         Destroy(subject);
     }
-    public void SpawnItem(IItem item)
+    public GameObject SpawnItem(IItem item,Vector3 pos)
     {
-        Vector3 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
-        var gm =Instantiate(item.info.itemGO, playerPos, Quaternion.identity);
+        var gm =Instantiate(item.info.itemGO,pos, Quaternion.identity);
         gm.GetComponent<Item>().GetExItem().info = item.info;
         gm.GetComponent<Item>().GetExItem().state=item.state;
+        return gm;
     }
 }

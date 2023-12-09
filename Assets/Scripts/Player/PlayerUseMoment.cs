@@ -10,6 +10,8 @@ public class PlayerUseMoment : MonoBehaviour
     public event Action<bool> OnOpenInventoryEvent;
     public event Action<bool> OnOpenContextMenuEvent;
 
+    public GameObject Hand;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))

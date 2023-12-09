@@ -71,7 +71,7 @@ public class UIInventory : MonoBehaviour
     {
         
         var slotD = slot.GetComponentInParent<UIInventorySlot>();
-        slotD.slot.item.info.itemGO.GetComponent<ItemTakeDrop>().SpawnItem(slotD.slot.item);
+        slotD.slot.item.info.itemGO.GetComponent<ItemTakeDrop>().SpawnItem(slotD.slot.item,playerInventory.gameObject.transform.position);
         playerInventory.inventory.Remove(this, slotD.slot.item.info.id, slotD.slot.count);
         ctMenu.OnActiveBTClickedEvent -= ActiveBTClicked;
         ctMenu.OnEquipBTClickedEvent -= EquipBTClicked;
@@ -105,10 +105,20 @@ public class UIInventory : MonoBehaviour
     private void EquipBTClicked(UISlot slot,bool b)
     {
             var slotE = slot.GetComponentInParent<UIInventorySlot>();
-            TryToAddToEquippedInv(slotE,b);
+            TryToAddToEquippedInv(slotE, b);
             ctMenu.OnActiveBTClickedEvent -= ActiveBTClicked;
             ctMenu.OnEquipBTClickedEvent -= EquipBTClicked;
             ctMenu.OnDropBTClickedEvent -= DropBTClicked;
+        if (b)
+        {
+            var gm = slotE.slot.item.info.itemGO.GetComponent<ItemTakeDrop>().SpawnItem(slotE.slot.item, playerUseMoment.Hand.transform.position);
+            Destroy(gm.GetComponent<ItemTakeDrop>());
+            gm.transform.SetParent(playerUseMoment.Hand.transform);
+            gm.transform.localPosition = Vector3.zero;
+            gm.transform.localEulerAngles = new Vector3(13f, 0, 90f);
+        }
+        else
+            Destroy(playerUseMoment.Hand.transform.GetChild(0).gameObject);
     }
 
     private void ActiveBTClicked(UISlot slot)
