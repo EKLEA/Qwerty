@@ -29,15 +29,14 @@ public class EnemyHealthController : MonoBehaviour, IDamagable
             return rT;
         }
     }
-    
     Rigidbody rb;
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         hp = maxHealth; df = maxDefense;
     }
-    private float hp;
-    private float df;
+   [SerializeField] private float hp;
+    [SerializeField] private float df;
     public float health
     {
         get

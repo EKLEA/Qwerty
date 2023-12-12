@@ -51,9 +51,10 @@ public class UIInventory : MonoBehaviour
             gm.layer = LayerMask.NameToLayer("Weapon");
             Destroy(gm.GetComponent<ItemTakeDrop>());
             gm.transform.SetParent(playerUseMoment.gameObject.GetComponent<PlayerAttackLogic>().Hand.transform);
-
-            gm.transform.localPosition = Vector3.zero;
-            gm.transform.localEulerAngles = new Vector3(13f, 0, 90f);
+            DestroyImmediate(gm.GetComponent<ItemTakeDrop>());
+            
+            gm.transform.localPosition = new Vector3(-0.5f, 0, 0);
+            gm.transform.localEulerAngles = new Vector3(0, -90, 80);
             
        }
         else

@@ -10,8 +10,9 @@ public class PlayerController : MonoBehaviour
     bool doubleJump = true;
     public float playerSpeed = 5.0f;
     public float jumpHeight = 2.0f;
+    public Animator anim;
     [SerializeField] private IMoveHandler moveHandler;
-
+    public BoxCollider c=> gameObject.GetComponent<BoxCollider>();
 
 
     public Vector2 Axis;
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        anim = GetComponent<Animator>();
         moveHandler = GetComponent<IMoveHandler>();
         moveHandler.SetValues(playerSpeed, jumpHeight);
     }
@@ -32,26 +34,28 @@ public class PlayerController : MonoBehaviour
         var yAxis = Input.GetAxisRaw("Vertical");
         Axis = new Vector2(xAxis, yAxis);
         if (xAxis < 0)
-            gameObject.transform.eulerAngles = new Vector3(0, 180, 0);
+            gameObject.transform.eulerAngles = new Vector3(0, -90, 0);
         if (xAxis > 0)
-            gameObject.transform.eulerAngles = new Vector3(0, 0, 0);
+            gameObject.transform.eulerAngles = new Vector3(0, 90, 0);
 
 
         moveHandler.Move(xAxis);
-
-
-
-        Debug.Log(moveHandler.Grounded());
-
-        if (Input.GetKeyDown(KeyCode.Space) && moveHandler.Grounded())
+        moveHandler.JumpMoment();
+        if (moveHandler.Grounded()==false)
         {
-            moveHandler.rb.velocity = new Vector2(moveHandler.rb.velocity.x, jumpHeight);
+            anim.SetBool("Falling", true);
+            c.size = new Vector3(1.5f, 4, 1.5f);
         }
-        if (moveHandler.Grounded())
+        if(moveHandler.Grounded() == true)
         {
-            doubleJump = true;
+            anim.SetBool("Falling", false);
+            anim.SetBool("FallingDown", true);
+            c.size = new Vector3(1.5f, 6, 1.5f);
         }
+
+
     }
+
     
    
 }

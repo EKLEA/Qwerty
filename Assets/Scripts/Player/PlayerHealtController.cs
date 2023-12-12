@@ -8,8 +8,8 @@ public class PlayerHealtController : MonoBehaviour, IDamagable
     public Action<GameObject> OnDead;
     [SerializeField] private float _maxHp;
     [SerializeField] private float _maxDefense;
-    private float hp;
-    private float df;
+    [SerializeField] private float hp;
+    [SerializeField] private float df;
     public float health
     {
         get

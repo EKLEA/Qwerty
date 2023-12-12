@@ -102,7 +102,7 @@ public interface IMoveHandler
     public float speed { get;   }
     public float jumpHeight { get; }
     public void Move(float xAxis);
-    public void JumpMoment(bool down);
+    public void JumpMoment();
     public void SetValues(float _speed,float _jumpHeight);
     public bool Grounded();
 

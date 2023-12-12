@@ -57,12 +57,12 @@ public class PlayerAttackLogic : AttakingObjLogic
         {
             if (item == null)
             {
-                sideAttackTransform.localPosition = new Vector3(1.5f, 3f, 0f);
+                sideAttackTransform.localPosition = new Vector3(0f, 3f, 1.5f);
                 return new Vector3(1, 6, 3f);
             }
             else
             {
-                sideAttackTransform.localPosition = new Vector3(1f+range/2, 3f,0f);
+                sideAttackTransform.localPosition = new Vector3(0f, 3f, 1f + range / 2);
                 return new Vector3(range, 6, 3f);
             }
         }
