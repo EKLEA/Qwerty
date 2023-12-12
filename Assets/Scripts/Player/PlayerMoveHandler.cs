@@ -1,35 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerMoveHandler : MonoBehaviour, IMoveHandler
 {
-    public CharacterController controller {  get; private set; }
     public float speed { get; private set; }
     public float jumpHeight { get; private set; }
-    public float gravityValue { get; private set; }
-    private Vector2 playerVelocity;
+    [SerializeField] public Transform groundCheckPoint;
+    [SerializeField] public float groundCheckY = 0.2f;
+    [SerializeField] public float groundCheckX = 0.5f;
+    [SerializeField] public LayerMask whatIsGround;
 
-    public void Move(Vector2 vec)
+
+    public Rigidbody rb => GetComponent<Rigidbody>();
+
+    public void Move(float xAxis)
     {
-        controller.Move(vec * Time.deltaTime * speed);
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
+        rb.velocity= new Vector2(xAxis*  speed, rb.velocity.y);
     }
-    public void JumpMoment()
+    public void JumpMoment(bool down)
     {
-        playerVelocity.y = jumpHeight*10;
+        if (down)
+            rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+        else
+            rb.velocity = new Vector2(rb.velocity.x,0);
     }
-    public void SetValues(float _speed, float _gravity, float _jumpHeight, CharacterController _controller)
+    public void SetValues(float _speed, float _jumpHeight)
     {
-        controller = _controller;
         speed = _speed;
-        gravityValue = _gravity;
         jumpHeight = _jumpHeight;
     }
-
-    public void SetVelocity(Vector2 vec)
+    public bool Grounded()
     {
-        playerVelocity = vec;
+        if (Physics2D.Raycast(groundCheckPoint.position, Vector2.down, groundCheckY, whatIsGround) ||
+            Physics2D.Raycast(groundCheckPoint.position + new Vector3(groundCheckX, 0, 0), Vector2.down, groundCheckY, whatIsGround) ||
+            Physics2D.Raycast(groundCheckPoint.position + new Vector3(-groundCheckX, 0, 0), Vector2.down, groundCheckY, whatIsGround))
+            return true;
+        else
+            return false;
     }
 }

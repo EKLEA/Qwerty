@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f10b86b5cd38e4ba48a750e8e6616a, type: 3}
   m_Name: InventoryUsableItemInfo
   m_EditorClassIdentifier: 
-  _damage: 10
-  _cooldown: 10
-  _range: 10
+  _damage: 1
+  _cooldown: 0.5
+  _range: 3

@@ -6,8 +6,7 @@ TagManager:
   tags:
   - Usable
   - Item
-  - DamagableObj
-  - DamagableItem
+  - Weapon
   layers:
   - Default
   - TransparentFX
@@ -15,9 +14,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Weapon
+  - Entity
+  - Ground
   - 
   - 
   - 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using static UnityEditor.Progress;
 
@@ -21,7 +22,7 @@ public class UIInventory : MonoBehaviour
     private void Start()
     {
         inventory= playerInventory.inventory;
-        ctMenu=contextMenu.GetComponent<ContextMenu>();
+        ctMenu =contextMenu.GetComponent<ContextMenu>();
         uiSlots= inventoryGrid.GetComponentsInChildren<UIInventorySlot>();
         uiActSlots = EquippedGrid.GetComponentsInChildren<UIInventorySlot>();
         foreach (UIInventorySlot c in uiSlots)
@@ -32,10 +33,33 @@ public class UIInventory : MonoBehaviour
 
         playerUseMoment.OnOpenInventoryEvent += OpenInv;
         playerInventory.OnInventoryUpdate += invUpdate;
+        playerInventory.inventory.OnEquippedItemEvent += ItemEquipped;
+        playerInventory.actItems.OnEquippedItemEvent += ItemEquipped;
+
 
         inventoryUIInterface.SetActive(false);
         contextMenu.SetActive(false);
     }
+
+    public  void ItemEquipped(object sender, IItem item,bool f)
+    {
+       if (f)
+       {
+            var c = item;
+            c.state.itemOperator = playerInventory.gameObject;
+            var gm = item.info.itemGO.GetComponent<ItemTakeDrop>().SpawnItem(c, playerUseMoment.gameObject.GetComponent<PlayerAttackLogic>().Hand.transform.position);
+            gm.layer = LayerMask.NameToLayer("Weapon");
+            Destroy(gm.GetComponent<ItemTakeDrop>());
+            gm.transform.SetParent(playerUseMoment.gameObject.GetComponent<PlayerAttackLogic>().Hand.transform);
+
+            gm.transform.localPosition = Vector3.zero;
+            gm.transform.localEulerAngles = new Vector3(13f, 0, 90f);
+            
+       }
+        else
+            DestroyImmediate(playerUseMoment.gameObject.GetComponent<PlayerAttackLogic>().Hand.transform.GetChild(0).gameObject);
+    }
+   
 
     private void OpenContextMenu(UISlot slot,bool b)
     {
@@ -71,12 +95,15 @@ public class UIInventory : MonoBehaviour
     {
         
         var slotD = slot.GetComponentInParent<UIInventorySlot>();
-        slotD.slot.item.info.itemGO.GetComponent<ItemTakeDrop>().SpawnItem(slotD.slot.item,playerInventory.gameObject.transform.position);
+        slotD.slot.item.state.itemOperator = null;
+        var gm =slotD.slot.item.info.itemGO.GetComponent<ItemTakeDrop>().SpawnItem(slotD.slot.item,playerInventory.gameObject.transform.position);
+        gm.tag = "Usable";
         playerInventory.inventory.Remove(this, slotD.slot.item.info.id, slotD.slot.count);
         ctMenu.OnActiveBTClickedEvent -= ActiveBTClicked;
         ctMenu.OnEquipBTClickedEvent -= EquipBTClicked;
         ctMenu.OnDropBTClickedEvent -= DropBTClicked;
-        
+
+
     }
 
     bool TryToAddToEquippedInv(UIInventorySlot slotUI,bool b)
@@ -89,12 +116,14 @@ public class UIInventory : MonoBehaviour
             {
                 if (b == true)
                     playerInventory.actItems.TransitFromSlotToSlot(this, slot, slots[i]);
-
                 else
-                    if(slot.slotType==SlotTypes.Inventory)
+                {
+                    if (slot.slotType == SlotTypes.Inventory)
                         playerInventory.actItems.TransitFromSlotToSlot(this, slots[i], slot);
                     else
                         playerInventory.actItems.TransitFromSlotToSlot(this, slots[i], playerInventory.inventory.GetAllSlots()[0]);
+                   
+                }
 
                 return true;
             }
@@ -109,16 +138,6 @@ public class UIInventory : MonoBehaviour
             ctMenu.OnActiveBTClickedEvent -= ActiveBTClicked;
             ctMenu.OnEquipBTClickedEvent -= EquipBTClicked;
             ctMenu.OnDropBTClickedEvent -= DropBTClicked;
-        if (b)
-        {
-            var gm = slotE.slot.item.info.itemGO.GetComponent<ItemTakeDrop>().SpawnItem(slotE.slot.item, playerUseMoment.Hand.transform.position);
-            Destroy(gm.GetComponent<ItemTakeDrop>());
-            gm.transform.SetParent(playerUseMoment.Hand.transform);
-            gm.transform.localPosition = Vector3.zero;
-            gm.transform.localEulerAngles = new Vector3(13f, 0, 90f);
-        }
-        else
-            Destroy(playerUseMoment.Hand.transform.GetChild(0).gameObject);
     }
 
     private void ActiveBTClicked(UISlot slot)

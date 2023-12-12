@@ -16,6 +16,7 @@ public abstract class ExampleUsable : MonoBehaviour
     public void Cheker(object s)
     {
         UseMoment();
+
     }
     public abstract void UseMoment();
     public void OnTriggerEnter(Collider other)

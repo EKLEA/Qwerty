@@ -9,7 +9,9 @@ public class InventoryWithSlots : IInventory
 {
     public event Action<object, IItem, int> OnInventoryItemAddedEvent;
     public event Action<object, IItem, int> OnInventoryItemRemovedEvent;
+    public event Action<object, IItem,bool> OnEquippedItemEvent;
     public event Action<object> OnInventoryStateChangedEvent;
+    
     public int invCapacity { get; set; }
 
     public bool isFull => _slots.All(slot => slot.isFull);
@@ -136,6 +138,7 @@ public class InventoryWithSlots : IInventory
                     c.state.IsEquipped = true;
                     toSlot.SetItem(c);
                     OnInventoryStateChangedEvent?.Invoke(sender);
+                    OnEquippedItemEvent?.Invoke(sender, c,true);
                 }
             }
         }
@@ -147,6 +150,7 @@ public class InventoryWithSlots : IInventory
                 c.state.IsEquipped = false;
                 fromSlot.CLear();
                 OnInventoryStateChangedEvent?.Invoke(sender);
+                OnEquippedItemEvent?.Invoke(sender, c,false);
             }
             else
             {

@@ -8,7 +8,7 @@ public class TeleportTest : ExampleUsable
     public override void UseMoment()
     {
 
-        subject.gameObject.GetComponent<IMoveHandler>().SetVelocity(new Vector3(0, 200));
+       // subject.gameObject.GetComponent<IMoveHandler>().SetVelocity(new Vector3(0, 200));
 
 
     }

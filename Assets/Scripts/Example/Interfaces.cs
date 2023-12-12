@@ -17,12 +17,22 @@ public interface IUsableItemInfo
 
 public interface IItem
 {
-    IItemInfo info { get; set; }//adssada
+    IItemInfo info { get; set; }
     IItemState state { get; set; }
    
     IItem Clone();
     
 }
+public interface IDamagable
+{
+    public float health { get; set; }
+    public float maxHealth { get;  }
+    public float defense { get; set; }
+    public float maxDefense { get; }
+    public void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce);
+}
+
+
 public enum ItemTypes
 {
     Consumables,
@@ -42,6 +52,7 @@ public interface IItemState
 {
     bool IsEquipped { get; set; }
     int count { get; set; }
+    GameObject itemOperator { get; set; }
 
 }
 public interface IItemInfo
@@ -87,14 +98,15 @@ public interface IInventory
 
 public interface IMoveHandler
 {
-    public CharacterController controller { get; }
+    public Rigidbody rb { get; }
     public float speed { get;   }
     public float jumpHeight { get; }
-    public float gravityValue { get;  }
-    public void Move(Vector2 vec);
-    public void JumpMoment();
-    public void SetValues(float _speed,float _gravity,float _jumpHeight, CharacterController _controller);
-    public void SetVelocity(Vector2 vec);
+    public void Move(float xAxis);
+    public void JumpMoment(bool down);
+    public void SetValues(float _speed,float _jumpHeight);
+    public bool Grounded();
+
+
 }
 
 
