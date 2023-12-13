@@ -55,7 +55,11 @@ public class PlayerController : MonoBehaviour
 
 
     }
+    public void AttackToogle()
+    {
+        anim.SetBool("Attacking", false);
+    }
 
-    
-   
+
+
 }

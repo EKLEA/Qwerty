@@ -106,7 +106,7 @@ public class PlayerAttackLogic : AttakingObjLogic
     [SerializeField] Transform sideAttackTransform, upAttackTransform, downAttackTransform;
    
 
-    private void Update()
+    private void FixedUpdate()
     {
         attack = Input.GetMouseButtonDown(0);
         Attack();
@@ -121,11 +121,14 @@ public class PlayerAttackLogic : AttakingObjLogic
     }
     public override void Attack()
     {
+        
         timeSinceAttack += Time.deltaTime;
+        if(timeSinceAttack >=coolDown*2)
+            playerController.anim.SetBool("Attacking", false);
         if (attack && timeSinceAttack >= coolDown)
         {
             timeSinceAttack = 0;
-            //анимация тута включац
+            playerController.anim.SetBool("Attacking", true);
 
             if (playerController.Axis.y == 0 )
                 Hit(sideAttackTransform, sideAttackArea);
