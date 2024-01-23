@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -6,14 +7,20 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    public bool isJumping = false;
-    bool doubleJump = true;
+   
     public float playerSpeed = 5.0f;
     public float jumpHeight = 2.0f;
+    [SerializeField] private int jumpBufferFrames;
+    [SerializeField] private float coyoteTime;
+    [SerializeField] private int maxAirJump;
+    [SerializeField] private float dashSpeed;
+    [SerializeField] private float dashTime;
+    [SerializeField] private float dashCooldown;
     public Animator anim;
-    [SerializeField] private IMoveHandler moveHandler;
+    [SerializeField] private PlayerMoveHandler moveHandler;
+    [SerializeField] public PlayerStateList playerStateList;
     public BoxCollider c=> gameObject.GetComponent<BoxCollider>();
-
+    
 
     public Vector2 Axis;
 
@@ -24,23 +31,31 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
-        moveHandler = GetComponent<IMoveHandler>();
-        moveHandler.SetValues(playerSpeed, jumpHeight);
+        moveHandler = GetComponent<PlayerMoveHandler>();
+        moveHandler.SetMoveValues(playerSpeed, jumpHeight);
+        moveHandler.SetValues(jumpBufferFrames,coyoteTime,maxAirJump,dashSpeed,dashTime,dashCooldown);
+        playerStateList = GetComponent<PlayerStateList>();
     }
+    
     void Update()
     {
 
         var xAxis = Input.GetAxisRaw("Horizontal");
         var yAxis = Input.GetAxisRaw("Vertical");
         Axis = new Vector2(xAxis, yAxis);
+        moveHandler.UpdateJumpVar();
+       if (playerStateList.dashing) return;
+
         if (xAxis < 0)
             gameObject.transform.eulerAngles = new Vector3(0, -90, 0);
         if (xAxis > 0)
             gameObject.transform.eulerAngles = new Vector3(0, 90, 0);
-
-
+        
         moveHandler.Move(xAxis);
         moveHandler.JumpMoment();
+        moveHandler.StartDash();
+
+
         if (moveHandler.Grounded()==false)
         {
             anim.SetBool("Falling", true);

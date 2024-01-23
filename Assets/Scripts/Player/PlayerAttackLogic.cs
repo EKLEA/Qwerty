@@ -134,7 +134,7 @@ public class PlayerAttackLogic : AttakingObjLogic
                 Hit(sideAttackTransform, sideAttackArea);
             else if (playerController.Axis.y > 0)
                 Hit(upAttackTransform, upAttackArea);
-            else if ( playerController.Axis.y < 0 && !playerController.isJumping)
+            else if ( playerController.Axis.y < 0 && !playerController.playerStateList.jumping)
                 Hit(downAttackTransform, downAttackArea);
         }
     }
@@ -144,7 +144,7 @@ public class PlayerAttackLogic : AttakingObjLogic
 
        for (int i = 0; i < objectsToHit.Length; i++)
             if (objectsToHit[i].gameObject.GetComponent<IDamagable>() != null|| objectsToHit[i].gameObject.tag!=("Player"))
-                objectsToHit[i].gameObject.GetComponent<IDamagable>().DamageMoment(damage,(-transform.position - objectsToHit[i].transform.position ).normalized,100);
+                objectsToHit[i].gameObject.GetComponent<IDamagable>().DamageMoment(damage,(transform.position + objectsToHit[i].transform.position ).normalized,100*transform.forward.x);
 
 
     }
