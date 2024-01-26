@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerAttackLogic : AttakingObjLogic
 {
-    [SerializeField] PlayerController playerController;
+   
+    private PlayerController playerController => GetComponent<PlayerController>();
+    private PlayerStateList pState => playerController.playerStateList;
     public GameObject Hand;
     [SerializeField] LayerMask attacableLayer;
     public override IItem item
@@ -46,7 +48,7 @@ public class PlayerAttackLogic : AttakingObjLogic
         get
         {
             if (item == null)
-                return 1;
+                return 0.01f;
             else
                 return item.info.usableItemInfo.coolDown;
         }
@@ -99,18 +101,17 @@ public class PlayerAttackLogic : AttakingObjLogic
             }
         }
     }
+    [SerializeField] private int recoilXSteps = 5;
+    [SerializeField] private int recoilYSteps = 5;
+    [SerializeField] private int recoilXSpeed = 100;
+    [SerializeField] private int recoilYSpeed = 100;
 
-    
+    private int stepsXRecoiled, stepsYRecoiled;
+
     private float timeSinceAttack;
-    private bool attack;
     [SerializeField] Transform sideAttackTransform, upAttackTransform, downAttackTransform;
-   
+    public Rigidbody rb => playerController.rb;
 
-    private void FixedUpdate()
-    {
-        attack = Input.GetMouseButtonDown(0);
-        Attack();
-    }
 
     private void OnDrawGizmos()
     {
@@ -119,33 +120,84 @@ public class PlayerAttackLogic : AttakingObjLogic
         Gizmos.DrawWireCube(upAttackTransform.position, upAttackArea);
         Gizmos.DrawWireCube(downAttackTransform.position, downAttackArea);
     }
-    public override void Attack()
+    public override void Attack(bool attack)
     {
         
-        timeSinceAttack += Time.deltaTime;
-        if(timeSinceAttack >=coolDown*2)
-            playerController.anim.SetBool("Attacking", false);
+        
         if (attack && timeSinceAttack >= coolDown)
         {
-            timeSinceAttack = 0;
-            playerController.anim.SetBool("Attacking", true);
+           
+            playerController.anim.SetTrigger("Attacking");
 
             if (playerController.Axis.y == 0 )
-                Hit(sideAttackTransform, sideAttackArea);
+                Hit(sideAttackTransform, sideAttackArea,ref pState.recoilX,recoilXSpeed);
             else if (playerController.Axis.y > 0)
-                Hit(upAttackTransform, upAttackArea);
+                Hit(upAttackTransform, upAttackArea,ref pState.recoilY,recoilYSpeed);
             else if ( playerController.Axis.y < 0 && !playerController.playerStateList.jumping)
-                Hit(downAttackTransform, downAttackArea);
+                Hit(downAttackTransform, downAttackArea, ref pState.recoilY, recoilYSpeed);
+            timeSinceAttack = 0;
         }
+        timeSinceAttack += Time.deltaTime;
     }
-    private void Hit(Transform _attackTransform, Vector3 _attackArea)
+    private void Hit(Transform _attackTransform, Vector3 _attackArea,ref bool _recoilDir, float _recoilStrenght)
     {
         Collider[] objectsToHit = Physics.OverlapBox(_attackTransform.position, _attackArea, Quaternion.identity, attacableLayer);
 
-       for (int i = 0; i < objectsToHit.Length; i++)
-            if (objectsToHit[i].gameObject.GetComponent<IDamagable>() != null|| objectsToHit[i].gameObject.tag!=("Player"))
-                objectsToHit[i].gameObject.GetComponent<IDamagable>().DamageMoment(damage,(transform.position + objectsToHit[i].transform.position ).normalized,100*transform.forward.x);
+        if (objectsToHit.Length > 0 )
+        {
+            _recoilDir = true;
+
+        }
+        for (int i = 0; i < objectsToHit.Length; i++)
+        {
+            if (objectsToHit[i].gameObject.GetComponent<IDamagable>() != null)
+                objectsToHit[i].gameObject.GetComponent<IDamagable>().DamageMoment(damage, (transform.position - objectsToHit[i].transform.position).normalized, _recoilStrenght);
+        }
 
 
+    }
+    public void Recoil(float yAxis)
+    {
+        if (pState.recoilX)
+            if (pState.lookRight)
+                rb.velocity = new Vector2(-recoilXSpeed, 0);
+            else
+                rb.velocity = new Vector2(recoilXSpeed, 0);
+        if (pState.recoilY)
+        {
+            rb.useGravity = false;
+            if (yAxis < 0)
+                rb.velocity = new Vector2(rb.velocity.x, recoilYSpeed);
+
+            else
+                rb.velocity = new Vector2(rb.velocity.x, -recoilYSpeed);
+        }
+        else
+            rb.useGravity = true;
+
+
+        if (pState.recoilX && stepsXRecoiled < recoilXSteps)
+            stepsXRecoiled++;
+        else
+            StopRecoilX();
+        if (pState.recoilY && stepsYRecoiled < recoilYSteps)
+            stepsYRecoiled++;
+        else
+            StopRecoilY();
+        if (pState.grounded)
+            StopRecoilY();
+
+
+    }
+
+    public void StopRecoilX()
+    {
+        stepsXRecoiled = 0;
+        pState.recoilX = false;
+    }
+    public void StopRecoilY()
+    {
+        stepsYRecoiled = 0;
+        pState.recoilY = false;
     }
 }

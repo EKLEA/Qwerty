@@ -16,12 +16,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashSpeed;
     [SerializeField] private float dashTime;
     [SerializeField] private float dashCooldown;
-    public Animator anim;
-    [SerializeField] private PlayerMoveHandler moveHandler;
-    [SerializeField] public PlayerStateList playerStateList;
-    public BoxCollider c=> gameObject.GetComponent<BoxCollider>();
-    
+  
 
+
+    public Animator anim=> GetComponent<Animator>();
+    [SerializeField] private PlayerMoveHandler moveHandler=> GetComponent<PlayerMoveHandler>();
+    [SerializeField] private PlayerAttackLogic attackLogic=> GetComponent<PlayerAttackLogic>();
+    [SerializeField] public PlayerStateList playerStateList =>GetComponent<PlayerStateList>();
+    public Rigidbody rb=> GetComponent <Rigidbody>();
+    public BoxCollider c=> gameObject.GetComponent<BoxCollider>();
+
+    private bool attack;
     public Vector2 Axis;
 
 
@@ -30,11 +35,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();
-        moveHandler = GetComponent<PlayerMoveHandler>();
         moveHandler.SetMoveValues(playerSpeed, jumpHeight);
         moveHandler.SetValues(jumpBufferFrames,coyoteTime,maxAirJump,dashSpeed,dashTime,dashCooldown);
-        playerStateList = GetComponent<PlayerStateList>();
     }
     
     void Update()
@@ -42,20 +44,28 @@ public class PlayerController : MonoBehaviour
 
         var xAxis = Input.GetAxisRaw("Horizontal");
         var yAxis = Input.GetAxisRaw("Vertical");
+        attack = Input.GetButtonDown("Attack");
         Axis = new Vector2(xAxis, yAxis);
         moveHandler.UpdateJumpVar();
        if (playerStateList.dashing) return;
 
         if (xAxis < 0)
+        {
             gameObject.transform.eulerAngles = new Vector3(0, -90, 0);
+            playerStateList.lookRight = false;
+        }
         if (xAxis > 0)
+        {
             gameObject.transform.eulerAngles = new Vector3(0, 90, 0);
-        
+            playerStateList.lookRight = true;
+        }
+
         moveHandler.Move(xAxis);
         moveHandler.JumpMoment();
         moveHandler.StartDash();
-
-
+        
+        attackLogic.Attack(attack);
+        attackLogic.Recoil(yAxis);
         if (moveHandler.Grounded()==false)
         {
             anim.SetBool("Falling", true);
@@ -69,10 +79,6 @@ public class PlayerController : MonoBehaviour
         }
 
 
-    }
-    public void AttackToogle()
-    {
-        anim.SetBool("Attacking", false);
     }
 
 

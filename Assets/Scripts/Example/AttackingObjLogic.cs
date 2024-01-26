@@ -8,7 +8,7 @@ public abstract class AttakingObjLogic : MonoBehaviour
     public Action<float,IItem> OnDamageEvent;
     public abstract IItem item { get; }
 
-    public abstract void Attack();
+    public abstract void Attack(bool attack);
 
 
 

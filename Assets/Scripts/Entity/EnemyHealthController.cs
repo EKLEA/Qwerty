@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyHealthController : MonoBehaviour, IDamagable
@@ -11,28 +12,28 @@ public class EnemyHealthController : MonoBehaviour, IDamagable
     [SerializeField] float recoilLenght;
     [SerializeField] float recoilFactor;
     [SerializeField] bool isRecoiling = false;
+    protected bool hasTakenDamage = false;
     float rT=0;
-    float recoilTimer
+  
+    void Update()
     {
-        get
+        hasTakenDamage = false;
+        if (isRecoiling)
         {
-            if (isRecoiling)
+            if (rT < recoilLenght)
             {
-                if (rT < recoilLenght)
-                    rT += Time.deltaTime;
-                else
-                {
-                    isRecoiling = false;
-                    rT = 0;
-                }
+                rT += Time.deltaTime;
             }
-            return rT;
+            else
+            {
+                isRecoiling = false;
+                rT = 0;
+            }
         }
     }
-    Rigidbody rb;
+    Rigidbody rb=> GetComponent<Rigidbody>();
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
         hp = maxHealth; df = maxDefense;
     }
    [SerializeField] private float hp;
@@ -64,14 +65,15 @@ public class EnemyHealthController : MonoBehaviour, IDamagable
     public bool isHeartHas = true;
     public void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce)
     {
-
+        if (hasTakenDamage) return;
         if (defense > 0)
             defense -= _damageDone;
         else
             health -= _damageDone;
         if (!isRecoiling)
         {
-            rb.AddForce(_hitDirection * _hitForce * recoilFactor);
+            rb.AddForce(-_hitForce * recoilFactor* _hitDirection);
+            hasTakenDamage = true;
         }
     }
 }

@@ -28,14 +28,17 @@ public class PlayerMoveHandler : MonoBehaviour, IMoveHandler
    
 
 
-    public Rigidbody rb => GetComponent<Rigidbody>();
-    private Animator anim => GetComponent<PlayerController>().anim;
-    private PlayerStateList pState=> GetComponent<PlayerStateList>();
+    public Rigidbody rb => pController.rb;
+    private PlayerController pController=> GetComponent<PlayerController>();
+    private Animator anim => pController.anim;
+    private PlayerStateList pState => pController.playerStateList;
     public void Move(float xAxis)
     {
         rb.velocity= new Vector2(xAxis*  speed, rb.velocity.y);
 
         anim.SetBool("Runing", rb.velocity.x != 0 && Grounded());
+        if (pState.recoilY)
+            airJC = 0;
 
     }
     public void StartDash()
@@ -114,7 +117,13 @@ public class PlayerMoveHandler : MonoBehaviour, IMoveHandler
         speed = _speed;
         jumpHeight = _jumpHeight;
     }
-    public void SetValues(int jumpBufferFrames,float coyoteTime,int MaxAirJump,float dashS,float dashT,float dashCD )
+    public void SetValues(
+        int jumpBufferFrames,
+        float coyoteTime,
+        int MaxAirJump,
+        float dashS,
+        float dashT,
+        float dashCD)
     {
         jumpBF = jumpBufferFrames;
         coyoteT = coyoteTime;
@@ -122,13 +131,17 @@ public class PlayerMoveHandler : MonoBehaviour, IMoveHandler
         dashSpeed= dashS;
         dashTime = dashT;
         dashCooldown= dashCD;
+
     }
     public bool Grounded()
     {
-        return (Physics.Raycast(groundCheckPoint.position, Vector2.down, groundCheckY , whatIsGround) ||
-            Physics.Raycast(groundCheckPoint.position + new Vector3(groundCheckX, 0, 0), Vector2.down, groundCheckY , whatIsGround) ||
-            Physics.Raycast(groundCheckPoint.position + new Vector3(-groundCheckX/2, 0, 0), Vector2.down, groundCheckY , whatIsGround)||
-            Physics.Raycast(groundCheckPoint.position + new Vector3(-groundCheckX/2, 0, 0), Vector2.down, groundCheckY, whatIsGround) );
+        bool b = (Physics.Raycast(groundCheckPoint.position, Vector2.down, groundCheckY, whatIsGround) ||
+            Physics.Raycast(groundCheckPoint.position + new Vector3(groundCheckX, 0, 0), Vector2.down, groundCheckY, whatIsGround) ||
+            Physics.Raycast(groundCheckPoint.position + new Vector3(-groundCheckX / 2, 0, 0), Vector2.down, groundCheckY, whatIsGround) ||
+            Physics.Raycast(groundCheckPoint.position + new Vector3(-groundCheckX / 2, 0, 0), Vector2.down, groundCheckY, whatIsGround));
+        pState.grounded = b;
+        return b;
            
     }
+   
 }
