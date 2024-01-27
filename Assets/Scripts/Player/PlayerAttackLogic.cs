@@ -60,12 +60,12 @@ public class PlayerAttackLogic : AttakingObjLogic
             if (item == null)
             {
                 sideAttackTransform.localPosition = new Vector3(0f, 3f, 1.5f);
-                return new Vector3(1, 6, 3f);
+                return sideAttackTransformArea;
             }
             else
             {
                 sideAttackTransform.localPosition = new Vector3(0f, 3f, 1f + range / 2);
-                return new Vector3(range, 6, 3f);
+                return new Vector3(range, sideAttackTransformArea.y, sideAttackTransformArea.z);
             }
         }
     }
@@ -76,12 +76,12 @@ public class PlayerAttackLogic : AttakingObjLogic
             if (item == null)
             {
                 upAttackTransform.localPosition = new Vector3(0, 7f, 0);
-                return new Vector3(1, 1, 1);
+                return upAttackTransformArea;
             }
             else
             {
                 upAttackTransform.localPosition = new Vector3(0,  7 + range/2,0);
-                return new Vector3(1, range, 1);
+                return new Vector3(upAttackTransformArea.x, range, upAttackTransformArea.z);
             }
         }
     }
@@ -92,12 +92,12 @@ public class PlayerAttackLogic : AttakingObjLogic
             if (item == null)
             {
                 downAttackTransform.localPosition = new Vector3(0, -1.5f,0);
-                return new Vector3(1, 1, 1);
+                return downAttackTransformArea;
             }
             else
             {
                 downAttackTransform.localPosition = new Vector3(0,  -1-range/2,0);
-                return new Vector3(1, range, 1);
+                return new Vector3(downAttackTransformArea.x, range, downAttackTransformArea.z);
             }
         }
     }
@@ -110,6 +110,10 @@ public class PlayerAttackLogic : AttakingObjLogic
 
     private float timeSinceAttack;
     [SerializeField] Transform sideAttackTransform, upAttackTransform, downAttackTransform;
+    [SerializeField] Vector3 sideAttackTransformArea;
+    [SerializeField] Vector3 upAttackTransformArea;
+    [SerializeField] Vector3 downAttackTransformArea;
+
     public Rigidbody rb => playerController.rb;
 
 
@@ -129,11 +133,11 @@ public class PlayerAttackLogic : AttakingObjLogic
            
             playerController.anim.SetTrigger("Attacking");
 
-            if (playerController.Axis.y == 0 )
+            if (playerController.playerStateList.Axis.y == 0 )
                 Hit(sideAttackTransform, sideAttackArea,ref pState.recoilX,recoilXSpeed);
-            else if (playerController.Axis.y > 0)
+            else if (playerController.playerStateList.Axis.y > 0)
                 Hit(upAttackTransform, upAttackArea,ref pState.recoilY,recoilYSpeed);
-            else if ( playerController.Axis.y < 0 && !playerController.playerStateList.jumping)
+            else if ( playerController.playerStateList.Axis.y < 0 && !playerController.playerStateList.jumping)
                 Hit(downAttackTransform, downAttackArea, ref pState.recoilY, recoilYSpeed);
             timeSinceAttack = 0;
         }
@@ -156,7 +160,7 @@ public class PlayerAttackLogic : AttakingObjLogic
 
 
     }
-    public void Recoil(float yAxis)
+    public void Recoil()
     {
         if (pState.recoilX)
             if (pState.lookRight)
@@ -166,7 +170,7 @@ public class PlayerAttackLogic : AttakingObjLogic
         if (pState.recoilY)
         {
             rb.useGravity = false;
-            if (yAxis < 0)
+            if (pState.Axis.y < 0)
                 rb.velocity = new Vector2(rb.velocity.x, recoilYSpeed);
 
             else

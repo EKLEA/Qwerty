@@ -22,12 +22,13 @@ public class PlayerController : MonoBehaviour
     public Animator anim=> GetComponent<Animator>();
     [SerializeField] private PlayerMoveHandler moveHandler=> GetComponent<PlayerMoveHandler>();
     [SerializeField] private PlayerAttackLogic attackLogic=> GetComponent<PlayerAttackLogic>();
+    [SerializeField] public PlayerHealthController playerHealthController => GetComponent<PlayerHealthController>();
     [SerializeField] public PlayerStateList playerStateList =>GetComponent<PlayerStateList>();
     public Rigidbody rb=> GetComponent <Rigidbody>();
     public BoxCollider c=> gameObject.GetComponent<BoxCollider>();
 
     private bool attack;
-    public Vector2 Axis;
+     Vector2 Axis;
 
 
     float xAxis, yAxis;
@@ -38,7 +39,12 @@ public class PlayerController : MonoBehaviour
         moveHandler.SetMoveValues(playerSpeed, jumpHeight);
         moveHandler.SetValues(jumpBufferFrames,coyoteTime,maxAirJump,dashSpeed,dashTime,dashCooldown);
     }
-    
+    private void FixedUpdate()
+    {
+        if (playerStateList.dashing) return;
+        attackLogic.Recoil();
+    }
+
     void Update()
     {
 
@@ -46,8 +52,9 @@ public class PlayerController : MonoBehaviour
         var yAxis = Input.GetAxisRaw("Vertical");
         attack = Input.GetButtonDown("Attack");
         Axis = new Vector2(xAxis, yAxis);
+        playerStateList.Axis = Axis;
         moveHandler.UpdateJumpVar();
-       if (playerStateList.dashing) return;
+       
 
         if (xAxis < 0)
         {
@@ -65,7 +72,7 @@ public class PlayerController : MonoBehaviour
         moveHandler.StartDash();
         
         attackLogic.Attack(attack);
-        attackLogic.Recoil(yAxis);
+       
         if (moveHandler.Grounded()==false)
         {
             anim.SetBool("Falling", true);

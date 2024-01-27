@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerStateList : MonoBehaviour
 {
+    public Vector2 Axis;
     public bool jumping = false;
     public bool dashing = false;
     public bool grounded = true;
     public bool recoilX,recoilY;
     public bool lookRight;
+    public bool invincible= false;
 }
