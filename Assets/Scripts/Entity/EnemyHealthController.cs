@@ -1,42 +1,49 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class EnemyHealthController : MonoBehaviour, IDamagable
 {
+    
     public Action<GameObject> OnDead;
-    [SerializeField] private float _maxHp;
-    [SerializeField] private float _maxDefense;
-    [SerializeField] float recoilLenght;
-    [SerializeField] float recoilFactor;
-    [SerializeField] bool isRecoiling = false;
-    float rT=0;
-    float recoilTimer
+    
+    [SerializeField] protected float _maxHp;
+    [SerializeField] protected  float recoilLenght;
+    [SerializeField] protected float recoilFactor;
+    [SerializeField] protected bool isRecoiling = false;
+    protected bool hasTakenDamage = false;
+    protected float rT =0;
+
+    [HideInInspector] protected PlayerController playerController=> GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+    [SerializeField] protected float speed;
+    [SerializeField] protected float colliderDamage;
+    protected virtual void Update()
     {
-        get
+        hasTakenDamage = false;
+        if (isRecoiling)
         {
-            if (isRecoiling)
+            if (rT < recoilLenght)
             {
-                if (rT < recoilLenght)
-                    rT += Time.deltaTime;
-                else
-                {
-                    isRecoiling = false;
-                    rT = 0;
-                }
+                rT += Time.deltaTime;
             }
-            return rT;
+            else
+            {
+                isRecoiling = false;
+                rT = 0;
+            }
         }
     }
-    Rigidbody rb;
-    void Awake()
+    protected Rigidbody rb=> GetComponent<Rigidbody>();
+    protected virtual void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        hp = maxHealth; df = maxDefense;
+        hp = maxHealth;
     }
-   [SerializeField] private float hp;
-    [SerializeField] private float df;
+    [HideInInspector] public float hp;// потом изменить для хелтх бара
+    [HideInInspector] public float df;
     public float health
     {
         get
@@ -53,25 +60,39 @@ public class EnemyHealthController : MonoBehaviour, IDamagable
             }
         }
     }
-    public float defense
+    public float defenseK
     {
         get { return df; }
-        set { df = value; }
+        set
+        {
+            if (value < 1f && value > 2f)
+                return;
+            else
+                df = value;
+        }
     }
 
     public float maxHealth => _maxHp;
-    public float maxDefense => _maxDefense;
-    public bool isHeartHas = true;
-    public void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce)
+    public virtual void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce)
     {
-
-        if (defense > 0)
-            defense -= _damageDone;
-        else
-            health -= _damageDone;
+        if (hasTakenDamage) return;
+        health-= _damageDone * (1 / defenseK);
         if (!isRecoiling)
         {
-            rb.AddForce(_hitDirection * _hitForce * recoilFactor);
+            rb.AddForce(-_hitForce * recoilFactor* _hitDirection);
+            hasTakenDamage = true;
         }
+    }
+    protected void OnTriggerStay(Collider other) 
+    {
+        if (other.CompareTag("Player")&&!playerController.playerStateList.invincible)
+        {
+            ColliderAttack();
+        }
+    }
+    protected virtual void ColliderAttack()
+    {
+        playerController.playerHealthController.TakeDamage(colliderDamage);
+        playerController.playerHealthController.HitStopTime(0, 5, 0.5f);
     }
 }

@@ -27,8 +27,7 @@ public interface IDamagable
 {
     public float health { get; set; }
     public float maxHealth { get;  }
-    public float defense { get; set; }
-    public float maxDefense { get; }
+    public float defenseK { get; set; }
     public void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce);
 }
 
@@ -103,7 +102,8 @@ public interface IMoveHandler
     public float jumpHeight { get; }
     public void Move(float xAxis);
     public void JumpMoment();
-    public void SetValues(float _speed,float _jumpHeight);
+    public void UpdateJumpVar();
+    public void SetMoveValues(float _speed,float _jumpHeight);
     public bool Grounded();
 
 

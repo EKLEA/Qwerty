@@ -50,6 +50,8 @@ public class ContextMenu : MonoBehaviour
             {
                 activeBT.image.color = new Color(61f / 255f, 169f / 255f, 1, 1);
                 equipBT.image.color = new Color(61f / 255f, 169f / 255f, 1, 1);
+                dropBT.onClick.AddListener(Option3Callback);
+                dropBT.interactable = true;
             }
             else
             {

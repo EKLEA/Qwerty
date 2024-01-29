@@ -14,9 +14,10 @@ public class UIInventory : MonoBehaviour
     [SerializeField] public PlayerUseMoment playerUseMoment;
     public InventoryWithSlots inventory;
     public GameObject contextMenu;
-    public GameObject inventoryUIInterface;
+    
     public GameObject inventoryGrid; 
     public GameObject EquippedGrid;
+    
     private UIInventorySlot[] uiSlots;
     private UIInventorySlot[] uiActSlots;
     private void Start()
@@ -31,13 +32,13 @@ public class UIInventory : MonoBehaviour
             f.OnSlotContextClickedEvent += OpenContextMenu;
         uiScript = new UIInventoryScript(uiSlots,inventory, uiActSlots, playerInventory.actItems);
 
-        playerUseMoment.OnOpenInventoryEvent += OpenInv;
+        
         playerInventory.OnInventoryUpdate += invUpdate;
         playerInventory.inventory.OnEquippedItemEvent += ItemEquipped;
         playerInventory.actItems.OnEquippedItemEvent += ItemEquipped;
 
 
-        inventoryUIInterface.SetActive(false);
+        
         contextMenu.SetActive(false);
     }
 
@@ -152,24 +153,17 @@ public class UIInventory : MonoBehaviour
         uiScript = new UIInventoryScript(uiSlots, inventory, uiActSlots, playerInventory.actItems);
     }
 
-    bool chek(UIInventorySlot[] slots)
+    public bool chek()
     {
-        for (int i = 0; i < slots.Length; i++) 
-            if (slots[i].GetItemDragState() == false)
+        
+        for (int i = 0; i < uiSlots.Length; i++) 
+            if (uiSlots[i].GetItemDragState() == false)
                 return false; 
         return true;
 
     }
 
-    private void OpenInv(bool t)
-    {
-        if (t)
-            inventoryUIInterface.SetActive(true);
-        else
-            if (chek(uiSlots))
-                inventoryUIInterface.SetActive(false);
-        
-    }
+   
 
 
 
