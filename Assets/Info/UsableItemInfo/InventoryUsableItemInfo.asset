@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: InventoryUsableItemInfo
   m_EditorClassIdentifier: 
   _damage: 1
-  _cooldown: 0.5
+  _cooldown: 0.1
   _range: 3

@@ -27,8 +27,7 @@ public interface IDamagable
 {
     public float health { get; set; }
     public float maxHealth { get;  }
-    public float defense { get; set; }
-    public float maxDefense { get; }
+    public float defenseK { get; set; }
     public void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce);
 }
 
