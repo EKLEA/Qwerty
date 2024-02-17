@@ -23,7 +23,7 @@ public class PlayerAttackLogic : AttakingObjLogic
             }
         }
     }
-    private float damage
+    private int damage
     {
         get
         {

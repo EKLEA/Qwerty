@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 
 public interface IUsableItemInfo
 {
-    public float damage { get; }
+    public int damage { get; }
     public float coolDown { get; }
     public float range { get; }
 
@@ -25,10 +25,10 @@ public interface IItem
 }
 public interface IDamagable
 {
-    public float health { get; set; }
-    public float maxHealth { get;  }
-    public float defenseK { get; set; }
-    public void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce);
+    public int health { get; set; }
+    public int maxHealth { get;  }
+    public int defense { get; set; }
+    public void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce);
 }
 
 

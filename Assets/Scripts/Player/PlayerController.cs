@@ -72,10 +72,11 @@ public class PlayerController : MonoBehaviour
         moveHandler.Move(xAxis);
         moveHandler.JumpMoment();
         moveHandler.StartDash();
+
         
         attackLogic.Attack(attack);
         playerHealthController.RestoreTimeScale();
-        
+        playerHealthController.Heal();
 
 
     }

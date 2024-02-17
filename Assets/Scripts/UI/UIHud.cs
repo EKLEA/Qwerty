@@ -7,108 +7,68 @@ using static UnityEngine.Rendering.DebugUI;
 public class UIHud : MonoBehaviour
 {
     [SerializeField] private PlayerController playerController;
-    public Image healthBar;
-    public Image energyBar;
+    private GameObject[] heartContainers;
+    private Image[] heartFills;
+    public Transform heartsParent;
+    public GameObject heartsContainerPrefab;
 
-    float maxHealth => playerController.playerHealthController.maxHealth;
-    float currentHealth => playerController.playerHealthController.health;
-    float armorCoefficient => playerController.playerHealthController.defenseK;
-
-    
-
-    void Start()
+    private void Start()
     {
-        UpdateHealthBar();
-        UpdateEnergyBar();
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        heartContainers = new GameObject[playerController.playerHealthController.maxHealth];
+        heartFills = new Image[playerController.playerHealthController.maxHealth];
+
+        playerController.playerHealthController.OnHealthChangedCallBack += UpdateHeartHUD;
+
+        InstantiateHeartContainers();
+        UpdateHeartHUD();
     }
 
-    void Update()
+    private void Update()
     {
-        UpdateHealthBar();
-        UpdateEnergyBar();
-    }
-
-    void UpdateHealthBar()
-    {
-        if (armorCoefficient<1.2f)
-        {
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color", new Color(0f, 255 / 256f, 69 / 256f));
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color_1", new Color(0f, 255 / 256f, 161 / 256f));
-        }
-
-        if ((armorCoefficient < 1.4f) && (armorCoefficient >= 1.2f))
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color_1", new Color(0f, 248 / 256f, 255 / 256f));
-
-        if ((armorCoefficient < 1.6f) && (armorCoefficient >=  1.4f))
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color_1", new Color(0f, 121/256f, 255 / 256f));
-
-        if ((armorCoefficient < 1.8f) && (armorCoefficient >= 1.6f))
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color_1", new Color(0f, 29 / 256f, 255 / 256f));
-
-        if ((armorCoefficient < 2.0f) && (armorCoefficient >= 1.8f))
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color_1", new Color(164 / 256f, 0f, 255 / 256f));
-
-        if  (armorCoefficient >= 2f)
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color_1", new Color(255 / 256f, 0f, 134 / 256f));
-
-        /* if (armorCoefficient<1.2f)
-        {
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color", new Color(0f, 255 / 256f, 69 / 256f));
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color_1", new Color(0f, 255 / 256f, 161 / 256f));
-        }
-
-        if ((armorCoefficient < 1.4f) && (armorCoefficient >= 1.2f))
-        {
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color", new Color(0f, 255 / 256f, 161 / 256f));
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color_1", new Color(0f, 248 / 256f, 255 / 256f));
-        }
-
-        if ((armorCoefficient < 1.6f) && (armorCoefficient >=  1.4f))
-        {
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color", new Color(0f, 248 / 256f, 255 / 256f));
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color_1", new Color(0f, 121 / 256f, 255 / 256f));
-        }
-
-        if ((armorCoefficient < 1.8f) && (armorCoefficient >= 1.6f))
-        {
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color", new Color(0f, 121 / 256f, 255 / 256f));
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color_1", new Color(0f, 29 / 256f, 255 / 256f));
-        }
-
-        if ((armorCoefficient < 2.0f) && (armorCoefficient >= 1.8f))
-        {
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color", new Color(0f, 29 / 256f, 255 / 256f));
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color_1", new Color(164 / 256f, 0f, 255 / 256f));
-        }
-
-        if  (armorCoefficient >= 2f)
-        {
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color", new Color(164 / 256f, 0f, 255 / 256f));
-            healthBar.canvasRenderer.GetMaterial().SetColor("_Color_1", new Color(255 / 256f, 0f, 134 / 256f));
-        }
-
-
-
-        float healthPercentage = currentHealth / maxHealth;*/
         
-
-        float healthPercentage = currentHealth / maxHealth;
     }
-
-    void UpdateEnergyBar()
+    void SetHeartContainers()
     {
-        if (playerController.playerHealthController.isHeartHas)
+        for (int i = 0; i < heartContainers.Length; i++)
         {
-
-            energyBar.canvasRenderer.GetMaterial().SetColor("_Color", new Color( 166/256f,236/256f,253/256f));
-            energyBar.canvasRenderer.GetMaterial().SetColor("_Color_1", new Color(0f, 181 / 256f, 253 / 256f));
-
+            if (i < playerController.playerHealthController.maxHealth)
+            {
+                heartContainers[i].SetActive(true);
+            }
+            else
+            {
+                heartContainers[i].SetActive(false);
+            }
         }
-        else
+    }
+    void SetFilledHearts()
+    {
+        for (int i = 0; i < heartFills.Length; i++)
         {
-            energyBar.canvasRenderer.GetMaterial().SetColor("_Color", new Color(253 / 256f, 170 / 256f, 166 / 256f));
-            energyBar.canvasRenderer.GetMaterial().SetColor("_Color_1", new Color(253/256f, 0f, 0f));
+            if (i < playerController.playerHealthController.health)
+            {
+                heartFills[i].color = Color.green;
+            }
+            else
+            {
+                heartFills[i].color = Color.black;
+            }
         }
-        energyBar.gameObject.SetActive(true);
+    }
+    void InstantiateHeartContainers()
+    {
+        for (int i = 0; i < heartContainers.Length; i++)
+        {
+            GameObject temp = Instantiate(heartsContainerPrefab);
+            temp.transform.SetParent(heartsParent,false);
+            heartContainers[i]=temp;
+            heartFills[i]=temp.transform.Find("HpFill").GetComponent<Image>();
+        }
+    }
+    void UpdateHeartHUD()
+    {
+        SetHeartContainers();
+        SetFilledHearts();
     }
 }

@@ -7,59 +7,69 @@ public class PlayerHealthController : MonoBehaviour, IDamagable
 {
     public Action<GameObject> OnDead;
     private PlayerController pController => GetComponent<PlayerController>();
-    [SerializeField] private float _maxHp;
+    [SerializeField] private int _maxHp;
     [SerializeField] private GameObject DamageEffect;
+
+    public delegate void OnHealthChangedDelegate();
+    [HideInInspector] public OnHealthChangedDelegate OnHealthChangedCallBack;
 
     bool restoreTime;
     float restoreTimeSpeed;
+    float healTimer;
+    [SerializeField] private float timeToHeal;
 
-
-    public float hp;
-     public float df;
-    public float health
+    public int hp;
+    public int df;
+    public int health
     {
         get
         {
             return hp;
         }
         set
-        {
-            hp= value;
+        { 
+            hp =value;
+            OnHealthChangedCallBack?.Invoke();
             if (health <= 0)
-            {
-                OnDead?.Invoke(gameObject);
-                Destroy(gameObject);
-            }   
+                {
+                    OnDead?.Invoke(gameObject);
+                    Destroy(gameObject);
+                }
+
         }
     }
-    public float defenseK
+    public int defense
     {
         get { return df; }
         set 
         { 
-            if (value < 1f && value > 2f)
-                df =1;
-            else 
-                df = value;
+            df = value;
         }
     }
 
     private void OnEnable()
     {
         hp=maxHealth;
+        
     }
-    public float maxHealth =>_maxHp;
+    public int maxHealth =>_maxHp;
+
     public bool isHeartHas = true;
 
 
 
-    public void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce)
-    {
-            health -= _damageDone *(1/defenseK);
+    public void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce)
+    {   if (defense >= 1) 
+            df -= _damageDone;
+        else
+            health -= _damageDone;
     }
-    public void TakeDamage(float _damage)
+    public void TakeDamage(int _damage)
     {
-        health -= _damage * (1 / defenseK);
+        if (defense >= 1)
+            df -= _damage;
+        else
+            health -= _damage;
         StartCoroutine(StopTakingDamage());
     }
     IEnumerator StopTakingDamage()
@@ -101,5 +111,24 @@ public class PlayerHealthController : MonoBehaviour, IDamagable
     {
         restoreTime = true;
         yield return new WaitForSeconds(_delay);
+    }
+
+   public void Heal()
+    {
+        if (Input.GetButton("Healing") && health<maxHealth && !pController.playerStateList.jumping && !pController.playerStateList.dashing)
+        {
+            pController.playerStateList.healing = true;
+            healTimer += Time.deltaTime;
+            if (healTimer>=timeToHeal)
+            {
+                health++;
+                healTimer = 0;
+            }
+        }
+        else
+        {
+            pController.playerStateList.healing=false;
+            healTimer = 0;
+        }
     }
 }

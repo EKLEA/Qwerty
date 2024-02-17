@@ -60,7 +60,7 @@ InputManager:
     negativeButton: 
     positiveButton: mouse 0
     altNegativeButton: 
-    altPositiveButton: mouse 1
+    altPositiveButton: 
     gravity: 1000
     dead: 0.001
     sensitivity: 1000
@@ -70,11 +70,11 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: ss
+    m_Name: Healing
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: left shift
+    positiveButton: mouse 1
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000

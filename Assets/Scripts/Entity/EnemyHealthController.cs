@@ -11,7 +11,7 @@ public class EnemyHealthController : MonoBehaviour, IDamagable
     
     public Action<GameObject> OnDead;
     
-    [SerializeField] protected float _maxHp;
+    [SerializeField] protected int _maxHp;
     [SerializeField] protected  float recoilLenght;
     [SerializeField] protected float recoilFactor;
     [SerializeField] protected bool isRecoiling = false;
@@ -20,7 +20,7 @@ public class EnemyHealthController : MonoBehaviour, IDamagable
 
     [HideInInspector] protected PlayerController playerController=> GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     [SerializeField] protected float speed;
-    [SerializeField] protected float colliderDamage;
+    [SerializeField] protected int colliderDamage;
     protected virtual void Update()
     {
         hasTakenDamage = false;
@@ -42,9 +42,9 @@ public class EnemyHealthController : MonoBehaviour, IDamagable
     {
         hp = maxHealth;
     }
-    [HideInInspector] public float hp;// потом изменить для хелтх бара
-    [HideInInspector] public float df;
-    public float health
+    public int hp;
+    [HideInInspector] public int df;
+    public int health
     {
         get
         {
@@ -53,30 +53,32 @@ public class EnemyHealthController : MonoBehaviour, IDamagable
         set
         {
             hp = value;
-            if (health < 0)
+            if (health <= 0)
             {
                 OnDead?.Invoke(gameObject);
-                DestroyImmediate(gameObject);
+                Destroy(gameObject);
             }
         }
     }
-    public float defenseK
+
+
+    public int defense
     {
         get { return df; }
         set
         {
-            if (value < 1f && value > 2f)
-                return;
-            else
-                df = value;
+            df = value;
         }
     }
 
-    public float maxHealth => _maxHp;
-    public virtual void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce)
+    public int maxHealth => _maxHp;
+    public virtual void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce)
     {
         if (hasTakenDamage) return;
-        health-= _damageDone * (1 / defenseK);
+        if (defense > 0)
+            df -= _damageDone;
+        else
+            health -= _damageDone;
         if (!isRecoiling)
         {
             rb.AddForce(-_hitForce * recoilFactor* _hitDirection);

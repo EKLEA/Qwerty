@@ -11,4 +11,5 @@ public class PlayerStateList : MonoBehaviour
     public bool recoilX,recoilY;
     public bool lookRight;
     public bool invincible= false;
+    public bool healing = false;
 }

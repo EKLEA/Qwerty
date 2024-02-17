@@ -5,13 +5,14 @@ public class FollowPlayer : MonoBehaviour
     [SerializeField] private Transform lookAt;
     [SerializeField] private Vector2 bound = new Vector2(0.15f, 0.05f);
     [SerializeField] private float speed = 5.0f;
+    [SerializeField] private float zoomFloat = 13f;
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(new Vector3(transform.position.x, transform.position.y, transform.position.z + 17), bound);
+        Gizmos.DrawWireCube(new Vector3(transform.position.x, transform.position.y, transform.position.z + zoomFloat), bound);
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(new Vector3(transform.position.x, transform.position.y, transform.position.z + 17), new Vector3(transform.position.x + bound.x, transform.position.y, transform.position.z + 17));
+        Gizmos.DrawLine(new Vector3(transform.position.x, transform.position.y, transform.position.z + zoomFloat), new Vector3(transform.position.x + bound.x, transform.position.y, transform.position.z + zoomFloat));
     }
     private void FixedUpdate()
     {

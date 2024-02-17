@@ -20,11 +20,11 @@ public class WorkerHealthController : EnemyHealthController
         //rb.AddForce(Physics.gravity * 16f * Time.fixedDeltaTime, ForceMode.Acceleration);
         if (!isRecoiling)
         {
-            transform.position = Vector2.MoveTowards
-                (transform.position, new Vector2(playerController.transform.position.x, playerController.transform.position.y), speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards
+                (transform.position, new Vector3(playerController.transform.position.x, playerController.transform.position.y,playerController.transform.position.z), speed * Time.deltaTime);
         }
     }
-    public override void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce)
+    public override void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce)
     {
         base.DamageMoment(_damageDone,_hitDirection,_hitForce);
     }
