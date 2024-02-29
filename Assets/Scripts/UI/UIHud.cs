@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,9 @@ public class UIHud : MonoBehaviour
     private Image[] heartFills;
     public Transform heartsParent;
     public GameObject heartsContainerPrefab;
+    public Transform energyParent;
+    public GameObject energyBarPrefab;
+    
 
     private void Start()
     {
@@ -19,8 +23,10 @@ public class UIHud : MonoBehaviour
         heartFills = new Image[playerController.playerHealthController.maxHealth];
 
         playerController.playerHealthController.OnHealthChangedCallBack += UpdateHeartHUD;
+        playerController.playerHealthController.OnEnergyChangedCallBack += UpdateEnergyHUD;
 
         InstantiateHeartContainers();
+        SetEnergyBar();
         UpdateHeartHUD();
     }
 
@@ -66,9 +72,32 @@ public class UIHud : MonoBehaviour
             heartFills[i]=temp.transform.Find("HpFill").GetComponent<Image>();
         }
     }
+    private GameObject enBar;
+    private Image enBarFill;
+    void SetEnergyBar()
+    {
+        GameObject enBar = Instantiate(energyBarPrefab);
+        enBar.transform.SetParent(energyParent, false);
+        enBarFill= enBar.transform.Find("EnergyFill").GetComponent <Image>();
+        enBar.transform.localScale = new Vector3(playerController.playerHealthController.maxEnergy, 0.5f,0.1f);
+        enBarFill.fillAmount = playerController.playerHealthController.energy / playerController.playerHealthController.maxEnergy;
+        enBar.transform.localPosition = new Vector3(enBar.transform.localPosition.x + enBar.GetComponent<RectTransform>().rect.width* enBar.transform.localScale.x / 2, enBar.transform.localPosition.y,0.1f);
+        
+
+
+    }
+    void UpdateEnergyBar()
+    {
+        enBarFill.fillAmount = playerController.playerHealthController.energy / playerController.playerHealthController.maxEnergy;
+    }
     void UpdateHeartHUD()
     {
         SetHeartContainers();
         SetFilledHearts();
     }
+    void UpdateEnergyHUD()
+    {
+        UpdateEnergyBar();
+    }
+
 }

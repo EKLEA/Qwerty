@@ -3479,6 +3479,8 @@ MonoBehaviour:
   playerController: {fileID: 347687754}
   heartsParent: {fileID: 934668261}
   heartsContainerPrefab: {fileID: 5133706309948000283, guid: 09e93c13a15375a4aaba568fabe7c9cc, type: 3}
+  energyParent: {fileID: 1460465611}
+  energyBarPrefab: {fileID: 5133706309948000283, guid: 95a3ce349fdea6248bbed48e9a2e5af3, type: 3}
 --- !u!1 &693257912
 GameObject:
   m_ObjectHideFlags: 0
@@ -6710,7 +6712,7 @@ GameObject:
   - component: {fileID: 1339384140}
   m_Layer: 7
   m_Name: Worker
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7612,7 +7614,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1460465610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 182}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7620,7 +7622,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -1015, y: 480}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1468171976
@@ -10671,7 +10673,19 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5301499620751257400, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
+      propertyPath: _maxEn
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5301499620751257400, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
+      propertyPath: energyGain
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5301499620751257400, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
       propertyPath: timeToHeal
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5301499620751257400, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
+      propertyPath: energyDrainSpeed
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6973074162500440619, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}

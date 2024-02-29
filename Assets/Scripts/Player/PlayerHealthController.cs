@@ -6,20 +6,28 @@ using UnityEngine;
 public class PlayerHealthController : MonoBehaviour, IDamagable
 {
     public Action<GameObject> OnDead;
+    [SerializeField] protected int _maxHp;
+    [SerializeField] protected float _maxEn;
     private PlayerController pController => GetComponent<PlayerController>();
-    [SerializeField] private int _maxHp;
+    
     [SerializeField] private GameObject DamageEffect;
 
     public delegate void OnHealthChangedDelegate();
     [HideInInspector] public OnHealthChangedDelegate OnHealthChangedCallBack;
 
+    public delegate void OnEnergyChangedDelegate();
+    [HideInInspector] public OnHealthChangedDelegate OnEnergyChangedCallBack;
     bool restoreTime;
     float restoreTimeSpeed;
     float healTimer;
     [SerializeField] private float timeToHeal;
+    [SerializeField] float energyDrainSpeed;
+    [SerializeField] public float energyGain;
 
     public int hp;
     public int df;
+    public float en;
+    
     public int health
     {
         get
@@ -38,6 +46,19 @@ public class PlayerHealthController : MonoBehaviour, IDamagable
 
         }
     }
+    public float energy
+    {
+        get
+        {
+            return en;
+        }
+        set
+        {
+            OnEnergyChangedCallBack?.Invoke();
+            en = value;
+
+        }
+    }
     public int defense
     {
         get { return df; }
@@ -50,10 +71,11 @@ public class PlayerHealthController : MonoBehaviour, IDamagable
     private void OnEnable()
     {
         hp=maxHealth;
+        en = maxEnergy;
         
     }
-    public int maxHealth =>_maxHp;
-
+    public int maxHealth { get => _maxHp; set { } }
+    public float maxEnergy { get => _maxEn; set { } }
     public bool isHeartHas = true;
 
 
@@ -115,7 +137,7 @@ public class PlayerHealthController : MonoBehaviour, IDamagable
 
    public void Heal()
     {
-        if (Input.GetButton("Healing") && health<maxHealth && !pController.playerStateList.jumping && !pController.playerStateList.dashing)
+        if (Input.GetButton("Healing") && health<maxHealth && energy>0 && !pController.playerStateList.jumping && !pController.playerStateList.dashing)
         {
             pController.playerStateList.healing = true;
             healTimer += Time.deltaTime;
@@ -124,6 +146,9 @@ public class PlayerHealthController : MonoBehaviour, IDamagable
                 health++;
                 healTimer = 0;
             }
+            
+            energy -= Time.deltaTime * energyDrainSpeed;
+            Debug.Log(energy);
         }
         else
         {

@@ -155,7 +155,18 @@ public class PlayerAttackLogic : AttakingObjLogic
         for (int i = 0; i < objectsToHit.Length; i++)
         {
             if (objectsToHit[i].gameObject.GetComponent<IDamagable>() != null)
+            { 
                 objectsToHit[i].gameObject.GetComponent<IDamagable>().DamageMoment(damage, (transform.position - objectsToHit[i].transform.position).normalized, _recoilStrenght);
+                if (objectsToHit[i].CompareTag("Enemy"))
+                {
+                    if (playerController.playerHealthController.energy + playerController.playerHealthController.energyGain > playerController.playerHealthController.maxEnergy)
+                    {
+                        playerController.playerHealthController.energy = playerController.playerHealthController.maxEnergy;
+                    }
+                    else
+                        playerController.playerHealthController.energy += playerController.playerHealthController.energyGain;
+                }
+            }
         }
 
 

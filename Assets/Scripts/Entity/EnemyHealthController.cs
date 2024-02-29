@@ -71,7 +71,7 @@ public class EnemyHealthController : MonoBehaviour, IDamagable
         }
     }
 
-    public int maxHealth => _maxHp;
+    public int maxHealth { get => _maxHp; set { } }
     public virtual void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce)
     {
         if (hasTakenDamage) return;

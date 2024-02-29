@@ -26,7 +26,7 @@ public interface IItem
 public interface IDamagable
 {
     public int health { get; set; }
-    public int maxHealth { get;  }
+    public int maxHealth { get; set; }
     public int defense { get; set; }
     public void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce);
 }
