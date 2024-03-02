@@ -10672,6 +10672,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4594709350480581273, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
+      propertyPath: upSpellFireball
+      value: 
+      objectReference: {fileID: 7787901359085983734, guid: de53fa42e5929f44090b5eda6a3e0739, type: 3}
+    - target: {fileID: 4594709350480581273, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
+      propertyPath: downSpellFireball
+      value: 
+      objectReference: {fileID: 7787901359085983734, guid: de53fa42e5929f44090b5eda6a3e0739, type: 3}
+    - target: {fileID: 4594709350480581273, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
+      propertyPath: sideSpellFireball
+      value: 
+      objectReference: {fileID: 7787901359085983734, guid: de53fa42e5929f44090b5eda6a3e0739, type: 3}
     - target: {fileID: 5301499620751257400, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
       propertyPath: _maxEn
       value: 2

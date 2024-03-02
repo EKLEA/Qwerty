@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
 
         
         attackLogic.Attack(attack);
+        attackLogic.CastSpell();
         playerHealthController.RestoreTimeScale();
         playerHealthController.Heal();
 

@@ -114,6 +114,18 @@ public class PlayerAttackLogic : AttakingObjLogic
     [SerializeField] Vector3 upAttackTransformArea;
     [SerializeField] Vector3 downAttackTransformArea;
 
+    [SerializeField] float energySpellCost =0.3f; // потом вынести в инфу о спеллах
+    [SerializeField] float timeBetweenCast=0.5f;
+    float timeSinceCast;
+
+    [SerializeField] int spellDamage= 1; // потом вынести в инфу о спеллах
+    [SerializeField] float downSpellForce = 0.5f;
+    // настройки ниже потом передалть когда будет настройка персонажа типо рук ноги и ид
+    [SerializeField] GameObject sideSpellFireball;
+    [SerializeField] GameObject upSpellFireball;
+    [SerializeField] GameObject downSpellFireball;
+
+    
     public Rigidbody rb => playerController.rb;
 
 
@@ -214,5 +226,61 @@ public class PlayerAttackLogic : AttakingObjLogic
     {
         stepsYRecoiled = 0;
         pState.recoilY = false;
+    }
+
+    public void CastSpell()
+    {
+        if(Input.GetButtonDown("CastSpell")&&timeSinceAttack>=timeBetweenCast&& playerController.playerHealthController.energy >= energySpellCost)
+        {
+            playerController.playerStateList.casting = true;
+            timeSinceAttack= 0;
+            StartCoroutine(CastCoroutine());
+        }
+        else
+        {
+            timeSinceAttack += Time.deltaTime;
+        }
+        if(playerController.playerStateList.grounded)
+            downSpellFireball.SetActive(false);
+        if (downSpellFireball.activeInHierarchy)
+            rb.velocity += downSpellForce * Vector3.down;
+    }
+    IEnumerator CastCoroutine()
+    {
+
+        //анимция
+        yield return new WaitForSeconds(0.15f);//потом поменть
+        if (playerController.playerStateList.Axis.y == 0 || (playerController.playerStateList.Axis.y < 0 && playerController.playerStateList.grounded))
+        {
+            GameObject _fireBall = Instantiate(sideSpellFireball, sideAttackTransform.position, Quaternion.identity);
+            if (playerController.playerStateList.lookRight)
+                _fireBall.transform.eulerAngles = Vector3.zero;
+            else
+                _fireBall.transform.eulerAngles = -Vector3.zero;
+            playerController.playerStateList.recoilX = true;
+        }
+        else if (playerController.playerStateList.Axis.y > 0)
+        {
+            Instantiate(upSpellFireball, transform);
+            rb.velocity= Vector3.zero;
+        }
+        else if(playerController.playerStateList.Axis.y < 0 && !playerController.playerStateList.grounded)
+        {
+            downSpellFireball.SetActive(true);
+        }
+
+
+        playerController.playerHealthController.energy -= energySpellCost;
+        yield return new WaitForSeconds(0.35f);
+        //анимция
+        playerController.playerStateList.casting = false;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.GetComponent<EnemyHealthController>() != null && playerController.playerStateList.casting)
+        {
+            other.GetComponent<EnemyHealthController>().DamageMoment(spellDamage, (other.transform.position - transform.position).normalized, -recoilYSpeed);
+        }
     }
 }

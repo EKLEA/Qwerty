@@ -12,4 +12,5 @@ public class PlayerStateList : MonoBehaviour
     public bool lookRight;
     public bool invincible= false;
     public bool healing = false;
+    public bool casting = false;
 }
