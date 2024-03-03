@@ -7,8 +7,11 @@ using UnityEngine;
 public abstract class ExampleUseMoment : MonoBehaviour
 {
     public   Action<object> OnUsedEvent;
-
-    public   Action<object> OnSimpleAtackEvent;
-    public   Action<object> OnSpecialAtackEvent;
+    public delegate void OnSimpleAttackEventDelegate();
+    [HideInInspector] public OnSimpleAttackEventDelegate OnSimpleAttackEventCallBack;
+    public delegate void OnSpecialAttackEventDelegate();
+    [HideInInspector] public OnSpecialAttackEventDelegate OnSpecialAttackEventCallBack;
+    public delegate void OnCastSpellEvenDelegate();
+    [HideInInspector] public OnSpecialAttackEventDelegate OnCastSpellEventCallBack;
 
 }

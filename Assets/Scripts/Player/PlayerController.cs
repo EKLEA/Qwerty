@@ -3,44 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-
    
-    public float playerSpeed = 5.0f;
-    public float jumpHeight = 2.0f;
-    [SerializeField] private int jumpBufferFrames;
-    [SerializeField] private float coyoteTime;
-    [SerializeField] private int maxAirJump;
-    [SerializeField] private float dashSpeed;
-    [SerializeField] private float dashTime;
-    [SerializeField] private float dashCooldown;
-
-   
-  
+    
 
 
+
+    
     public Animator anim=> GetComponent<Animator>();
-    [SerializeField] private PlayerMoveHandler moveHandler=> GetComponent<PlayerMoveHandler>();
-    [SerializeField] private PlayerAttackLogic attackLogic=> GetComponent<PlayerAttackLogic>();
-    [SerializeField] public PlayerHealthController playerHealthController => GetComponent<PlayerHealthController>();
-    [SerializeField] public PlayerStateList playerStateList =>GetComponent<PlayerStateList>();
-    public Rigidbody rb=> GetComponent <Rigidbody>();
-    public BoxCollider c=> gameObject.GetComponent<BoxCollider>();
+    [SerializeField]  PlayerMoveHandler moveHandler=> GetComponent<PlayerMoveHandler>();
+    [SerializeField]  PlayerUseMoment useMoment => GetComponent<PlayerUseMoment>();  
+    [SerializeField]  PlayerAttackLogic attackLogic=> GetComponent<PlayerAttackLogic>();
+    [SerializeField] public PlayerHealthController playerHealthController => GetComponent<PlayerHealthController>(); // тут мб исправить я хз
+    [SerializeField]  public PlayerStateList playerStateList =>GetComponent<PlayerStateList>();
+    public BoxCollider pCollider=> gameObject.GetComponent<BoxCollider>();
+    public Rigidbody rb => gameObject.GetComponent<Rigidbody>();
 
     private bool attack;
      Vector2 Axis;
-
+    private void OnEnable()
+    {
+        playerHealthController.OnEnergyChangedCallBack += UpdateStats;
+        playerHealthController.OnHealthChangedCallBack += UpdateStats;
+        
+    }
 
     float xAxis, yAxis;
-
-
-    private void Awake()
-    {
-        moveHandler.SetMoveValues(playerSpeed, jumpHeight);
-        moveHandler.SetValues(jumpBufferFrames,coyoteTime,maxAirJump,dashSpeed,dashTime,dashCooldown);
-    }
     private void FixedUpdate()
     {
         if (playerStateList.dashing) return;
@@ -50,8 +40,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        var xAxis = Input.GetAxisRaw("Horizontal");
-        var yAxis = Input.GetAxisRaw("Vertical");
+        xAxis = Input.GetAxisRaw("Horizontal");
+         yAxis = Input.GetAxisRaw("Vertical");
         attack = Input.GetButtonDown("Attack");
         Axis = new Vector2(xAxis, yAxis);
         playerStateList.Axis = Axis;
@@ -69,12 +59,12 @@ public class PlayerController : MonoBehaviour
             playerStateList.lookRight = true;
         }
 
-        moveHandler.Move(xAxis);
+        moveHandler.Move();
         moveHandler.JumpMoment();
         moveHandler.StartDash();
 
         
-        attackLogic.Attack(attack);
+        attackLogic.Attack();
         attackLogic.CastSpell();
         playerHealthController.RestoreTimeScale();
         playerHealthController.Heal();
@@ -82,5 +72,10 @@ public class PlayerController : MonoBehaviour
 
     }
     
-
+    void UpdateStats()
+    {
+        playerStateList.health = playerHealthController.health;
+        playerStateList.energy=playerHealthController.energy;
+        
+    }
 }

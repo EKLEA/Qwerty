@@ -15,9 +15,10 @@ public class FireBall : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy")
+        if (other.CompareTag ( "Enemy"))
         {
             other.GetComponent<EnemyHealthController>().DamageMoment(fireballInfo.damage, (other.transform.position - transform.position).normalized, -fireballInfo.hitForce);
+            Debug.Log("damage");
         }
     }
 }

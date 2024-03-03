@@ -14,16 +14,16 @@ public class PlayerUseMoment : ExampleUseMoment
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetButtonDown("Use"))
             OnUsedEvent?.Invoke(this);
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetButtonDown("Inventory"))
             OnOpenInventoryEvent?.Invoke(true);
-        if (Input.GetKeyUp(KeyCode.I))
+        if (Input.GetButtonUp("Inventory"))
             OnOpenInventoryEvent?.Invoke(false);
         if (Input.GetMouseButtonDown(1))
             OnOpenContextMenuEvent?.Invoke(true);
         if (Input.GetMouseButtonDown(0))
-            if (Input.GetKeyDown(KeyCode.I))
+            if (Input.GetButtonDown("Inventory"))
                 OnOpenContextMenuEvent?.Invoke(false);
 
     }

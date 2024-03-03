@@ -2,43 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
-[RequireComponent(typeof(Rigidbody))]
-public class PlayerMoveHandler : MonoBehaviour, IMoveHandler
+public class PlayerMoveHandler : MoveHandler
 {
-    public float speed { get; private set; }
-    public float jumpHeight { get; private set; }
 
-    private int jumpBC = 0;
-    private int jumpBF;
-    private float coyoteTC = 0;
-    private float coyoteT;
-    private int airJC;
-    private int maxAJ;
 
+    
+    
+    private int airJumpCount=0;
+    private int jumpBufferCount=0;
+    [SerializeField] private int jumpBufferFrames;
+    [SerializeField] private int maxAirJump;
+
+    [Space(5)]
+
+    [Header("Dash Settings")]
+    [SerializeField] private float dashSpeed;
+    [SerializeField] private float dashTime;
+    [SerializeField] private float dashCooldown;
     bool canDash=true;
     bool dashed;
-    private float dashSpeed;
-    private float dashTime;
-    private float dashCooldown;
-    [SerializeField] public Transform groundCheckPoint;
-    [SerializeField] public float groundCheckY = 0.2f;
-    [SerializeField] public float groundCheckX = 0.5f;
-    [SerializeField] public LayerMask whatIsGround;
-   
+
+    [Space(5)]
+
+    [Header("Coyote Settings")]
+    [SerializeField] private float coyoteTime;
+    private float coyoteTimeCounter = 0;
+
+    [Space(5)]
+
+    [Header("Ground Chek Settings")]
+    [SerializeField] private Transform groundCheckPoint;
+    [SerializeField] private float groundCheckY = 0.2f;
+    [SerializeField] private float groundCheckX = 0.5f;
+    [SerializeField] private LayerMask whatIsGround;
+    
 
 
-    public Rigidbody rb => pController.rb;
+
     private PlayerController pController=> GetComponent<PlayerController>();
     private Animator anim => pController.anim;
     private PlayerStateList pState => pController.playerStateList;
-    public void Move(float xAxis)
+    public new void Move()
     {
-        rb.velocity= new Vector2(xAxis*  speed, rb.velocity.y);
+        
+        rb.velocity= new Vector2(pController.playerStateList.Axis.x*  speed, rb.velocity.y);
 
         anim.SetBool("Runing", rb.velocity.x != 0 && Grounded());
         if (pState.recoilY)
-            airJC = 0;
+            airJumpCount = 0;
 
     }
     public void StartDash()
@@ -68,19 +79,19 @@ public class PlayerMoveHandler : MonoBehaviour, IMoveHandler
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
-    public void JumpMoment()
+    public new void JumpMoment()
     {
         if (!pState.jumping)
         {
-            if (jumpBC>0 && coyoteTC>0)
+            if (jumpBufferCount>0 && coyoteTimeCounter>0)
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
                 pState.jumping = true;
             }
-            else if(!Grounded() && airJC<maxAJ && Input.GetButtonUp("Jump"))
+            else if(!Grounded() && airJumpCount<maxAirJump && Input.GetButtonUp("Jump"))
             {
                 pState.jumping = true;
-                airJC++;
+                airJumpCount++;
                 rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
             }
             
@@ -95,56 +106,36 @@ public class PlayerMoveHandler : MonoBehaviour, IMoveHandler
         if (Grounded() == false)
         {
             anim.SetBool("Falling", true);
-            pController. c.size = new Vector3(1.5f, 4, 1.5f);
+            pController. pCollider.size = new Vector3(1.5f, 4, 1.5f);
         }
         if (Grounded() == true)
         {
             anim.SetBool("Falling", false);
             anim.SetBool("FallingDown", true);
-            pController.c.size = new Vector3(1.5f, 6, 1.5f);
+            pController.pCollider.size = new Vector3(1.5f, 6, 1.5f);
         }
 
 
     }
-    public void UpdateJumpVar()
+    public new void UpdateJumpVar()
     {
         if (Grounded())
         {
             pState.jumping = false;
-            coyoteTC = coyoteT;
-            airJC = 0;
+            coyoteTimeCounter = coyoteTime;
+            airJumpCount = 0;
         }
         else
         {
-            coyoteTC-=Time.deltaTime;
+            coyoteTimeCounter -= Time.deltaTime;
         }
         if (Input.GetButtonDown("Jump"))
-            jumpBC = jumpBF;
+            jumpBufferCount = jumpBufferFrames;
         else
-            jumpBC--;
+            jumpBufferCount--;
     }
-    public void SetMoveValues(float _speed, float _jumpHeight)
-    {
-        speed = _speed;
-        jumpHeight = _jumpHeight;
-    }
-    public void SetValues(
-        int jumpBufferFrames,
-        float coyoteTime,
-        int MaxAirJump,
-        float dashS,
-        float dashT,
-        float dashCD)
-    {
-        jumpBF = jumpBufferFrames;
-        coyoteT = coyoteTime;
-        maxAJ = MaxAirJump;
-        dashSpeed= dashS;
-        dashTime = dashT;
-        dashCooldown= dashCD;
-
-    }
-    public bool Grounded()
+   
+    public new bool Grounded()
     {
         bool b = (Physics.Raycast(groundCheckPoint.position, Vector2.down, groundCheckY, whatIsGround) ||
             Physics.Raycast(groundCheckPoint.position + new Vector3(groundCheckX, 0, 0), Vector2.down, groundCheckY, whatIsGround) ||

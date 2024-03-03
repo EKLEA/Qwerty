@@ -120,6 +120,8 @@ public class PlayerAttackLogic : AttakingObjLogic
 
     [SerializeField] int spellDamage= 1; // потом вынести в инфу о спеллах
     [SerializeField] float downSpellForce = 0.5f;
+    [SerializeField] float timeOfUpAttack = 0.4f;
+
     // настройки ниже потом передалть когда будет настройка персонажа типо рук ноги и ид
     [SerializeField] GameObject sideSpellFireball;
     [SerializeField] GameObject upSpellFireball;
@@ -136,11 +138,11 @@ public class PlayerAttackLogic : AttakingObjLogic
         Gizmos.DrawWireCube(upAttackTransform.position, upAttackArea);
         Gizmos.DrawWireCube(downAttackTransform.position, downAttackArea);
     }
-    public override void Attack(bool attack)
+    public override void Attack()
     {
         
         
-        if (attack && timeSinceAttack >= coolDown)
+        if (Input.GetButtonDown("Attack")&& timeSinceAttack >= coolDown)
         {
            
             playerController.anim.SetTrigger("Attacking");
@@ -166,9 +168,9 @@ public class PlayerAttackLogic : AttakingObjLogic
         }
         for (int i = 0; i < objectsToHit.Length; i++)
         {
-            if (objectsToHit[i].gameObject.GetComponent<IDamagable>() != null)
+            if (objectsToHit[i].gameObject.GetComponent<DamagableObj>() != null)
             { 
-                objectsToHit[i].gameObject.GetComponent<IDamagable>().DamageMoment(damage, (transform.position - objectsToHit[i].transform.position).normalized, _recoilStrenght);
+                objectsToHit[i].gameObject.GetComponent<DamagableObj>().DamageMoment(damage, (transform.position - objectsToHit[i].transform.position).normalized, _recoilStrenght);
                 if (objectsToHit[i].CompareTag("Enemy"))
                 {
                     if (playerController.playerHealthController.energy + playerController.playerHealthController.energyGain > playerController.playerHealthController.maxEnergy)
@@ -177,7 +179,9 @@ public class PlayerAttackLogic : AttakingObjLogic
                     }
                     else
                         playerController.playerHealthController.energy += playerController.playerHealthController.energyGain;
+
                 }
+                playerController.playerHealthController.OnEnergyChangedCallBack?.Invoke();
             }
         }
 
@@ -230,20 +234,21 @@ public class PlayerAttackLogic : AttakingObjLogic
 
     public void CastSpell()
     {
-        if(Input.GetButtonDown("CastSpell")&&timeSinceAttack>=timeBetweenCast&& playerController.playerHealthController.energy >= energySpellCost)
+        if(Input.GetButtonDown("CastSpell")&& timeSinceAttack >=timeBetweenCast&& playerController.playerHealthController.energy >= energySpellCost)
         {
             playerController.playerStateList.casting = true;
             timeSinceAttack= 0;
             StartCoroutine(CastCoroutine());
+            playerController.playerHealthController. OnEnergyChangedCallBack?.Invoke();
         }
         else
         {
             timeSinceAttack += Time.deltaTime;
         }
-        if(playerController.playerStateList.grounded)
+       if(playerController.playerStateList.grounded)
             downSpellFireball.SetActive(false);
         if (downSpellFireball.activeInHierarchy)
-            rb.velocity += downSpellForce * Vector3.down;
+           rb.velocity += downSpellForce * Vector3.down;
     }
     IEnumerator CastCoroutine()
     {
@@ -256,13 +261,16 @@ public class PlayerAttackLogic : AttakingObjLogic
             if (playerController.playerStateList.lookRight)
                 _fireBall.transform.eulerAngles = Vector3.zero;
             else
-                _fireBall.transform.eulerAngles = -Vector3.zero;
+                _fireBall.transform.eulerAngles = new Vector2(_fireBall.transform.eulerAngles.x, 180);
             playerController.playerStateList.recoilX = true;
         }
         else if (playerController.playerStateList.Axis.y > 0)
         {
-            Instantiate(upSpellFireball, transform);
+           GameObject _upFireBall =Instantiate(upSpellFireball, transform);
+            _upFireBall.transform.localPosition = new Vector2(0f, 3.5f);
+
             rb.velocity= Vector3.zero;
+            Destroy(_upFireBall, timeOfUpAttack);
         }
         else if(playerController.playerStateList.Axis.y < 0 && !playerController.playerStateList.grounded)
         {

@@ -6,12 +6,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class EnemyHealthController : MonoBehaviour, IDamagable
+public class EnemyHealthController : DamagableObj
 {
     
-    public Action<GameObject> OnDead;
-    
-    [SerializeField] protected int _maxHp;
     [SerializeField] protected  float recoilLenght;
     [SerializeField] protected float recoilFactor;
     [SerializeField] protected bool isRecoiling = false;
@@ -19,8 +16,9 @@ public class EnemyHealthController : MonoBehaviour, IDamagable
     protected float rT =0;
 
     [HideInInspector] protected PlayerController playerController=> GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-    [SerializeField] protected float speed;
+    [SerializeField] protected float speed;// переделать
     [SerializeField] protected int colliderDamage;
+    Rigidbody rb=>GetComponent<Rigidbody>();
     protected virtual void Update()
     {
         hasTakenDamage = false;
@@ -37,42 +35,7 @@ public class EnemyHealthController : MonoBehaviour, IDamagable
             }
         }
     }
-    protected Rigidbody rb=> GetComponent<Rigidbody>();
-    protected virtual void Awake()
-    {
-        hp = maxHealth;
-    }
-    public int hp;
-    [HideInInspector] public int df;
-    public int health
-    {
-        get
-        {
-            return hp;
-        }
-        set
-        {
-            hp = value;
-            if (health <= 0)
-            {
-                OnDead?.Invoke(gameObject);
-                Destroy(gameObject);
-            }
-        }
-    }
-
-
-    public int defense
-    {
-        get { return df; }
-        set
-        {
-            df = value;
-        }
-    }
-
-    public int maxHealth { get => _maxHp; set { } }
-    public virtual void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce)
+    public override void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce)
     {
         if (hasTakenDamage) return;
         if (defense > 0)
@@ -94,7 +57,7 @@ public class EnemyHealthController : MonoBehaviour, IDamagable
     }
     protected virtual void ColliderAttack()
     {
-        playerController.playerHealthController.TakeDamage(colliderDamage);
+        playerController.playerHealthController.DamageMoment(colliderDamage,Vector2.zero,0);
         playerController.playerHealthController.HitStopTime(0, 5, 0.5f);
     }
 }

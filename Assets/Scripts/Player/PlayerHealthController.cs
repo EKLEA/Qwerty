@@ -3,20 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHealthController : MonoBehaviour, IDamagable
+public class PlayerHealthController : DamagableObj
 {
-    public Action<GameObject> OnDead;
-    [SerializeField] protected int _maxHp;
-    [SerializeField] protected float _maxEn;
     private PlayerController pController => GetComponent<PlayerController>();
     
     [SerializeField] private GameObject DamageEffect;
-
-    public delegate void OnHealthChangedDelegate();
-    [HideInInspector] public OnHealthChangedDelegate OnHealthChangedCallBack;
-
-    public delegate void OnEnergyChangedDelegate();
-    [HideInInspector] public OnHealthChangedDelegate OnEnergyChangedCallBack;
     bool restoreTime;
     float restoreTimeSpeed;
     float healTimer;
@@ -24,74 +15,13 @@ public class PlayerHealthController : MonoBehaviour, IDamagable
     [SerializeField] float energyDrainSpeed;
     [SerializeField] public float energyGain;
 
-    public int hp;
-    public int df;
-    public float en;
-    
-    public int health
-    {
-        get
-        {
-            return hp;
-        }
-        set
-        { 
-            hp =value;
-            OnHealthChangedCallBack?.Invoke();
-            if (health <= 0)
-                {
-                    OnDead?.Invoke(gameObject);
-                    Destroy(gameObject);
-                }
-
-        }
-    }
-    public float energy
-    {
-        get
-        {
-            return en;
-        }
-        set
-        {
-            OnEnergyChangedCallBack?.Invoke();
-            en = value;
-
-        }
-    }
-    public int defense
-    {
-        get { return df; }
-        set 
-        { 
-            df = value;
-        }
-    }
-
-    private void OnEnable()
-    {
-        hp=maxHealth;
-        en = maxEnergy;
-        
-    }
-    public int maxHealth { get => _maxHp; set { } }
-    public float maxEnergy { get => _maxEn; set { } }
     public bool isHeartHas = true;
 
 
 
-    public void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce)
-    {   if (defense >= 1) 
-            df -= _damageDone;
-        else
-            health -= _damageDone;
-    }
-    public void TakeDamage(int _damage)
-    {
-        if (defense >= 1)
-            df -= _damage;
-        else
-            health -= _damage;
+    public override void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce)
+    { 
+        health -= _damageDone;
         StartCoroutine(StopTakingDamage());
     }
     IEnumerator StopTakingDamage()

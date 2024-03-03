@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 388056243866791736}
   - component: {fileID: 5020419779626735572}
   - component: {fileID: 2536992089969945388}
-  - component: {fileID: 7332629392721985870}
-  - component: {fileID: 2577799723558469052}
+  - component: {fileID: 4663363673380651234}
   m_Layer: 0
-  m_Name: Fireball
+  m_Name: DownSpell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 270.729, y: 6.35, z: 3.75}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7981914088716729989}
@@ -86,7 +85,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &7332629392721985870
+--- !u!135 &4663363673380651234
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,25 +100,12 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2577799723558469052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7787901359085983734}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bd49852b277e0641a2488b010936b6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fireballInfo: {fileID: 11400000, guid: 3ae76b954bdacc947afab56692853f65, type: 2}
 --- !u!1001 &2652914398522896171
 PrefabInstance:
   m_ObjectHideFlags: 0

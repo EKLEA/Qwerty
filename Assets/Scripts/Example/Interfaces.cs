@@ -23,13 +23,6 @@ public interface IItem
     IItem Clone();
     
 }
-public interface IDamagable
-{
-    public int health { get; set; }
-    public int maxHealth { get; set; }
-    public int defense { get; set; }
-    public void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce);
-}
 
 
 public enum ItemTypes
@@ -95,19 +88,6 @@ public interface IInventory
     bool HasItem(string ItemID, out IItem item);
 }
 
-public interface IMoveHandler
-{
-    public Rigidbody rb { get; }
-    public float speed { get;   }
-    public float jumpHeight { get; }
-    public void Move(float xAxis);
-    public void JumpMoment();
-    public void UpdateJumpVar();
-    public void SetMoveValues(float _speed,float _jumpHeight);
-    public bool Grounded();
-
-
-}
 
 
 
