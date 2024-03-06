@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -206,6 +206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 107342611}
   - component: {fileID: 107342610}
+  - component: {fileID: 107342612}
   m_Layer: 0
   m_Name: Spot Light (5)
   m_TagString: Untagged
@@ -225,10 +226,10 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 3
+  m_Intensity: 150
   m_Range: 50
-  m_SpotAngle: 120
-  m_InnerSpotAngle: 1
+  m_SpotAngle: 130
+  m_InnerSpotAngle: 50
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -290,6 +291,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &107342612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107342609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1001 &140895677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -373,6 +397,7 @@ GameObject:
   m_Component:
   - component: {fileID: 305677332}
   - component: {fileID: 305677331}
+  - component: {fileID: 305677333}
   m_Layer: 0
   m_Name: Spot Light (2)
   m_TagString: Untagged
@@ -392,7 +417,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.2627451, g: 0.5529412, b: 0.5568628, a: 1}
-  m_Intensity: 5
+  m_Intensity: 1000
   m_Range: 100
   m_SpotAngle: 80
   m_InnerSpotAngle: 8
@@ -457,6 +482,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 53.354, y: -90, z: 90}
+--- !u!114 &305677333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305677330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &317647713
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,13 +566,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHp: 10
-  _maxDefense: 10
   recoilLenght: 1
   recoilFactor: 25
   isRecoiling: 0
+  speed: 0
+  colliderDamage: 0
   hp: 0
   df: 0
-  isHeartHas: 0
 --- !u!65 &317647716
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1280,13 +1328,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHp: 10
-  _maxDefense: 10
   recoilLenght: 1
   recoilFactor: 25
   isRecoiling: 0
+  speed: 0
+  colliderDamage: 0
   hp: 0
   df: 0
-  isHeartHas: 0
 --- !u!65 &724837056
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1434,13 +1482,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHp: 10
-  _maxDefense: 10
   recoilLenght: 1
   recoilFactor: 25
   isRecoiling: 0
+  speed: 0
+  colliderDamage: 0
   hp: 0
   df: 0
-  isHeartHas: 0
 --- !u!65 &761562748
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2216,13 +2264,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHp: 10
-  _maxDefense: 10
   recoilLenght: 1
   recoilFactor: 25
   isRecoiling: 0
+  speed: 0
+  colliderDamage: 0
   hp: 0
   df: 0
-  isHeartHas: 0
 --- !u!54 &988691203
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2329,6 +2377,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001135383}
   - component: {fileID: 1001135382}
+  - component: {fileID: 1001135384}
   m_Layer: 0
   m_Name: Spot Light (1)
   m_TagString: Untagged
@@ -2348,7 +2397,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.2627451, g: 0.5529412, b: 0.5568628, a: 1}
-  m_Intensity: 5
+  m_Intensity: 1000
   m_Range: 100
   m_SpotAngle: 150
   m_InnerSpotAngle: 1
@@ -2413,6 +2462,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 101.815, y: 0, z: 0}
+--- !u!114 &1001135384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001135381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &1047439720
 GameObject:
   m_ObjectHideFlags: 0
@@ -2423,6 +2495,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1047439722}
   - component: {fileID: 1047439721}
+  - component: {fileID: 1047439723}
   m_Layer: 0
   m_Name: Spot Light (4)
   m_TagString: Untagged
@@ -2442,10 +2515,10 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 3
+  m_Intensity: 150
   m_Range: 50
   m_SpotAngle: 150
-  m_InnerSpotAngle: 1
+  m_InnerSpotAngle: 50
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -2507,6 +2580,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &1047439723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047439720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1001 &1054828942
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3198,6 +3294,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1498847958}
   - component: {fileID: 1498847957}
+  - component: {fileID: 1498847959}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -3217,7 +3314,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.2627451, g: 0.5529412, b: 0.5568628, a: 1}
-  m_Intensity: 5
+  m_Intensity: 1000
   m_Range: 100
   m_SpotAngle: 80
   m_InnerSpotAngle: 8
@@ -3282,6 +3379,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 53.354, y: 90, z: 90}
+--- !u!114 &1498847959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498847956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1001 &1500576089
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3416,13 +3536,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHp: 10
-  _maxDefense: 10
   recoilLenght: 1
   recoilFactor: 25
   isRecoiling: 0
+  speed: 0
+  colliderDamage: 0
   hp: 0
   df: 0
-  isHeartHas: 0
 --- !u!65 &1507542020
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3519,6 +3639,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1535292692}
   - component: {fileID: 1535292691}
+  - component: {fileID: 1535292693}
   m_Layer: 0
   m_Name: Spot Light (3)
   m_TagString: Untagged
@@ -3538,10 +3659,10 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 3
+  m_Intensity: 150
   m_Range: 50
-  m_SpotAngle: 120
-  m_InnerSpotAngle: 1
+  m_SpotAngle: 130
+  m_InnerSpotAngle: 50
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -3603,6 +3724,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &1535292693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535292690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &1561526447
 GameObject:
   m_ObjectHideFlags: 0

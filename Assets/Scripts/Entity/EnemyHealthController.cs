@@ -16,7 +16,7 @@ public class EnemyHealthController : DamagableObj
     protected float rT =0;
 
     [HideInInspector] protected PlayerController playerController=> GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-    protected EnemyLogicBase enemyLogic;
+    protected EnemyLogicBase enemyLogic=> GetComponent<EnemyLogicBase>();
     
     [SerializeField] protected int colliderDamage;
     Rigidbody rb=>GetComponent<Rigidbody>();
