@@ -11,6 +11,7 @@ public class PlayerHealthController : DamagableObj
     bool restoreTime;
     float restoreTimeSpeed;
     float healTimer;
+
     [SerializeField] private float timeToHeal;
     [SerializeField] float energyDrainSpeed;
     [SerializeField] public float energyGain;
@@ -66,8 +67,8 @@ public class PlayerHealthController : DamagableObj
     }
 
    public void Heal()
-    {
-        if (Input.GetButton("Healing") && health<maxHealth && energy>0 && !pController.playerStateList.jumping && !pController.playerStateList.dashing)
+   {
+        if (Input.GetButton("Cast/Heal") && pController.castOrHealTimer > 0.05f&& health<maxHealth && energy>0 && !pController.playerStateList.jumping && !pController.playerStateList.dashing&& pController.rb.velocity== Vector3.zero)
         {
             pController.playerStateList.healing = true;
             healTimer += Time.deltaTime;

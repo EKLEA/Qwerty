@@ -11,12 +11,13 @@ public class EnemyHealthController : DamagableObj
     
     [SerializeField] protected  float recoilLenght;
     [SerializeField] protected float recoilFactor;
-    [SerializeField] protected bool isRecoiling = false;
+    [HideInInspector] public bool isRecoiling = false;
     protected bool hasTakenDamage = false;
     protected float rT =0;
 
     [HideInInspector] protected PlayerController playerController=> GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-    [SerializeField] protected float speed;// переделать
+    protected EnemyLogicBase enemyLogic;
+    
     [SerializeField] protected int colliderDamage;
     Rigidbody rb=>GetComponent<Rigidbody>();
     protected virtual void Update()
@@ -34,6 +35,10 @@ public class EnemyHealthController : DamagableObj
                 rT = 0;
             }
         }
+        else
+        {
+            enemyLogic.UpdateEnemyStates();
+        }
     }
     public override void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce)
     {
@@ -44,13 +49,13 @@ public class EnemyHealthController : DamagableObj
             health -= _damageDone;
         if (!isRecoiling)
         {
-            rb.AddForce(-_hitForce * recoilFactor* _hitDirection);
+            rb.velocity= _hitForce * recoilFactor* _hitDirection;
             hasTakenDamage = true;
         }
     }
-    protected void OnTriggerStay(Collider other) 
+    protected void OnCollisionEnter(Collision other)
     {
-        if (other.CompareTag("Player")&&!playerController.playerStateList.invincible)
+        if(other.gameObject.CompareTag("Player") && !playerController.playerStateList.invincible)
         {
             ColliderAttack();
         }

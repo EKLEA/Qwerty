@@ -116,7 +116,7 @@ public class PlayerAttackLogic : AttakingObjLogic
 
     [SerializeField] float energySpellCost =0.3f; // потом вынести в инфу о спеллах
     [SerializeField] float timeBetweenCast=0.5f;
-    float timeSinceCast;
+   
 
     [SerializeField] int spellDamage= 1; // потом вынести в инфу о спеллах
     [SerializeField] float downSpellForce = 0.5f;
@@ -126,8 +126,8 @@ public class PlayerAttackLogic : AttakingObjLogic
     [SerializeField] GameObject sideSpellFireball;
     [SerializeField] GameObject upSpellFireball;
     [SerializeField] GameObject downSpellFireball;
+    float timeSinceCast;    
 
-    
     public Rigidbody rb => playerController.rb;
 
 
@@ -144,33 +144,46 @@ public class PlayerAttackLogic : AttakingObjLogic
         
         if (Input.GetButtonDown("Attack")&& timeSinceAttack >= coolDown)
         {
-           
+           //каждому добавить эффекты
             playerController.anim.SetTrigger("Attacking");
 
             if (playerController.playerStateList.Axis.y == 0 )
-                Hit(sideAttackTransform, sideAttackArea,ref pState.recoilX,recoilXSpeed);
+            {
+
+                int recoilLeftOrRight = pState.lookRight ? 1 : -1;
+
+                Hit(sideAttackTransform, sideAttackArea, ref pState.recoilX, Vector2.right*recoilLeftOrRight, recoilXSpeed);
+            }
+           
+            
             else if (playerController.playerStateList.Axis.y > 0)
-                Hit(upAttackTransform, upAttackArea,ref pState.recoilY,recoilYSpeed);
-            else if ( playerController.playerStateList.Axis.y < 0 && !playerController.playerStateList.jumping)
-                Hit(downAttackTransform, downAttackArea, ref pState.recoilY, recoilYSpeed);
+            {
+                Hit(upAttackTransform, upAttackArea, ref pState.recoilY, Vector2.up, recoilYSpeed);
+            }
+            
+            
+            else if ( playerController.playerStateList.Axis.y < 0 && !playerController.playerStateList.grounded)
+            {
+                Hit(downAttackTransform, downAttackArea, ref pState.recoilY, Vector2.down, recoilYSpeed);
+            }
             timeSinceAttack = 0;
         }
         timeSinceAttack += Time.deltaTime;
     }
-    private void Hit(Transform _attackTransform, Vector3 _attackArea,ref bool _recoilDir, float _recoilStrenght)
+    private void Hit(Transform _attackTransform, Vector3 _attackArea,ref bool _recoilBool, Vector2 _recoilDir, float _recoilStrenght)
     {
         Collider[] objectsToHit = Physics.OverlapBox(_attackTransform.position, _attackArea, Quaternion.identity, attacableLayer);
 
         if (objectsToHit.Length > 0 )
         {
-            _recoilDir = true;
+            _recoilBool = true;
 
         }
         for (int i = 0; i < objectsToHit.Length; i++)
         {
             if (objectsToHit[i].gameObject.GetComponent<DamagableObj>() != null)
             { 
-                objectsToHit[i].gameObject.GetComponent<DamagableObj>().DamageMoment(damage, (transform.position - objectsToHit[i].transform.position).normalized, _recoilStrenght);
+                objectsToHit[i].gameObject.GetComponent<DamagableObj>().DamageMoment(damage, _recoilDir, _recoilStrenght);
                 if (objectsToHit[i].CompareTag("Enemy"))
                 {
                     if (playerController.playerHealthController.energy + playerController.playerHealthController.energyGain > playerController.playerHealthController.maxEnergy)
@@ -234,7 +247,7 @@ public class PlayerAttackLogic : AttakingObjLogic
 
     public void CastSpell()
     {
-        if(Input.GetButtonDown("CastSpell")&& timeSinceAttack >=timeBetweenCast&& playerController.playerHealthController.energy >= energySpellCost)
+        if(Input.GetButtonUp("Cast/Heal")&& playerController.castOrHealTimer<=0.05f && timeSinceAttack >=timeBetweenCast&& playerController.playerHealthController.energy >= energySpellCost)
         {
             playerController.playerStateList.casting = true;
             timeSinceAttack= 0;

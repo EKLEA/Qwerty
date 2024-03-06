@@ -72,7 +72,8 @@ public class PlayerMoveHandler : MoveHandler
         pState.dashing = true;
         // animatiom
         rb.useGravity = false;
-        rb.velocity = new Vector3(transform.forward.x * dashSpeed, 0,0);
+        int _dir = pState.lookRight ? 1 : -1;
+        rb.velocity = new Vector3(_dir * dashSpeed, 0,0);
         yield return new WaitForSeconds(dashTime);
         rb.useGravity= true;
         pState.dashing = false;
@@ -81,26 +82,23 @@ public class PlayerMoveHandler : MoveHandler
     }
     public new void JumpMoment()
     {
-        if (!pState.jumping)
+        if (jumpBufferCount>0 && coyoteTimeCounter>0&&!pState.jumping)
         {
-            if (jumpBufferCount>0 && coyoteTimeCounter>0)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
-                pState.jumping = true;
-            }
-            else if(!Grounded() && airJumpCount<maxAirJump && Input.GetButtonUp("Jump"))
-            {
-                pState.jumping = true;
-                airJumpCount++;
-                rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
-            }
-            
+            rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+            pState.jumping = true;
         }
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0)
+        if(!Grounded() && airJumpCount<maxAirJump && Input.GetButtonUp("Jump"))
+        {
+            pState.jumping = true;
+            airJumpCount++;
+            rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+        }
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 3)
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
             pState.jumping = false;
         }
+
 
         anim.SetBool("Jumping", pState.jumping);
         if (Grounded() == false)

@@ -20,8 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]  public PlayerStateList playerStateList =>GetComponent<PlayerStateList>();
     public BoxCollider pCollider=> gameObject.GetComponent<BoxCollider>();
     public Rigidbody rb => gameObject.GetComponent<Rigidbody>();
-
-    private bool attack;
+    [HideInInspector] public float castOrHealTimer;
      Vector2 Axis;
     private void OnEnable()
     {
@@ -42,10 +41,10 @@ public class PlayerController : MonoBehaviour
 
         xAxis = Input.GetAxisRaw("Horizontal");
          yAxis = Input.GetAxisRaw("Vertical");
-        attack = Input.GetButtonDown("Attack");
         Axis = new Vector2(xAxis, yAxis);
         playerStateList.Axis = Axis;
         moveHandler.UpdateJumpVar();
+        playerHealthController.RestoreTimeScale();
         if (playerStateList.dashing) return;
 
         if (xAxis < 0)
@@ -58,7 +57,10 @@ public class PlayerController : MonoBehaviour
             gameObject.transform.eulerAngles = new Vector3(0, 90, 0);
             playerStateList.lookRight = true;
         }
-
+        if (Input.GetButton("Cast/Heal"))
+            castOrHealTimer += Time.deltaTime;
+        else
+            castOrHealTimer = 0;
         moveHandler.Move();
         moveHandler.JumpMoment();
         moveHandler.StartDash();
@@ -66,7 +68,7 @@ public class PlayerController : MonoBehaviour
         
         attackLogic.Attack();
         attackLogic.CastSpell();
-        playerHealthController.RestoreTimeScale();
+        
         playerHealthController.Heal();
 
 
