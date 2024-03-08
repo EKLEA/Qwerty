@@ -19,7 +19,7 @@ public class CrawlerEnemyLogicController : EnemyLogicBase
     }
     public override void UpdateEnemyStates()
     {
-        switch (currectEnemyState)
+        switch (GetCurrectEnemyState)
         {
             case EnemyStates.Crawler_Idle:
                 Vector3 _ledgeCheckStart = transform.rotation.y > 0 ? new Vector3(ledgeCheckX, 0) : new Vector3(-ledgeCheckX, 0);

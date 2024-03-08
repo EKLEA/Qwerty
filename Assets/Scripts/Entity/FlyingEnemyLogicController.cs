@@ -1,20 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class FlyingEnemyLogicController : EnemyLogicBase
 {
     [SerializeField] float chaseDistance;
     [SerializeField] float stunDruration;
+    private Vector3 targetPosition;
     protected void Start()
     {
         ChangeState(EnemyStates.FlyingEn_Idle);
+        rb.useGravity = false;
     }
     public override  void UpdateEnemyStates()
     {
         float dist = Vector2.Distance(transform.position, playerController.transform.position);
 
-        switch(currectEnemyState)
+        switch(GetCurrectEnemyState)
         {
             case EnemyStates.FlyingEn_Idle:
 
@@ -22,7 +25,8 @@ public class FlyingEnemyLogicController : EnemyLogicBase
                     ChangeState(EnemyStates.FlyingEn_Chase);
                 break;
             case EnemyStates.FlyingEn_Chase:
-               rb.MovePosition( Vector2.MoveTowards(transform.position, playerController.transform.position,Time.deltaTime*speed));
+                targetPosition = playerController.transform.position;
+                MoveTowardsTarget();
                 FlipFlyingEn();
                 break;
             case EnemyStates.FlyingEn_Stunned:
@@ -47,6 +51,15 @@ public class FlyingEnemyLogicController : EnemyLogicBase
         else
             ChangeState(EnemyStates.FlyingEn_Death);
     }
+    protected override void ChangeCurrentAnimation()
+    {
+            //анимация
+    }
+    void MoveTowardsTarget()
+    {
+        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * speed);
+    }
+
     void FlipFlyingEn()
     {
         if(playerController.transform.position.x<transform.position.x)

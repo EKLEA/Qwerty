@@ -7,6 +7,7 @@ public class EnemyLogicBase : MonoBehaviour
     protected float timer;
     protected EnemyHealthController enemyHealth=> GetComponent<EnemyHealthController>();
     protected Rigidbody rb => GetComponent<Rigidbody>();
+    [SerializeField] protected Animator animator => GetComponent<Animator>();
     [HideInInspector] protected PlayerController playerController => GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     [SerializeField] protected float speed;
     protected  virtual void Update()
@@ -23,15 +24,30 @@ public class EnemyLogicBase : MonoBehaviour
         FlyingEn_Chase,
         FlyingEn_Stunned,
         FlyingEn_Death,
+        //преследующий
+        Charger_Idle,
+        Charger_Suprised,
+        Charger_Charge
        
     }
     protected EnemyStates currectEnemyState;
-    public virtual void UpdateEnemyStates()
+    protected EnemyStates GetCurrectEnemyState
     {
+        get { return currectEnemyState; }
+        set
+        {
+            if (currectEnemyState != value)
+            {
+                currectEnemyState = value;
+                ChangeCurrentAnimation();
+            }
 
+        }
     }
+    public virtual void UpdateEnemyStates(){ }
+    protected virtual void ChangeCurrentAnimation() { }
     protected virtual void ChangeState(EnemyStates state)
     {
-        currectEnemyState = state;
+        GetCurrectEnemyState = state;
     }
 }
