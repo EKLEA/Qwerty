@@ -4,30 +4,34 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    public GameObject inventoryUIInterface;
-    public Camera uiCam;
-
-     UIInventory uIInventory=> inventoryUIInterface.GetComponent<UIInventory>();
+    [SerializeField] GameObject inventoryUIInterface;
+    [SerializeField] Camera uiCam;
+    public PlayerUseMoment playerUseMoment => GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerUseMoment>();
+    UIInventory uIInventory=> inventoryUIInterface.GetComponent<UIInventory>();
+     
+   
     private void Start()
     {
-        uIInventory.playerUseMoment.OnOpenInventoryEvent += OpenInv;
+
+        playerUseMoment.OnOpenInventoryEvent += OpenInv;
         inventoryUIInterface.SetActive(false);
         uiCam.gameObject.SetActive(false);
     }
     private void OpenInv(bool t)
     {
-        // тут остановку времени ебнуть
+        
         if (t)
         {
             inventoryUIInterface.SetActive(true);
             uiCam.gameObject.SetActive(true);
+            Time.timeScale = 0;
         }
         else
-            if (uIInventory. chek())
-            {
-                inventoryUIInterface.SetActive(false);
-                uiCam.gameObject.SetActive(false);
-            }
+        {
+            inventoryUIInterface.SetActive(false);
+            uiCam.gameObject.SetActive(false);
+            Time.timeScale = 1;
+        }
 
     }
 }

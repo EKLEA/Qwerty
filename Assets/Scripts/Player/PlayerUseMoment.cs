@@ -6,7 +6,7 @@ using static UnityEditor.Progress;
 
 public class PlayerUseMoment : ExampleUseMoment
 {
-
+    [SerializeField] public GameObject Hand;
     public event Action<bool> OnOpenInventoryEvent;
     public event Action<bool> OnOpenContextMenuEvent;
     public event Action<object> OnUseConsumablesEvent;

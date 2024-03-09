@@ -8,11 +8,13 @@ public class InventorySlot : IInventorySlot
     public bool isFull => !isEmpty && count == capacity;
 
     public bool isEmpty => item==null;
-   
+   public InventorySlot(SlotTypes _slotType)
+    {
+        slotType = _slotType;
+    }
 
     public IItem item { get; private set; }
 
-    
 
     public int count => isEmpty ? 0 : item.state.count;
 

@@ -87,7 +87,7 @@ Transform:
   m_GameObject: {fileID: 4621571397190690047}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 1.5}
+  m_LocalPosition: {x: 0, y: 3, z: 2.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -118,7 +118,7 @@ Transform:
   m_GameObject: {fileID: 6808731495338488276}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 7, z: 0}
+  m_LocalPosition: {x: 0, y: 8.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -149,7 +149,7 @@ Transform:
   m_GameObject: {fileID: 8234274329445380077}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.5, z: 0}
+  m_LocalPosition: {x: 0, y: -2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -163,6 +163,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7750280086791342225}
     m_Modifications:
+    - target: {fileID: 388056243866791736, guid: e8fc3570679bc2e408c09828f8c77c65, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 388056243866791736, guid: e8fc3570679bc2e408c09828f8c77c65, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 388056243866791736, guid: e8fc3570679bc2e408c09828f8c77c65, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 388056243866791736, guid: e8fc3570679bc2e408c09828f8c77c65, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -207,6 +219,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UpSpell
       objectReference: {fileID: 0}
+    - target: {fileID: 7787901359085983734, guid: e8fc3570679bc2e408c09828f8c77c65, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -227,15 +243,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 388056243866791736, guid: 558e7533e1f06b14fa71617e38289005, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 388056243866791736, guid: 558e7533e1f06b14fa71617e38289005, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 388056243866791736, guid: 558e7533e1f06b14fa71617e38289005, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 388056243866791736, guid: 558e7533e1f06b14fa71617e38289005, type: 3}
       propertyPath: m_LocalPosition.x
@@ -243,7 +259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 388056243866791736, guid: 558e7533e1f06b14fa71617e38289005, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.32
       objectReference: {fileID: 0}
     - target: {fileID: 388056243866791736, guid: 558e7533e1f06b14fa71617e38289005, type: 3}
       propertyPath: m_LocalPosition.z
@@ -283,7 +299,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7787901359085983734, guid: 558e7533e1f06b14fa71617e38289005, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1325,6 +1341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ba62664dae26a840aee35e714dc17e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  castOrHealTimer: 0
 --- !u!54 &2858767313086894094
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1368,8 +1385,8 @@ MonoBehaviour:
   jumpHeight: 13
   jumpBufferFrames: 5
   maxAirJump: 3
-  dashSpeed: 4
-  dashTime: 2
+  dashSpeed: 30
+  dashTime: 0.2
   dashCooldown: 1
   coyoteTime: 4
   groundCheckPoint: {fileID: 7934541288725877056}
@@ -1396,8 +1413,8 @@ MonoBehaviour:
     m_Bits: 128
   recoilXSteps: 5
   recoilYSteps: 5
-  recoilXSpeed: 50
-  recoilYSpeed: 10
+  recoilXSpeed: 5
+  recoilYSpeed: 5
   sideAttackTransform: {fileID: 5125982928181082579}
   upAttackTransform: {fileID: 6405692035957199257}
   downAttackTransform: {fileID: 5842250095758106592}
@@ -1443,7 +1460,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98abab9ab642a3a4490c50b850a2368f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cashInvCapacity: 10
 --- !u!114 &8997634993981633303
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,12 +5,10 @@ using static UnityEditor.Progress;
 
 public abstract class ExampleUsable : MonoBehaviour
 {
-    public GameObject subject;
     public static PlayerUseMoment playerUseMoment;
 
     void OnEnable()
     {
-        subject = gameObject;
         playerUseMoment = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerUseMoment>();
     }
     public void Cheker(object s)

@@ -8,17 +8,10 @@ public class ItemTakeDrop : ExampleUsable
     
     public override void UseMoment()
     {
-        
-        playerUseMoment.gameObject.GetComponent<PlayerInventory>().inventory.TryToAdd(this, subject.GetComponent<Item>().GetExItem());
+
+        gameObject.transform.parent = playerUseMoment.Hand.transform;
+        transform.localPosition = new Vector3(-0.67f, -0.036f, -0.013f);
+        transform.localRotation = Quaternion.Euler(0, -90, 90);
         playerUseMoment.OnUsedEvent -= Cheker;
-        DestroyImmediate(subject);
-    }
-    public GameObject SpawnItem(IItem item,Vector3 pos)
-    {
-        
-        var gm =Instantiate(item.info.itemGO,pos, Quaternion.identity);
-        gm.GetComponent<Item>().SetOperator(item.state);
-        
-        return gm;
     }
 }

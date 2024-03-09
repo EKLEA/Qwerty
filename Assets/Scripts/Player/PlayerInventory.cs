@@ -10,29 +10,8 @@ using static UnityEditor.Progress;
 public class PlayerInventory: MonoBehaviour
 {
     public event Action<object> OnInventoryUpdate;
-    public InventoryWithSlots actItems;
-    public int invCapacity
-    {
-        get { return cashInvCapacity; }
-        set 
-        {
-            cashInvCapacity = value;  
-            
-            InventoryWithSlots _inventory=new InventoryWithSlots(cashInvCapacity);
-            var c = _inventory.GetAllSlots();
-            var b = inventory.GetAllSlots();
-            for (int i = 0; i < b.Length; i++)
-                _inventory.TransitFromSlotToSlot(this, b[i], c[i]);
-            inventory = _inventory;
-            OnInventoryUpdate?.Invoke(this) ;
-        }
-    }
-    public InventoryWithSlots inventory;
-    public int cashInvCapacity=10;
-    void Awake()
-    {
-        cashInvCapacity = invCapacity;
-        inventory = new InventoryWithSlots(cashInvCapacity);
-        actItems= new InventoryWithSlots(2);
-    }
+    public InventoryWithSlots equippedItems = new InventoryWithSlots(7, SlotTypes.DinamicSlot);
+
+    public InventoryWithSlots collectableItems = new InventoryWithSlots(12, SlotTypes.StaticSlot);
+    public InventoryWithSlots craftComponents= new InventoryWithSlots(3, SlotTypes.StaticSlot);
 }

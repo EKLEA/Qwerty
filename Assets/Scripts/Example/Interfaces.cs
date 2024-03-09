@@ -27,18 +27,22 @@ public interface IItem
 
 public enum ItemTypes
 {
-    Consumables,
     CraftComponentss,
     UsableItem,
-    Upgrade,
-    RobotPart,
-    Ability,
-    NONE
+    WeaponItem,
+    Upgrades,
+    RobotParts
+}
+public enum RobotParts
+{
+    Legs,
+    Arm,
+    Body,
 }
 public enum SlotTypes
 {
-    Inventory,
-    EquippedItems
+    StaticSlot,
+    DinamicSlot
 }
 public interface IItemState
 {
@@ -60,7 +64,7 @@ public interface IItemInfo
 }
 
 
-    public interface IInventorySlot
+ public interface IInventorySlot
 {
     ItemTypes requieItem { get; set; }
     SlotTypes slotType { get; set; }

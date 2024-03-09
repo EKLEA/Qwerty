@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TeleportTest : ExampleUsable
 {
-    public new GameObject subject { get; private set; }
+    public  GameObject subject { get; private set; }
     public override void UseMoment()
     {
 

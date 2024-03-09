@@ -18,12 +18,12 @@ public class InventoryWithSlots : IInventory
 
     private List<InventorySlot> _slots;
 
-    public InventoryWithSlots(int capacity)
+    public InventoryWithSlots(int capacity,SlotTypes slotType)
     {
         this.invCapacity = capacity;
         _slots=new List<InventorySlot>(capacity);
         for (int i = 0; i < capacity; i++)
-            _slots.Add(new InventorySlot());
+            _slots.Add(new InventorySlot(slotType));
     }
      public IItem GetItem(string ItemID)
      {
@@ -124,34 +124,11 @@ public class InventoryWithSlots : IInventory
         if (fromSlot.isEmpty)
             return;
 
-        var c = fromSlot.item;
-        if (toSlot.slotType == SlotTypes.EquippedItems)
+        
+        if (toSlot.slotType == SlotTypes.DinamicSlot)
         {
-            if (fromSlot.slotType == SlotTypes.EquippedItems)
+            if (fromSlot.slotType == SlotTypes.StaticSlot)
                 return;
-            if (fromSlot.slotType == SlotTypes.Inventory)
-            {
-                if (toSlot.requieItem!= c.info.itemType) return;
-                if (c.state.IsEquipped == true) return;
-                else
-                {
-                    c.state.IsEquipped = true;
-                    toSlot.SetItem(c);
-                    OnInventoryStateChangedEvent?.Invoke(sender);
-                    OnEquippedItemEvent?.Invoke(sender, c,true);
-                }
-            }
-        }
-        if (toSlot.slotType == SlotTypes.Inventory)
-        {
-            if (fromSlot.slotType == SlotTypes.EquippedItems)
-            {
-               
-                c.state.IsEquipped = false;
-                fromSlot.CLear();
-                OnInventoryStateChangedEvent?.Invoke(sender);
-                OnEquippedItemEvent?.Invoke(sender, c,false);
-            }
             else
             {
                 if ((!toSlot.isEmpty || toSlot.isFull) && fromSlot.item.info.id != toSlot.item.info.id)
