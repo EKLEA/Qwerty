@@ -126,9 +126,8 @@ public class PlayerAttackLogic : AttakingObjLogic
     [SerializeField] GameObject sideSpellFireball;
     [SerializeField] GameObject upSpellFireball;
     [SerializeField] GameObject downSpellFireball;
-    float timeSinceCast;    
 
-    public Rigidbody rb => playerController.rb;
+    Rigidbody rb => playerController.rb;
 
 
     private void OnDrawGizmos()

@@ -16,4 +16,5 @@ public class PlayerStateList : MonoBehaviour
 
     public int health;
     public float energy;
+    public bool isHeartHas = true;
 }

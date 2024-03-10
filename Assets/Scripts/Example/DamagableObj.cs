@@ -12,7 +12,7 @@ public class DamagableObj : MonoBehaviour
     [HideInInspector] public OnHealthChangedDelegate OnHealthChangedCallBack;
 
     public delegate void OnEnergyChangedDelegate();
-    [HideInInspector] public OnHealthChangedDelegate OnEnergyChangedCallBack;
+    [HideInInspector] public OnEnergyChangedDelegate OnEnergyChangedCallBack;
 
     public int maxHealth;
     public float maxEnergy;

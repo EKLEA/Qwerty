@@ -9,30 +9,30 @@ using UnityEngine;
 public class EnemyHealthController : DamagableObj
 {
     
-    [SerializeField] protected  float recoilLenght;
+    [SerializeField] protected  float recoilLength;
     [SerializeField] protected float recoilFactor;
     [HideInInspector] public bool isRecoiling = false;
     protected bool hasTakenDamage = false;
-    protected float rT =0;
+    protected float recoilingTime =0;
 
     [HideInInspector] protected PlayerController playerController=> GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     protected EnemyLogicBase enemyLogic=> GetComponent<EnemyLogicBase>();
     
     [SerializeField] protected int colliderDamage;
-    Rigidbody rb=>GetComponent<Rigidbody>();
+    protected Rigidbody rb=>GetComponent<Rigidbody>();
     protected virtual void Update()
     {
         hasTakenDamage = false;
         if (isRecoiling)
         {
-            if (rT < recoilLenght)
+            if (recoilingTime < recoilLength)
             {
-                rT += Time.deltaTime;
+                recoilingTime += Time.deltaTime;
             }
             else
             {
                 isRecoiling = false;
-                rT = 0;
+                recoilingTime = 0;
             }
         }
         else

@@ -8,7 +8,6 @@ public class CrawlerEnemyLogicController : EnemyLogicBase
     [SerializeField] float ledgeCheckX;
     [SerializeField] float ledgeCheckY;
     [SerializeField] LayerMask whatIsGround;
-    float gravityF;
     private void OnCollisionStay(Collision collision)
     {
         rb.constraints = RigidbodyConstraints.FreezePositionY | rb.constraints;

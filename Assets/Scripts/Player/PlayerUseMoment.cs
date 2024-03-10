@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Progress;
 
-public class PlayerUseMoment : ExampleUseMoment
+public class PlayerUseMoment : MonoBehaviour
 {
+    public Action<object> OnUsedEvent;
     [SerializeField] public GameObject Hand;
     public event Action<bool> OnOpenInventoryEvent;
     public event Action<bool> OnOpenContextMenuEvent;

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public abstract class ExampleUseMoment : MonoBehaviour
 {
-    public   Action<object> OnUsedEvent;
+    
     public delegate void OnSimpleAttackEventDelegate();
     [HideInInspector] public OnSimpleAttackEventDelegate OnSimpleAttackEventCallBack;
     public delegate void OnSpecialAttackEventDelegate();

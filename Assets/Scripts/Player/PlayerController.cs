@@ -6,18 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-   
-    
-
-
-
-    
     public Animator anim=> GetComponent<Animator>();
-    [SerializeField]  PlayerMoveHandler moveHandler=> GetComponent<PlayerMoveHandler>();
-    [SerializeField]  PlayerUseMoment useMoment => GetComponent<PlayerUseMoment>();  
-    [SerializeField]  PlayerAttackLogic attackLogic=> GetComponent<PlayerAttackLogic>();
-    [SerializeField] public PlayerHealthController playerHealthController => GetComponent<PlayerHealthController>(); // тут мб исправить я хз
-    [SerializeField]  public PlayerStateList playerStateList =>GetComponent<PlayerStateList>();
+    PlayerMoveHandler moveHandler=> GetComponent<PlayerMoveHandler>();
+    PlayerAttackLogic attackLogic=> GetComponent<PlayerAttackLogic>();
+    public PlayerHealthController playerHealthController => GetComponent<PlayerHealthController>();
+    public PlayerStateList playerStateList =>GetComponent<PlayerStateList>();
     public BoxCollider pCollider=> gameObject.GetComponent<BoxCollider>();
     public Rigidbody rb => gameObject.GetComponent<Rigidbody>();
     [HideInInspector] public float castOrHealTimer;

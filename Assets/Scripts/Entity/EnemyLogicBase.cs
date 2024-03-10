@@ -4,8 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyHealthController))]
 public class EnemyLogicBase : MonoBehaviour
 {
-    protected float timer;
-    protected EnemyHealthController enemyHealth=> GetComponent<EnemyHealthController>();
+     protected float timer;
+   protected EnemyHealthController enemyHealth=> GetComponent<EnemyHealthController>();
     protected Rigidbody rb => GetComponent<Rigidbody>();
     [SerializeField] protected Animator animator => GetComponent<Animator>();
     [HideInInspector] protected PlayerController playerController => GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
