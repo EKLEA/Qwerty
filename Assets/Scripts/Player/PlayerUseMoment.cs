@@ -9,13 +9,16 @@ public class PlayerUseMoment : ExampleUseMoment
     [SerializeField] public GameObject Hand;
     public event Action<bool> OnOpenInventoryEvent;
     public event Action<bool> OnOpenContextMenuEvent;
-    public event Action<object> OnUseConsumablesEvent;
+    public event Action<float> OnChangeMenuEvent;
+
 
 
     private void Update()
     {
         if (Input.GetButtonDown("Use"))
             OnUsedEvent?.Invoke(this);
+        if (Input.GetButtonDown("ChangeMenu"))
+            OnChangeMenuEvent?.Invoke(Input.GetAxisRaw("ChangeMenu"));
         if (Input.GetButtonDown("Inventory"))
             OnOpenInventoryEvent?.Invoke(true);
         if (Input.GetButtonUp("Inventory"))

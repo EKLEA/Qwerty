@@ -9,9 +9,13 @@ using static UnityEditor.Progress;
 
 public class PlayerInventory: MonoBehaviour
 {
-    public event Action<object> OnInventoryUpdate;
     public InventoryWithSlots equippedItems = new InventoryWithSlots(7, SlotTypes.DinamicSlot);
-
     public InventoryWithSlots collectableItems = new InventoryWithSlots(12, SlotTypes.StaticSlot);
     public InventoryWithSlots craftComponents= new InventoryWithSlots(3, SlotTypes.StaticSlot);
+    public InventoryWithSlots storageItems = new InventoryWithSlots(20, SlotTypes.DinamicSlot);
+
+    private void Start()
+    {
+        storageItems.SetBlockInventory(true);
+    }
 }

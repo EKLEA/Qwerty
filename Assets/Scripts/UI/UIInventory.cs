@@ -9,12 +9,9 @@ public class UIInventory : MonoBehaviour
 {
     [HideInInspector] public InventoryWithSlots inventory;
     [HideInInspector] public UIInventorySlot[] slots;
-    private void OnEnable()
-    {
-        SetupInvntoryUI(inventory, slots);
-    }
+   
 
-    private void SetupInvntoryUI(InventoryWithSlots inventory, UIInventorySlot[] slots)
+    public void SetupInvntoryUI(InventoryWithSlots inventory, UIInventorySlot[] slots)
     {
         var allSlots = inventory.GetAllSlots();
         

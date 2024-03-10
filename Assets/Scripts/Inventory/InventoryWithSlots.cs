@@ -114,15 +114,22 @@ public class InventoryWithSlots : IInventory
         return TryToAdd(sender, item);
 
     }
-    
+    public void SetBlockInventory(bool b)
+    {
+        foreach (InventorySlot c in _slots)
+        {
+            c.isBlock = b;
+        }
+    }
 
     public void TransitFromSlotToSlot(object sender, IInventorySlot fromSlot, IInventorySlot toSlot)
     {
 
         if (toSlot == null)
             return;
-        if (fromSlot.isEmpty)
+        if (fromSlot.isEmpty|| fromSlot.isBlock)
             return;
+        
 
         
         if (toSlot.slotType == SlotTypes.DinamicSlot)

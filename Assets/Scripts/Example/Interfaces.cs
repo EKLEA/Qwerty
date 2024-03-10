@@ -69,6 +69,7 @@ public interface IItemInfo
     ItemTypes requieItem { get; set; }
     SlotTypes slotType { get; set; }
     bool isFull { get; }
+    bool isBlock { get;set; }
     bool isEmpty { get; }
     IItem item{ get; }
    

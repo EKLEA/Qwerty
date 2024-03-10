@@ -38,7 +38,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
         xAxis = Input.GetAxisRaw("Horizontal");
          yAxis = Input.GetAxisRaw("Vertical");
         Axis = new Vector2(xAxis, yAxis);
