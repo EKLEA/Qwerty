@@ -5,19 +5,23 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
     [SerializeField] GameObject playerUIInterface;
+    [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject[] screens;
     [SerializeField] Camera uiCam;
-    public PlayerUseMoment playerUseMoment => GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerUseMoment>();
+    public PlayerUseMoment playerUseMoment;
 
 
     int menuID;
     private void Start()
     {
-
         playerUseMoment.OnOpenInventoryEvent += OpenInv;
         playerUseMoment.OnChangeMenuEvent += ChangeMenu;
+        playerUseMoment.GetComponent<PlayerController>().playerHealthController.OnDeadCallBack += StartDeathCoroutine;
         playerUIInterface.SetActive(false);
-        uiCam.gameObject.SetActive(false);
+    }
+    void StartDeathCoroutine()
+    {
+        StartCoroutine(ActivateDeathScreen());
     }
     private void OpenInv(bool t)
     {
@@ -28,13 +32,12 @@ public class UIController : MonoBehaviour
             menuID = 0;
             playerUIInterface.SetActive(true);
             screens[menuID].SetActive(true);
-            uiCam.gameObject.SetActive(true);
-            Time.timeScale = 0;
+            Time.timeScale = 0.5f;
         }
         else
         {
             playerUIInterface.SetActive(false);
-            uiCam.gameObject.SetActive(false);
+            screens[menuID].SetActive(false);
             Time.timeScale = 1;
         }
 
@@ -64,5 +67,12 @@ public class UIController : MonoBehaviour
                 menuID += t;
             screens[menuID].SetActive(true);
         }
+    }
+    public IEnumerator ActivateDeathScreen()
+    {
+        yield return new WaitForSeconds(0.8f);
+        //scene fader
+        yield return new WaitForSeconds(0.8f);
+        deathScreen.SetActive(true);
     }
 }

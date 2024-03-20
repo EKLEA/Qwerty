@@ -6,13 +6,15 @@ using UnityEngine;
 
 public class DamagableObj : MonoBehaviour
 {
-    public Action<GameObject> OnDead;
     public Action<GameObject> OnDamageDone;
     public delegate void OnHealthChangedDelegate();
     [HideInInspector] public OnHealthChangedDelegate OnHealthChangedCallBack;
 
     public delegate void OnEnergyChangedDelegate();
     [HideInInspector] public OnEnergyChangedDelegate OnEnergyChangedCallBack;
+
+    public delegate void OnDeadDelegate();
+    [HideInInspector] public OnDeadDelegate OnDeadCallBack;
 
     public int maxHealth;
     public float maxEnergy;
@@ -40,7 +42,7 @@ public class DamagableObj : MonoBehaviour
                 OnHealthChangedCallBack?.Invoke();
                 if (health <= 0)
                 {
-                    OnDead?.Invoke(gameObject);
+                OnDeadCallBack?.Invoke();
                     Destroy(gameObject);
                 }
 

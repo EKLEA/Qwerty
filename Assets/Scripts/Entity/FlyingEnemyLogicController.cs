@@ -44,6 +44,12 @@ public class FlyingEnemyLogicController : EnemyLogicBase
                 break;
         }
     }
+    protected override void Update()
+    {
+        base.Update();
+        if (!playerController.playerStateList.alive)
+            ChangeState(EnemyStates.FlyingEn_Idle);
+    }
     void CheckDeath()
     {
         if (enemyHealth.health > 0)

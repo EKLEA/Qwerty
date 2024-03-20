@@ -8,6 +8,12 @@ public class CrawlerEnemyLogicController : EnemyLogicBase
     [SerializeField] float ledgeCheckX;
     [SerializeField] float ledgeCheckY;
     [SerializeField] LayerMask whatIsGround;
+    protected override void Update()
+    {
+        base.Update();
+        if (!playerController.playerStateList.alive)
+            ChangeState(EnemyStates.Crawler_Idle);
+    }
     private void OnCollisionStay(Collision collision)
     {
         rb.constraints = RigidbodyConstraints.FreezePositionY | rb.constraints;

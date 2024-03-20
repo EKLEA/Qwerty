@@ -55,7 +55,7 @@ public class EnemyHealthController : DamagableObj
     }
     protected void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.CompareTag("Player") && !playerController.playerStateList.invincible)
+        if(other.gameObject.CompareTag("Player") && !playerController.playerStateList.invincible && playerController.playerHealthController.health>0)
         {
             ColliderAttack();
         }
@@ -63,6 +63,7 @@ public class EnemyHealthController : DamagableObj
     protected virtual void ColliderAttack()
     {
         playerController.playerHealthController.DamageMoment(colliderDamage,Vector2.zero,0);
-        playerController.playerHealthController.HitStopTime(0, 5, 0.5f);
+        if (playerController.playerStateList.alive)
+            playerController.playerHealthController.HitStopTime(0, 5, 0.5f);
     }
 }

@@ -31,35 +31,44 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        xAxis = Input.GetAxisRaw("Horizontal");
-         yAxis = Input.GetAxisRaw("Vertical");
-        Axis = new Vector2(xAxis, yAxis);
-        playerStateList.Axis = Axis;
+        if (playerStateList.alive)
+        {
+            xAxis = Input.GetAxisRaw("Horizontal");
+            yAxis = Input.GetAxisRaw("Vertical");
+            Axis = new Vector2(xAxis, yAxis);
+            playerStateList.Axis = Axis;
+        }
+        
         moveHandler.UpdateJumpVar();
         playerHealthController.RestoreTimeScale();
+
         if (playerStateList.dashing) return;
 
-        if (xAxis < 0)
+        if (playerStateList.alive)
         {
-            gameObject.transform.eulerAngles = new Vector3(0, -90, 0);
-            playerStateList.lookRight = false;
-        }
-        if (xAxis > 0)
-        {
-            gameObject.transform.eulerAngles = new Vector3(0, 90, 0);
-            playerStateList.lookRight = true;
-        }
-        if (Input.GetButton("Cast/Heal"))
-            castOrHealTimer += Time.deltaTime;
-        else
-            castOrHealTimer = 0;
-        moveHandler.Move();
-        moveHandler.JumpMoment();
-        moveHandler.StartDash();
+            if (xAxis < 0)
+            {
+                gameObject.transform.eulerAngles = new Vector3(0, -90, 0);
+                playerStateList.lookRight = false;
+            }
+            if (xAxis > 0)
+            {
+                gameObject.transform.eulerAngles = new Vector3(0, 90, 0);
+                playerStateList.lookRight = true;
+            }
+            if (Input.GetButton("Cast/Heal"))
+                castOrHealTimer += Time.deltaTime;
+            else
+                castOrHealTimer = 0;
 
-        
-        attackLogic.Attack();
-        attackLogic.CastSpell();
+            moveHandler.Move();
+            moveHandler.JumpMoment();
+            moveHandler.StartDash();
+
+
+            attackLogic.Attack();
+            attackLogic.CastSpell();
+        }
         
         playerHealthController.Heal();
 

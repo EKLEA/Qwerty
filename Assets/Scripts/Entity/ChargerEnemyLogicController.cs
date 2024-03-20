@@ -14,6 +14,12 @@ public class ChargerEnemyLogicController : EnemyLogicBase
     {
         ChangeState(EnemyStates.Charger_Idle);
     }
+    protected override void Update()
+    {
+        base.Update();
+        if (!playerController.playerStateList.alive)
+            ChangeState(EnemyStates.Charger_Idle);
+    }
     private void OnCollisionStay(Collision collision)
     {
         rb.constraints = RigidbodyConstraints.FreezePositionY | rb.constraints;

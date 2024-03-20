@@ -19,11 +19,36 @@ public class PlayerHealthController : DamagableObj
     public bool isHeartHas = true;
 
 
+   
+    public new int health
+    {
+        get
+        {
+            return hp;
+        }
+        set
+        {
+            if (defense > 0)
+                defense -= value;
+            else
+                hp = value;
+            OnHealthChangedCallBack?.Invoke();
+            if (health <= 0)
+            {
+                StartCoroutine(Death());
+            }
+            else
+            {
+                StartCoroutine(StopTakingDamage());
+            }
 
+        }
+    }
     public override void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce)
-    { 
-        health -= _damageDone;
-        StartCoroutine(StopTakingDamage());
+    {
+        if (pController.playerStateList.alive)
+            health -= _damageDone;
+
     }
     IEnumerator StopTakingDamage()
     {
@@ -49,7 +74,7 @@ public class PlayerHealthController : DamagableObj
     public void HitStopTime(float _newTimeScale, int _restoreSpeed, float _delay)
     {
         restoreTimeSpeed = _restoreSpeed;
-        Time.timeScale = _newTimeScale;
+        
         if (_delay>0)
         {
             StopCoroutine(StartTimeAgain(_delay));
@@ -59,7 +84,20 @@ public class PlayerHealthController : DamagableObj
         {
             restoreTime = true;
         }
+        Time.timeScale = _newTimeScale;
     }
+    IEnumerator Death()
+    {
+        pController.playerStateList.alive=false;
+        Time.timeScale = 1f;
+        GameObject _damageEffect = Instantiate(DamageEffect, new Vector2(transform.position.x, transform.position.y + 1.5f), Quaternion.identity);
+        Destroy(_damageEffect, 1.5f);
+        pController.anim.SetTrigger("Death");
+        yield return new WaitForSeconds(0.9f);
+        OnDeadCallBack?.Invoke();
+    }
+
+
     IEnumerator StartTimeAgain(float _delay)
     {
         restoreTime = true;
