@@ -11004,6 +11004,7 @@ MonoBehaviour:
   screens:
   - {fileID: 8239226119846794307}
   - {fileID: 4704848018318214801}
+  uiHud: {fileID: 8769203327568185806}
   sceneFader: {fileID: 8627556166342429573}
 --- !u!1 &2643111276099564876
 GameObject:
@@ -15081,7 +15082,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 858245eb424a3744b9986232377e74fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 5808628601252488450}
   heartsParent: {fileID: 1176145582598281104}
   heartsContainerPrefab: {fileID: 5133706309948000283, guid: 09e93c13a15375a4aaba568fabe7c9cc, type: 3}
   energyParent: {fileID: 1136657606173386003}
@@ -17083,7 +17083,7 @@ Transform:
   m_GameObject: {fileID: 5198951239883068569}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

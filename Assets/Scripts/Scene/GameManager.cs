@@ -5,8 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public string transitionedFromScene;
-    public Vector2 platformingRespawnPoint;
-    public Vector2 respawnPoint;
+    public Vector3 platformingRespawnPoint;
+    public Vector3 respawnPoint;
     [SerializeField] CheckPoint checkPoint;
     public static GameManager Instance { get; private set; }
     public void Awake()
@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
         }
         else
             respawnPoint = platformingRespawnPoint;
+        Debug.Log(respawnPoint);
         PlayerController.Instance.transform.position = respawnPoint;
         StartCoroutine(UIController.Instance.DeactivateDeathScreen());
         PlayerController.Instance.Respawned();

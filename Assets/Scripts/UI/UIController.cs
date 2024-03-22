@@ -24,11 +24,13 @@ public class UIController : MonoBehaviour
         {
             Instance = this;
         }
+        sceneFader = GetComponentInChildren<SceneFader>();
     }
+
     public SceneFader sceneFader;
     private void Start()
     {
-        sceneFader = GetComponentInChildren<SceneFader>();
+        
         uiCam= FollowPlayer.Instance.GetComponent<Camera>();
         playerUseMoment.OnOpenInventoryEvent += OpenInv;
         playerUseMoment.OnChangeMenuEvent += ChangeMenu;
