@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.EventSystems;
 public class PlayerMoveHandler : MoveHandler
 {
@@ -132,7 +133,19 @@ public class PlayerMoveHandler : MoveHandler
         else
             jumpBufferCount--;
     }
-   
+   public void Flip()
+    {
+        if (pController.playerStateList.Axis.x< 0)
+        {
+            gameObject.transform.eulerAngles = new Vector3(0, -90, 0);
+            pController.playerStateList.lookRight = false;
+        }
+        if (pController.playerStateList.Axis.x > 0)
+        {
+            gameObject.transform.eulerAngles = new Vector3(0, 90, 0);
+            pController.playerStateList.lookRight = true;
+        }
+    }
     public new bool Grounded()
     {
         bool b = (Physics.Raycast(groundCheckPoint.position, Vector2.down, groundCheckY, whatIsGround) ||
@@ -143,5 +156,20 @@ public class PlayerMoveHandler : MoveHandler
         return b;
            
     }
-   
+    public IEnumerator WalkIntoNewScene(Vector2 _exitDir, float _delay)
+    {
+        if (_exitDir.y > 0)
+            rb.velocity = jumpHeight * -_exitDir;
+        if (_exitDir.x  != 0)
+        {
+            pController.playerStateList.Axis.x = _exitDir.x>0? 1 : -1;
+            Move();
+        }    
+        Flip();
+        yield return new WaitForSeconds(_delay);
+        pController.playerStateList.cutscene = false;
+        
+
+    }
+
 }

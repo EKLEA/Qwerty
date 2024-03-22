@@ -7,18 +7,17 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class UIHud : MonoBehaviour
 {
-    [SerializeField] private PlayerController playerController;
+    private PlayerController playerController;
     private GameObject[] heartContainers;
     private Image[] heartFills;
     public Transform heartsParent;
     public GameObject heartsContainerPrefab;
     public Transform energyParent;
     public GameObject energyBarPrefab;
-    
 
     private void Start()
     {
-        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        playerController =PlayerController.Instance;
         heartContainers = new GameObject[playerController.playerHealthController.maxHealth];
         heartFills = new Image[playerController.playerHealthController.maxHealth];
 
@@ -28,12 +27,8 @@ public class UIHud : MonoBehaviour
         InstantiateHeartContainers();
         SetEnergyBar();
         UpdateHeartHUD();
-    }
-
-    private void Update()
-    {
-        
-    }
+    }  
+    
     void SetHeartContainers()
     {
         for (int i = 0; i < heartContainers.Length; i++)

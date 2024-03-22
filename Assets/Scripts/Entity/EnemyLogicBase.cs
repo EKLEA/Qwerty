@@ -8,7 +8,8 @@ public class EnemyLogicBase : MonoBehaviour
    protected EnemyHealthController enemyHealth=> GetComponent<EnemyHealthController>();
     protected Rigidbody rb => GetComponent<Rigidbody>();
     [SerializeField] protected Animator animator => GetComponent<Animator>();
-    [HideInInspector] protected PlayerController playerController => GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+    [HideInInspector] protected PlayerController playerController => PlayerController.Instance;
+
     [SerializeField] protected float speed;
     protected  virtual void Update()
     {

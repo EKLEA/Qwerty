@@ -94,7 +94,7 @@ public class PlayerHealthController : DamagableObj
         Destroy(_damageEffect, 1.5f);
         pController.anim.SetTrigger("Death");
         yield return new WaitForSeconds(0.9f);
-        OnDeadCallBack?.Invoke();
+        StartCoroutine(UIController.Instance.ActivateDeathScreen());
     }
 
 

@@ -15,7 +15,7 @@ public class EnemyHealthController : DamagableObj
     protected bool hasTakenDamage = false;
     protected float recoilingTime =0;
 
-    [HideInInspector] protected PlayerController playerController=> GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+    [HideInInspector] protected PlayerController playerController => PlayerController.Instance;
     protected EnemyLogicBase enemyLogic=> GetComponent<EnemyLogicBase>();
     
     [SerializeField] protected int colliderDamage;

@@ -7,14 +7,27 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Animator anim=> GetComponent<Animator>();
-    PlayerMoveHandler moveHandler=> GetComponent<PlayerMoveHandler>();
+    public PlayerMoveHandler moveHandler=> GetComponent<PlayerMoveHandler>();
     PlayerAttackLogic attackLogic=> GetComponent<PlayerAttackLogic>();
     public PlayerHealthController playerHealthController => GetComponent<PlayerHealthController>();
     public PlayerStateList playerStateList =>GetComponent<PlayerStateList>();
     public BoxCollider pCollider=> gameObject.GetComponent<BoxCollider>();
     public Rigidbody rb => gameObject.GetComponent<Rigidbody>();
+    public static PlayerController Instance;
     [HideInInspector] public float castOrHealTimer;
      Vector2 Axis;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
     private void OnEnable()
     {
         playerHealthController.OnEnergyChangedCallBack += UpdateStats;
@@ -25,12 +38,14 @@ public class PlayerController : MonoBehaviour
     float xAxis, yAxis;
     private void FixedUpdate()
     {
+        if (playerStateList.cutscene) return;
         if (playerStateList.dashing) return;
         attackLogic.Recoil();
     }
 
     void Update()
     {
+        if(playerStateList.cutscene) return;
         if (playerStateList.alive)
         {
             xAxis = Input.GetAxisRaw("Horizontal");
@@ -46,16 +61,7 @@ public class PlayerController : MonoBehaviour
 
         if (playerStateList.alive)
         {
-            if (xAxis < 0)
-            {
-                gameObject.transform.eulerAngles = new Vector3(0, -90, 0);
-                playerStateList.lookRight = false;
-            }
-            if (xAxis > 0)
-            {
-                gameObject.transform.eulerAngles = new Vector3(0, 90, 0);
-                playerStateList.lookRight = true;
-            }
+            moveHandler.Flip();
             if (Input.GetButton("Cast/Heal"))
                 castOrHealTimer += Time.deltaTime;
             else
@@ -80,5 +86,15 @@ public class PlayerController : MonoBehaviour
         playerStateList.health = playerHealthController.health;
         playerStateList.energy=playerHealthController.energy;
         
+    }
+    public void Respawned()
+    {
+        if(!playerStateList.alive)
+        {
+            playerStateList.alive = true;
+            playerHealthController.health = playerHealthController.maxHealth;
+            anim.Play("Stading_Idle");
+            playerHealthController.isHeartHas = false;
+        }
     }
 }

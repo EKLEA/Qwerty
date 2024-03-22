@@ -6,7 +6,25 @@ public class FollowPlayer : MonoBehaviour
     [SerializeField] private Vector2 bound = new Vector2(0.15f, 0.05f);
     [SerializeField] private float speed = 5.0f;
     [SerializeField] private float zoomFloat = 13f;
-
+    public static FollowPlayer Instance;
+    private void Awake()
+    {
+        
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+    private void Start()
+    {
+        
+        lookAt = PlayerController.Instance.transform;
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;

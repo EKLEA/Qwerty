@@ -7,9 +7,9 @@ public abstract class ExampleUsable : MonoBehaviour
 {
     public static PlayerUseMoment playerUseMoment;
 
-    void OnEnable()
+    void Start()
     {
-        playerUseMoment = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerUseMoment>();
+        playerUseMoment = PlayerController.Instance.GetComponent<PlayerUseMoment>();
     }
     public void Cheker(object s)
     {

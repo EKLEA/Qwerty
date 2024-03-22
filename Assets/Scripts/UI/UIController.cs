@@ -7,21 +7,32 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject playerUIInterface;
     [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject[] screens;
-    [SerializeField] Camera uiCam;
-    public PlayerUseMoment playerUseMoment;
+    [SerializeField] public UIHud uiHud;
+    public static UIController Instance;
+    Camera uiCam;
+    PlayerUseMoment playerUseMoment=> PlayerController.Instance.GetComponent<PlayerUseMoment>();
 
 
     int menuID;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+    public SceneFader sceneFader;
     private void Start()
     {
+        sceneFader = GetComponentInChildren<SceneFader>();
+        uiCam= FollowPlayer.Instance.GetComponent<Camera>();
         playerUseMoment.OnOpenInventoryEvent += OpenInv;
         playerUseMoment.OnChangeMenuEvent += ChangeMenu;
-        playerUseMoment.GetComponent<PlayerController>().playerHealthController.OnDeadCallBack += StartDeathCoroutine;
         playerUIInterface.SetActive(false);
-    }
-    void StartDeathCoroutine()
-    {
-        StartCoroutine(ActivateDeathScreen());
     }
     private void OpenInv(bool t)
     {
@@ -71,8 +82,14 @@ public class UIController : MonoBehaviour
     public IEnumerator ActivateDeathScreen()
     {
         yield return new WaitForSeconds(0.8f);
-        //scene fader
+        StartCoroutine(sceneFader.Fade(SceneFader.FadeDirection.In));
         yield return new WaitForSeconds(0.8f);
         deathScreen.SetActive(true);
+    }
+    public IEnumerator DeactivateDeathScreen()
+    {
+        yield return new WaitForSeconds(0.5f);
+        deathScreen.SetActive(false);
+        StartCoroutine(sceneFader.Fade(SceneFader.FadeDirection.Out));
     }
 }
