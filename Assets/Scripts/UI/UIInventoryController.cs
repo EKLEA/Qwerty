@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class UIInventoryController : MonoBehaviour
 {
-    PlayerInventory playerInventory => GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>();
-    
+    PlayerInventory playerInventory => PlayerController.Instance.GetComponent<PlayerInventory>();
+
 
     public GameObject equippedGrid;
     public GameObject ñollectableItemsGrid;

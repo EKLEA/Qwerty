@@ -15,6 +15,8 @@ public class PlayerStateList : MonoBehaviour
     public bool casting = false;
     public bool cutscene = false;
     public bool alive = true;
+    public bool interactedWithCheckPoint = false;
+    public bool invOpened = false;
 
     public int health;
     public float energy;

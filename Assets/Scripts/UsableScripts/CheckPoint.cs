@@ -8,5 +8,7 @@ public class CheckPoint : ExampleUsable
     public override void UseMoment()
     {
         interacted = true;
+        StartCoroutine(PlayerController.Instance.EnterInCheckPoint());
+
     }
 }

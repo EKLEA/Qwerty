@@ -8,9 +8,11 @@ public class PlayerUseMoment : MonoBehaviour
 {
     public Action<object> OnUsedEvent;
     [SerializeField] public GameObject Hand;
-    public event Action<bool> OnOpenInventoryEvent;
+    public delegate void OnOpenInventoryDelegate();
+    [HideInInspector] public OnOpenInventoryDelegate OnOpenInventoryCallBack;
     public event Action<bool> OnOpenContextMenuEvent;
     public event Action<float> OnChangeMenuEvent;
+
 
 
 
@@ -20,10 +22,8 @@ public class PlayerUseMoment : MonoBehaviour
             OnUsedEvent?.Invoke(this);
         if (Input.GetButtonDown("ChangeMenu"))
             OnChangeMenuEvent?.Invoke(Input.GetAxisRaw("ChangeMenu"));
-        if (Input.GetButtonDown("Inventory"))
-            OnOpenInventoryEvent?.Invoke(true);
-        if (Input.GetButtonUp("Inventory"))
-            OnOpenInventoryEvent?.Invoke(false);
+        if (Input.GetButtonDown("Inventory")&& PlayerController.Instance.rb.velocity.x==0&&PlayerController.Instance.playerStateList.grounded)
+            OnOpenInventoryCallBack?.Invoke();
         if (Input.GetMouseButtonDown(1))
             OnOpenContextMenuEvent?.Invoke(true);
         if (Input.GetMouseButtonDown(0))

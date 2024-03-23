@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
         if (playerStateList.dashing) return;
 
-        if (playerStateList.alive)
+        if (playerStateList.alive && !playerStateList.interactedWithCheckPoint && !playerStateList.invOpened)
         {
             moveHandler.Flip();
             if (Input.GetButton("Cast/Heal"))
@@ -75,7 +75,14 @@ public class PlayerController : MonoBehaviour
             attackLogic.Attack();
             attackLogic.CastSpell();
         }
-        
+        if (playerStateList.interactedWithCheckPoint && (Input.GetButtonDown("Cast/Heal") ||
+                                                         Input.GetButtonDown("Horizontal") ||
+                                                         Input.GetButtonDown("Vertical") ||
+                                                         Input.GetButtonDown("Dash") ||
+                                                         Input.GetButtonDown("Attack")))
+            StartCoroutine(ExitFromCheckPoint());
+            
+       
         playerHealthController.Heal();
 
 
@@ -96,5 +103,19 @@ public class PlayerController : MonoBehaviour
             anim.Play("Stading_Idle");
             playerHealthController.isHeartHas = false;
         }
+    }
+    public  IEnumerator EnterInCheckPoint()
+    {
+        // анимация входа
+        yield return new WaitForSeconds(0.15f);
+        rb.velocity = Vector3.zero;
+        playerStateList.interactedWithCheckPoint = true;
+
+    }
+    public   IEnumerator ExitFromCheckPoint()
+    {
+        // анимация выхода
+        yield return new WaitForSeconds(0.15f);
+        playerStateList.interactedWithCheckPoint = false;
     }
 }

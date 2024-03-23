@@ -99,33 +99,24 @@ public class PlayerMoveHandler : MoveHandler
             rb.velocity = new Vector2(rb.velocity.x, 0);
             pState.jumping = false;
         }
-
-
         anim.SetBool("Jumping", pState.jumping);
-        if (Grounded() == false)
-        {
-            anim.SetBool("Falling", true);
-            pController. pCollider.size = new Vector3(1.5f, 4, 1.5f);
-        }
-        if (Grounded() == true)
-        {
-            anim.SetBool("Falling", false);
-            anim.SetBool("FallingDown", true);
-            pController.pCollider.size = new Vector3(1.5f, 6, 1.5f);
-        }
-
-
     }
+    
     public new void UpdateJumpVar()
     {
         if (Grounded())
         {
+            anim.SetBool("Falling", false);
+            anim.SetBool("FallingDown", true);
+            pController.pCollider.size = new Vector3(1.5f, 6, 1.5f);
             pState.jumping = false;
             coyoteTimeCounter = coyoteTime;
             airJumpCount = 0;
         }
         else
         {
+            anim.SetBool("Falling", true);
+            pController.pCollider.size = new Vector3(1.5f, 4, 1.5f);
             coyoteTimeCounter -= Time.deltaTime;
         }
         if (Input.GetButtonDown("Jump"))

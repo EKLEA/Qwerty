@@ -8,6 +8,8 @@ TagManager:
   - Item
   - Weapon
   - Enemy
+  - CheckPointMenu
+  - CheckPonitMenu
   layers:
   - Default
   - TransparentFX

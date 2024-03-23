@@ -7,7 +7,7 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject playerUIInterface;
     [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject[] screens;
-    [SerializeField] public UIHud uiHud;
+    [SerializeField] GameObject uiHud;
     public static UIController Instance;
     Camera uiCam;
     PlayerUseMoment playerUseMoment=> PlayerController.Instance.GetComponent<PlayerUseMoment>();
@@ -32,27 +32,16 @@ public class UIController : MonoBehaviour
     {
         
         uiCam= FollowPlayer.Instance.GetComponent<Camera>();
-        playerUseMoment.OnOpenInventoryEvent += OpenInv;
+        playerUseMoment.OnOpenInventoryCallBack += OpenInv;
         playerUseMoment.OnChangeMenuEvent += ChangeMenu;
         playerUIInterface.SetActive(false);
     }
-    private void OpenInv(bool t)
+    private void OpenInv()
     {
-        
-        
-        if (t)
-        {
-            menuID = 0;
-            playerUIInterface.SetActive(true);
-            screens[menuID].SetActive(true);
-            Time.timeScale = 0.5f;
-        }
+        if (playerUIInterface.activeInHierarchy == false)
+            StartCoroutine(OpenInventory());
         else
-        {
-            playerUIInterface.SetActive(false);
-            screens[menuID].SetActive(false);
-            Time.timeScale = 1;
-        }
+            StartCoroutine(CloseInventory());
 
     }
     private void ChangeMenu(float s)
@@ -70,14 +59,24 @@ public class UIController : MonoBehaviour
                 t = -1;
             else
                 t = 0;
-            Debug.Log(t);
+
             screens[menuID].SetActive(false);
-            if (menuID + t >= screens.Length)
+
+            menuID += t;
+
+            if (menuID == screens.Length)
                 menuID = 0;
-            else if (menuID + t < 0)
+            else if (menuID < 0)
                 menuID = screens.Length - 1;
-            else
+
+            if (screens[menuID].CompareTag("CheckPointMenu") && !PlayerController.Instance.playerStateList.interactedWithCheckPoint)
                 menuID += t;
+
+            if (menuID >= screens.Length)
+                menuID = 0;
+            else if (menuID < 0)
+                menuID = screens.Length - 1;
+
             screens[menuID].SetActive(true);
         }
     }
@@ -90,8 +89,31 @@ public class UIController : MonoBehaviour
     }
     public IEnumerator DeactivateDeathScreen()
     {
+       
         yield return new WaitForSeconds(0.5f);
         deathScreen.SetActive(false);
         StartCoroutine(sceneFader.Fade(SceneFader.FadeDirection.Out));
+    }
+    public IEnumerator OpenInventory()
+    {
+        
+        PlayerController.Instance.playerStateList.invOpened = true;
+        // анимация открытия
+        yield return new WaitForSeconds(0.07f);
+        
+        menuID = 0;
+        uiHud.SetActive(false);
+        playerUIInterface.SetActive(true);
+        screens[menuID].SetActive(true);
+    }
+    public IEnumerator CloseInventory()
+    {
+        
+        // анимация закрытия
+        yield return new WaitForSeconds(0.07f);
+        playerUIInterface.SetActive(false);
+        screens[menuID].SetActive(false);
+        uiHud.SetActive(true);
+        PlayerController.Instance.playerStateList.invOpened = false;
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class UIStorageController : MonoBehaviour
 {
 
-    PlayerInventory playerInventory => GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>();
+    PlayerInventory playerInventory => PlayerController.Instance.GetComponent<PlayerInventory>();
 
 
     public GameObject equippedGrid;
