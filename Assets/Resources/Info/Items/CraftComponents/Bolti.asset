@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fe6711b94989c2468735ac804106927, type: 3}
-  m_Name: InventoryItemInfo
+  m_Name: Bolti
   m_EditorClassIdentifier: 
-  _id: 2
-  _title: asd
-  _description: asd
+  _id: Bolti
+  _title: Bolti
+  _description: 
   _usInfo: {fileID: 0}
-  _maxItemsInInventortySlot: 10
-  _spriteIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  _maxItemsInInventortySlot: 0
+  _spriteIcon: {fileID: 21300000, guid: 6a50028b2f741a348bec94f8dc16fc03, type: 3}
   _itemType: 0
-  _gameObject: {fileID: 1361877235417869799, guid: 2cb559be9ac474045b945ce8e840560f, type: 3}
+  _gameObject: {fileID: 0}
+  _requielevel: 0

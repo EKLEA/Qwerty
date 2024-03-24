@@ -27,10 +27,10 @@ public interface IItem
 
 public enum ItemTypes
 {
-    CraftComponentss,
+    CraftComponents,
+    collectableItems,
     UsableItem,
-    WeaponItem,
-    Upgrades,
+    Perks,
     RobotParts
 }
 public enum RobotParts
@@ -55,8 +55,10 @@ public interface IItemInfo
 {
     string id { get; }
     string title { get; }
+    public InventoryWithSlots requieCraftComonents { get; }//ss
     string discription { get; }
     int maxItemsInInventortySlot { get; }
+    int requielevel {  get;  }
     IUsableItemInfo usableItemInfo { get; }
     Sprite spriteIcon { get; }
     ItemTypes itemType { get; }
@@ -66,7 +68,8 @@ public interface IItemInfo
 
  public interface IInventorySlot
 {
-    ItemTypes requieItem { get; set; }
+    ItemTypes requieType { get; set; }
+    IItemInfo requieItem{ get; set; }
     SlotTypes slotType { get; set; }
     bool isFull { get; }
     bool isBlock { get;set; }

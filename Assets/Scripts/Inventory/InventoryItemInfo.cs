@@ -14,6 +14,7 @@ public class InventoryItemInfo : ScriptableObject, IItemInfo
     [SerializeField] private Sprite _spriteIcon;
     [SerializeField] private ItemTypes _itemType;
     [SerializeField] private GameObject _gameObject;
+    [SerializeField] int _requielevel;
 
 
 
@@ -34,4 +35,8 @@ public class InventoryItemInfo : ScriptableObject, IItemInfo
     public GameObject itemGO=> _gameObject;
 
     public IUsableItemInfo usableItemInfo => _usInfo;
+
+    public int requielevel => _requielevel;
+
+    public InventoryWithSlots requieCraftComonents => throw new System.NotImplementedException();
 }

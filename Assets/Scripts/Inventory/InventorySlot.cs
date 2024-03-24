@@ -20,7 +20,8 @@ public class InventorySlot : IInventorySlot
 
     public int capacity {get; private set;}
     public bool isBlock { get; set; }
-    public ItemTypes requieItem {  get; set; }
+    public IItemInfo requieItem {  get; set; }
+    public ItemTypes requieType{  get; set; }
     public SlotTypes slotType { get; set; }
 
     public void SetItem(IItem item)

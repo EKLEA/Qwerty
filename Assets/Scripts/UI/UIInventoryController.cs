@@ -14,9 +14,8 @@ public class UIInventoryController : MonoBehaviour
     private UIInventorySlot[] uiEquippedSlots => equippedGrid.GetComponentsInChildren<UIInventorySlot>();
     private UIInventorySlot[] uiCollectableItemsSlots => ñollectableItemsGrid.GetComponentsInChildren<UIInventorySlot>();
     private UIInventorySlot[] uiCraftComponentsIntemsSlots => ñraftComponentsItemsGrid.GetComponentsInChildren<UIInventorySlot>();
-    private void OnEnable()
+    private void Start()
     {
-
         equippedGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.equippedItems, uiEquippedSlots);
         ñollectableItemsGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.collectableItems, uiCollectableItemsSlots);
         ñraftComponentsItemsGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.craftComponents,uiCraftComponentsIntemsSlots);

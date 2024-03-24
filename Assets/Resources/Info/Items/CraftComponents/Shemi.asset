@@ -10,11 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fe6711b94989c2468735ac804106927, type: 3}
-  m_Name: InventoryItemInfo 1
+  m_Name: Shemi
   m_EditorClassIdentifier: 
-  _id: 
-  _title: 
+  _id: Shemi
+  _title: Shemi
   _description: 
+  _usInfo: {fileID: 0}
   _maxItemsInInventortySlot: 0
-  _spriteIcon: {fileID: 0}
+  _spriteIcon: {fileID: 21300000, guid: 9d60b650a7522694fbc52aef22c8ab80, type: 3}
   _itemType: 0
+  _gameObject: {fileID: 0}
+  _requielevel: 0

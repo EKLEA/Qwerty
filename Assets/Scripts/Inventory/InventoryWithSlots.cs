@@ -69,6 +69,12 @@ public class InventoryWithSlots : IInventory
             count += itemSlot.count;
         return count;
     }
+    public void TryToCheatAdd(IItemInfo iteminf, int count)
+    {
+        Item item = new Item(iteminf);
+        item.state.count = count;
+        TryToAdd(null, item);
+    }
 
     public bool TryToAdd(object sender, IItem item)
     {
@@ -124,7 +130,8 @@ public class InventoryWithSlots : IInventory
 
     public void TransitFromSlotToSlot(object sender, IInventorySlot fromSlot, IInventorySlot toSlot)
     {
-
+        if (fromSlot.slotType == SlotTypes.StaticSlot)
+            return;
         if (toSlot == null)
             return;
         if (fromSlot.isEmpty|| fromSlot.isBlock)
@@ -134,12 +141,8 @@ public class InventoryWithSlots : IInventory
         
         if (toSlot.slotType == SlotTypes.DinamicSlot)
         {
-            if (fromSlot.slotType == SlotTypes.StaticSlot)
-                return;
-            else
+            if ((!toSlot.isEmpty || toSlot.isFull) && fromSlot.item.info.id != toSlot.item.info.id)
             {
-                if ((!toSlot.isEmpty || toSlot.isFull) && fromSlot.item.info.id != toSlot.item.info.id)
-                {
                     IItem a = fromSlot.item;
                     IItem b = toSlot.item;
                     toSlot.CLear();
@@ -150,18 +153,17 @@ public class InventoryWithSlots : IInventory
                     fromSlot.item.state.count = b.state.count;
 
                     OnInventoryStateChangedEvent?.Invoke(sender);
-
-                }
-                if (toSlot.isEmpty)
-                {
+            }
+            if (toSlot.isEmpty)
+            {
                     toSlot.SetItem(fromSlot.item);
                     toSlot.item.state.count = fromSlot.item.state.count;
                     fromSlot.CLear();
                     OnInventoryStateChangedEvent?.Invoke(sender);
-                }
-                if (fromSlot == toSlot) return;
-                if ((!toSlot.isEmpty && !fromSlot.isEmpty) && (fromSlot.item.info.id == toSlot.item.info.id))
-                {
+            }
+            if (fromSlot == toSlot) return;
+            if ((!toSlot.isEmpty && !fromSlot.isEmpty) && (fromSlot.item.info.id == toSlot.item.info.id))
+            {
                     var slotCapacity = toSlot.capacity;
                     var fits = fromSlot.count + toSlot.count <= slotCapacity;
                     var amountToAdd = fits ? fromSlot.count : slotCapacity - toSlot.count;
@@ -172,7 +174,6 @@ public class InventoryWithSlots : IInventory
                     else
                         fromSlot.item.state.count = amountLeft;
                     OnInventoryStateChangedEvent?.Invoke(sender);
-                }
             }
         }
        

@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
@@ -19,10 +21,11 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
         _canvasGroup = GetComponent<CanvasGroup>();
         isUsed = true;
     }
-
+   
     public void OnBeginDrag(PointerEventData eventData)
     {
         OnDraggingEvent?.Invoke(this);
+        
         if (eventData.button == PointerEventData.InputButton.Right)
             eventData.pointerDrag = null;
         else
@@ -46,6 +49,8 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (GetComponentInParent<UIInventorySlot>().slot.slotType == SlotTypes.StaticSlot)
+            return;
         _rectTransform.anchoredPosition += eventData.delta/_mainCanvas.scaleFactor;
         
         

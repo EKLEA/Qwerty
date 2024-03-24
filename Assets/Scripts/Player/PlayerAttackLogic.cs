@@ -15,7 +15,7 @@ public class PlayerAttackLogic : AttakingObjLogic
         {
             try
             {
-                return Hand.GetComponentInChildren<Item>().GetExItem();
+                return Hand.GetComponentInChildren<Item>();
             }
             catch
             {

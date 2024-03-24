@@ -10,7 +10,7 @@ public class UIInventorySlot : UISlot
 
 {
     
-    [SerializeField] private UIInventoryItem _uiInventoryItem;
+    [SerializeField] protected UIInventoryItem _uiInventoryItem;
     private UIInventory _uiInventory;
     public bool GetItemDragState()
     {
@@ -30,6 +30,8 @@ public class UIInventorySlot : UISlot
     }
     public override void OnDrop(PointerEventData eventData)
     {
+        if (slot.slotType == SlotTypes.StaticSlot)
+            return;
         var otherItemUI = eventData.pointerDrag.GetComponent<UIInventoryItem>(); 
         var otherSlotUI = otherItemUI.GetComponentInParent<UIInventorySlot>();
         var otherSlot = otherSlotUI.slot;

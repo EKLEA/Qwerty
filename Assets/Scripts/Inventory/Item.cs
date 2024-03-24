@@ -1,23 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class Item : MonoBehaviour
-{
-    [SerializeField] private InventoryItemInfo inf;
-    private ExampleItem item;
-    private GameObject itemOperator;
-    public int _count;
-    public ExampleItem GetExItem()
-    {
-        item = new ExampleItem(inf);
-        item.state.count = _count;
-        item.state.itemOperator = itemOperator;
-        return item;
-    }
-    public void SetOperator(IItemState state)
-    {
-        itemOperator = state.itemOperator;
-    }
+[System.Serializable]
 
+public class Item : IItem
+{
+    public IItemInfo info { get; set; }
+
+    public IItemState state { get; set; }
+    public Item(IItemInfo info)
+    {
+        this.info = info;
+        state = new InventoryItemState();
+    }
+    public IItem Clone()
+    {
+        var clonedExampleItem = new Item(info);
+        clonedExampleItem.state.count = state.count;
+        return clonedExampleItem;
+    }
 }
