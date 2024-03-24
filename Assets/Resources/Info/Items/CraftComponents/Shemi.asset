@@ -16,7 +16,7 @@ MonoBehaviour:
   _title: Shemi
   _description: 
   _usInfo: {fileID: 0}
-  _maxItemsInInventortySlot: 0
+  _maxItemsInInventortySlot: 1000
   _spriteIcon: {fileID: 21300000, guid: 9d60b650a7522694fbc52aef22c8ab80, type: 3}
   _itemType: 0
   _gameObject: {fileID: 0}
