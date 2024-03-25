@@ -10,6 +10,8 @@ public class PlayerUseMoment : MonoBehaviour
     [SerializeField] public GameObject Hand;
     public delegate void OnOpenInventoryDelegate();
     [HideInInspector] public OnOpenInventoryDelegate OnOpenInventoryCallBack;
+    public delegate void OnOpenConsoleDelegate();
+    [HideInInspector] public OnOpenConsoleDelegate OnOpenConsoleCallBack;
     public event Action<bool> OnOpenContextMenuEvent;
     public event Action<float> OnChangeMenuEvent;
 
@@ -29,6 +31,7 @@ public class PlayerUseMoment : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
             if (Input.GetButtonDown("Inventory"))
                 OnOpenContextMenuEvent?.Invoke(false);
+
 
     }
 }

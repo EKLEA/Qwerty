@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fe6711b94989c2468735ac804106927, type: 3}
-  m_Name: Bolti
+  m_Name: Bolts
   m_EditorClassIdentifier: 
-  _id: Bolti
-  _title: Bolti
+  _id: Bolts
+  _title: "\u0411\u043E\u043B\u0442\u044B"
   _description: 
   _usInfo: {fileID: 0}
   _maxItemsInInventortySlot: 1000

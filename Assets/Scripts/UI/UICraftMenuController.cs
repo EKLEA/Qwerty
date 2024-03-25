@@ -6,20 +6,18 @@ using UnityEngine.UIElements;
 
 public class CraftMenuScript : MonoBehaviour
 {
-    PlayerInventory playerInventory => PlayerController.Instance.GetComponent<PlayerInventory>();
 
+    PlayerInventory playerInventory => PlayerController.Instance.GetComponent<PlayerInventory>();
 
 
     public GameObject ñraftComponentsItemsGrid;
     public GameObject craftableItemsGrid;
 
-    private UIInventorySlot[] uiCraftComponentsIntemsSlots => ñraftComponentsItemsGrid.GetComponentsInChildren<UIInventorySlot>();
-    private UIInventorySlot[] uicraftableItemsSlots => craftableItemsGrid.GetComponentsInChildren<UICraftSlot>();
     [SerializeField] Scrollbar scrollbar;
-    private void Start()
+    private void Awake()
     {
-        ñraftComponentsItemsGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.craftComponents, uiCraftComponentsIntemsSlots);
-        craftableItemsGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.craftableItems, uicraftableItemsSlots);
+        ñraftComponentsItemsGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.craftComponents);
+        craftableItemsGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.craftableItems);
         scrollbar= GetComponentInChildren<Scrollbar>();
     }
     private void OnEnable()

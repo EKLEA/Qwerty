@@ -32,7 +32,18 @@ public class PlayerInventory: MonoBehaviour
     private void Start()
     {
         storageItems.SetBlockInventory(true);
-        craftComponents.TryToCheatAdd(ItemBase.ItemsInfo["Bolti"], 0);
+        CheatAdd(craftComponents, "Bolts", 0);
+        CheatAdd(craftComponents, "Fluid", 0);
+        CheatAdd(craftComponents, "Electronics", 0);
 
     }
+    public static void CheatAdd(InventoryWithSlots inv ,string id,int count)
+    {
+        inv.TryToAdd(null,new Item(ItemBase.ItemsInfo[id],count));
+    }
+    public static void CheatRemove(InventoryWithSlots inv, string id, int count)
+    {
+        inv.Remove(null,id,count);
+    }
+
 }

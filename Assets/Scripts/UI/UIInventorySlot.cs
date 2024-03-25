@@ -42,9 +42,12 @@ public class UIInventorySlot : UISlot
     }
     public void Refresh()
     {
+
         if (slot != null)
         {
+
             _uiInventoryItem.Refresh(slot);
         }
+        else Debug.Log("соси");
     }
 }

@@ -7,11 +7,10 @@ using UnityEngine;
 
 public class UIInventory : MonoBehaviour
 {
+    PlayerInventory playerInventory=> PlayerController.Instance.GetComponent<PlayerInventory>();
     [HideInInspector] public InventoryWithSlots inventory;
-    [HideInInspector] public UIInventorySlot[] slots;
-   
-
-    public void SetupInvntoryUI(InventoryWithSlots inventory, UIInventorySlot[] slots)
+    [HideInInspector] UIInventorySlot[] slots=> GetComponentsInChildren<UIInventorySlot>(includeInactive:true);
+    public void SetupInvntoryUI(InventoryWithSlots inventory)
     {
         var allSlots = inventory.GetAllSlots();
         
@@ -22,5 +21,12 @@ public class UIInventory : MonoBehaviour
             uiSlot.SetSlot(slot); 
             uiSlot.Refresh();
         }
+        inventory.OnInventoryStateChangedEvent += OnInventoryStateChanged;
+    }
+    private void OnInventoryStateChanged(object obj)
+    {
+        
+        foreach (var slot in slots)
+            slot.Refresh();
     }
 }

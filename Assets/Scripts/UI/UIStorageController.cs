@@ -8,26 +8,23 @@ using UnityEngine.UI;
 public class UIStorageController : MonoBehaviour
 {
 
-    PlayerInventory playerInventory=> PlayerController.Instance.GetComponent<PlayerInventory>();
 
+    PlayerInventory playerInventory => PlayerController.Instance.GetComponent<PlayerInventory>();
 
     public GameObject equippedGrid;
     public GameObject ñraftComponentsItemsGrid;
     public GameObject storageItemsGrid;
 
-    private UIInventorySlot[] uiEquippedSlots => equippedGrid.GetComponentsInChildren<UIInventorySlot>();
-    private UIInventorySlot[] uiCraftComponentsIntemsSlots => ñraftComponentsItemsGrid.GetComponentsInChildren<UIInventorySlot>();
 
     //List<UIInventorySlot> storageSlots=new List<UIInventorySlot>();
 
-    UIInventorySlot[] uiStorageItemsSlots=>storageItemsGrid.GetComponentsInChildren<UIInventorySlot>(includeInactive: true);
 
-    private void Start()
+    private void Awake()
     {
-        equippedGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.equippedItems, uiEquippedSlots);
-        ñraftComponentsItemsGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.craftComponents, uiCraftComponentsIntemsSlots);
+        equippedGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.equippedItems);
+        ñraftComponentsItemsGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.craftComponents);
 
-        storageItemsGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.storageItems, uiStorageItemsSlots);
+        storageItemsGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.storageItems);
     }
     int ids;
     int id

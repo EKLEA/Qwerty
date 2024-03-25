@@ -13,6 +13,12 @@ public class Item : IItem
         this.info = info;
         state = new InventoryItemState();
     }
+    public Item(IItemInfo info , int count)
+    {
+        this.info = info;
+        state = new InventoryItemState();
+        state.count = count;
+    }
     public IItem Clone()
     {
         var clonedExampleItem = new Item(info);

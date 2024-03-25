@@ -8,6 +8,7 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject[] screens;
     [SerializeField] GameObject uiHud;
+    [SerializeField] GameObject Console;
     public static UIController Instance;
     Camera uiCam;
     PlayerUseMoment playerUseMoment=> PlayerController.Instance.GetComponent<PlayerUseMoment>();

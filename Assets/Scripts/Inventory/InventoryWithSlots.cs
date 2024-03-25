@@ -69,12 +69,7 @@ public class InventoryWithSlots : IInventory
             count += itemSlot.count;
         return count;
     }
-    public void TryToCheatAdd(IItemInfo iteminf, int count)
-    {
-        Item item = new Item(iteminf);
-        item.state.count = count;
-        TryToAdd(null, item);
-    }
+    
 
     public bool TryToAdd(object sender, IItem item)
     {
@@ -194,8 +189,9 @@ public class InventoryWithSlots : IInventory
             if (slot.count >= amountToRemove)
             {
                 slot.item.state.count -= amountToRemove;
-                if (slot.count <= 0)
+                if (slot.count <= 0&& slot.requieType!=ItemTypes.CraftComponents)
                     slot.CLear();
+                   
                 Debug.Log($"item removed from inventort. ItemId: {ItemID}, amount {amountToRemove}");
                 OnInventoryItemRemovedEvent?.Invoke(sender, slot.item, amountToRemove);
                 OnInventoryStateChangedEvent?.Invoke(sender);
@@ -204,7 +200,8 @@ public class InventoryWithSlots : IInventory
             }
             var amountRemoved = slot.count;
             amountToRemove-= slot.count;
-            slot.CLear();
+            if (slot.requieType != ItemTypes.CraftComponents)
+                slot.CLear();
             Debug.Log($"item removed from inventort. ItemId: {ItemID}, amount {amountRemoved}");
             OnInventoryItemRemovedEvent?.Invoke(sender, slot.item, amountRemoved);
             OnInventoryStateChangedEvent?.Invoke(sender);

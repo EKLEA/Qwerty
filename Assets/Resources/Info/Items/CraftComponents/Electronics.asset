@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fe6711b94989c2468735ac804106927, type: 3}
-  m_Name: Jija
+  m_Name: Electronics
   m_EditorClassIdentifier: 
-  _id: Jija
-  _title: Jija
+  _id: Electronics
+  _title: "\u042D\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u0438\u043A\u0430"
   _description: 
   _usInfo: {fileID: 0}
   _maxItemsInInventortySlot: 1000
-  _spriteIcon: {fileID: 21300000, guid: 2a90701e594ed304bbc5fc3339ab4a0e, type: 3}
+  _spriteIcon: {fileID: 21300000, guid: 9d60b650a7522694fbc52aef22c8ab80, type: 3}
   _itemType: 0
   _gameObject: {fileID: 0}
   _requielevel: 0
