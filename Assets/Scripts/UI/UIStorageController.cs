@@ -19,13 +19,14 @@ public class UIStorageController : MonoBehaviour
     //List<UIInventorySlot> storageSlots=new List<UIInventorySlot>();
 
 
-    private void Awake()
+    private void Start()
     {
         equippedGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.equippedItems);
         ñraftComponentsItemsGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.craftComponents);
 
         storageItemsGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.storageItems);
     }
+    /*
     int ids;
     int id
     {
@@ -71,5 +72,5 @@ public class UIStorageController : MonoBehaviour
             downBt.gameObject.SetActive(true);
         }
         screens[id].gameObject.SetActive(true);
-    }
+    }*/
 }

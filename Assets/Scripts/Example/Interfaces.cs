@@ -4,27 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-
-
-
-public interface IUsableItemInfo
-{
-    public int damage { get; }
-    public float coolDown { get; }
-    public float range { get; }
-
-}
-
-public interface IItem
-{
-    IItemInfo info { get; set; }
-    IItemState state { get; set; }
-   
-    IItem Clone();
-    
-}
-
-
 public enum ItemTypes
 {
     CraftComponents,
@@ -44,6 +23,27 @@ public enum SlotTypes
     StaticSlot,
     DinamicSlot
 }
+/*
+
+public interface IUsableItemInfo
+{
+    public int damage { get; }
+    public float coolDown { get; }
+    public float range { get; }
+
+}
+
+public interface IItem
+{
+    IItemInfo info { get; set; }
+    IItemState state { get; set; }
+   
+    IItem Clone();
+    
+}
+
+
+
 public interface IItemState
 {
     bool IsEquipped { get; set; }
@@ -98,4 +98,4 @@ public interface IInventory
 
 
 
-
+*/

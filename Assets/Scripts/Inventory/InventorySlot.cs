@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventorySlot : IInventorySlot
+public class InventorySlot 
 {
     public bool isFull => !isEmpty && count == capacity;
 
@@ -13,18 +13,18 @@ public class InventorySlot : IInventorySlot
         slotType = _slotType;
     }
 
-    public IItem item { get; private set; }
+    public Item item { get; private set; }
 
 
     public int count => isEmpty ? 0 : item.state.count;
 
     public int capacity {get; private set;}
     public bool isBlock { get; set; }
-    public IItemInfo requieItem {  get; set; }
+    public InventoryItemInfo requieItem {  get; set; }
     public ItemTypes requieType{  get; set; }
     public SlotTypes slotType { get; set; }
 
-    public void SetItem(IItem item)
+    public void SetItem(Item item)
     {
         if (!isEmpty)
         {

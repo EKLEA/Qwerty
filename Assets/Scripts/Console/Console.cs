@@ -19,8 +19,8 @@ public class Console:MonoBehaviour
 
 
     //команды
-    DebugCommand<InventoryWithSlots, string, int> CheatAdd;
-    DebugCommand<InventoryWithSlots, string, int> CheatRemove;
+    DebugCommand< string, int> AddItem;
+    DebugCommand< string, int> RemoveItem;
     DebugCommand Help;
 
     private void Awake()
@@ -28,16 +28,16 @@ public class Console:MonoBehaviour
         
 
         //команды
-        CheatAdd = new DebugCommand<InventoryWithSlots, string, int>("CheatAdd", "Добавляет предметы в инвентарь","CheatAdd <Inventory> <id> <Count>",( inv, id,count)=> { PlayerInventory.CheatAdd(inv,id,count); } );
-        CheatRemove = new DebugCommand<InventoryWithSlots, string, int>("CheatRemove", "Удаляет предметы из инвентаря", "CheatRemove <Inventory> <id> <Count>", ( inv, id,count)=> { PlayerInventory.CheatRemove(inv,id,count); } );
+        AddItem = new DebugCommand<string, int>("AddItem", "Добавляет предметы в инвентарь", "AddItem <id> <Count>", (  id,count)=> { PlayerInventory.AddItem(id,count); } );
+        RemoveItem = new DebugCommand<string, int>("RemoveItem", "Удаляет предметы из инвентаря", "RemoveItem <id> <Count>", ( id,count)=> { PlayerInventory.RemoveItem(id,count); } );
         Help = new DebugCommand("Help", "Показывает все доступные команды", "Help", () => { showHelp = true; }); 
 
 
 
         commandList = new List<object>
         {
-            CheatAdd,
-            CheatRemove,
+            AddItem,
+            RemoveItem,
             Help,
         };
     }
@@ -96,13 +96,20 @@ public class Console:MonoBehaviour
             {
                 if (commandList[i] as DebugCommand != null)
                     (commandList[i] as DebugCommand).Invoke();
-                else if (commandList[i] as DebugCommand<InventoryWithSlots,string,int> != null)
+                else if (commandList[i] as DebugCommand<string, int> != null)
                 {
+                    Debug.Log("Add");
+                    if (inputString.Contains("Item"))
+                    {
+                        Debug.Log("Add");
+                        int c;
+                        if (prop[2] == "max")
+                            c = ItemBase.ItemsInfo[prop[1]].maxItemsInInventortySlot;
+                        else
+                            c = Convert.ToInt32(prop[2]);
 
-                    InventoryWithSlots inv = (InventoryWithSlots)typeof(PlayerInventory).GetField(prop[1]).GetValue(PlayerInventory.Instance);
-                        (commandList[i] as DebugCommand<InventoryWithSlots, string, int>).Invoke(inv, prop[2], Convert.ToInt32(prop[3]));
-
-
+                        (commandList[i] as DebugCommand<string, int>).Invoke(prop[1], c);
+                    }
                 }
                 inputString = "";
             }

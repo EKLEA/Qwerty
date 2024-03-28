@@ -6,8 +6,8 @@ using UnityEngine;
 
 public abstract class AttakingObjLogic : MonoBehaviour
 {
-    public Action<float,IItem> OnDamageEvent;
-    public abstract IItem item { get; }
+    public Action<float,Item> OnDamageEvent;
+    public abstract Item item { get; }
 
     public abstract void Attack();
 

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHealthController : DamagableObj
+public class PlayerHealthController : DamagableObjWithLogic
 {
     private PlayerController pController => GetComponent<PlayerController>();
     
@@ -20,7 +20,7 @@ public class PlayerHealthController : DamagableObj
 
 
    
-    public new int health
+    public new float health
     {
         get
         {
@@ -44,7 +44,7 @@ public class PlayerHealthController : DamagableObj
 
         }
     }
-    public override void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce)
+    public override void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce)
     {
         if (pController.playerStateList.alive)
             health -= _damageDone;

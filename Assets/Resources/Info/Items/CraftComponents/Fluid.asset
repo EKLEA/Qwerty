@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fe6711b94989c2468735ac804106927, type: 3}
   m_Name: Fluid
   m_EditorClassIdentifier: 
-  _id: Fluid
-  _title: "\u0416\u0438\u0434\u043A\u043E\u0441\u0442\u044C"
-  _description: 
-  _usInfo: {fileID: 0}
-  _maxItemsInInventortySlot: 1000
-  _spriteIcon: {fileID: 21300000, guid: 2a90701e594ed304bbc5fc3339ab4a0e, type: 3}
-  _itemType: 0
-  _gameObject: {fileID: 0}
-  _requielevel: 0
+  id: Fluid
+  title: "\u0416\u0438\u0434\u043A\u043E\u0441\u0442\u044C"
+  description: 
+  usableItemInfo: {fileID: 0}
+  maxItemsInInventortySlot: 1000
+  spriteIcon: {fileID: 21300000, guid: 2a90701e594ed304bbc5fc3339ab4a0e, type: 3}
+  itemType: 0
+  itemGO: {fileID: 1948878814083772616, guid: 5e61740a2f74ba04dbd16160f4dc70fc, type: 3}
+  requielevel: 0

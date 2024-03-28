@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class EnemyHealthController : DamagableObj
+public class EnemyHealthController : DamagableObjWithLogic
 {
     
     [SerializeField] protected  float recoilLength;
@@ -40,7 +40,7 @@ public class EnemyHealthController : DamagableObj
             enemyLogic.UpdateEnemyStates();
         }
     }
-    public override void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce)
+    public override void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce)
     {
         if (hasTakenDamage) return;
         if (defense > 0)

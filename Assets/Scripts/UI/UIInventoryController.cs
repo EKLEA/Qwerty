@@ -10,7 +10,7 @@ public class UIInventoryController : MonoBehaviour
     public GameObject equippedGrid;
     public GameObject ñollectableItemsGrid;
     public GameObject ñraftComponentsItemsGrid;
-    private void Awake()
+    private void Start()
     {
         equippedGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.equippedItems);
         ñollectableItemsGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.collectableItems);

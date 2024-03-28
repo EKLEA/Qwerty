@@ -12,17 +12,16 @@ public class CraftMenuScript : MonoBehaviour
 
     public GameObject ñraftComponentsItemsGrid;
     public GameObject craftableItemsGrid;
-
-    [SerializeField] Scrollbar scrollbar;
+    public GameObject scrollbar;
+    Scrollbar _scrollbar=>scrollbar.GetComponent<Scrollbar>();
     private void Awake()
     {
         ñraftComponentsItemsGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.craftComponents);
         craftableItemsGrid.GetComponent<UIInventory>().SetupInvntoryUI(playerInventory.craftableItems);
-        scrollbar= GetComponentInChildren<Scrollbar>();
     }
     private void OnEnable()
     {
-        scrollbar.value = 1f;
+        craftableItemsGrid.transform.localPosition = new Vector3(0, -1060f, 0f);
     }
     public void OnButtonClick()
     {

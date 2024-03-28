@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fe6711b94989c2468735ac804106927, type: 3}
   m_Name: Electronics
   m_EditorClassIdentifier: 
-  _id: Electronics
-  _title: "\u042D\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u0438\u043A\u0430"
-  _description: 
-  _usInfo: {fileID: 0}
-  _maxItemsInInventortySlot: 1000
-  _spriteIcon: {fileID: 21300000, guid: 9d60b650a7522694fbc52aef22c8ab80, type: 3}
-  _itemType: 0
-  _gameObject: {fileID: 0}
-  _requielevel: 0
+  id: Electronics
+  title: "\u042D\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u0438\u043A\u0430"
+  description: 
+  usableItemInfo: {fileID: 0}
+  maxItemsInInventortySlot: 1000
+  spriteIcon: {fileID: 21300000, guid: 9d60b650a7522694fbc52aef22c8ab80, type: 3}
+  itemType: 0
+  itemGO: {fileID: 1381131522682904408, guid: 55e72e3918e49e1448d6b1e1995cf45c, type: 3}
+  requielevel: 0

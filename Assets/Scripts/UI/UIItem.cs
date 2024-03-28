@@ -19,6 +19,7 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
         _rectTransform = GetComponent<RectTransform>();
         _mainCanvas = GetComponentInParent<Canvas>();
         _canvasGroup = GetComponent<CanvasGroup>();
+
         isUsed = true;
     }
    
@@ -30,7 +31,7 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
             eventData.pointerDrag = null;
         else
         {
-            if (GetComponentInParent<UIInventorySlot>().slot == null)
+            if (GetComponentInParent<UIInventorySlot>().slot == null||GetComponentInParent<UIInventorySlot>().slot.item.info.itemType == ItemTypes.CraftComponents)
             {
                 isUsed = true;
                 eventData.pointerDrag = null;
@@ -40,6 +41,7 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
                 var slotTransform = _rectTransform.parent;
                 slotTransform.SetAsLastSibling();
                 slotTransform.parent.SetAsLastSibling();
+                slotTransform.parent.parent. SetAsLastSibling();
                 _canvasGroup.blocksRaycasts = false;
                 isUsed = false;
             }
@@ -48,9 +50,14 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
     }
 
     public void OnDrag(PointerEventData eventData)
-    {
-        if (GetComponentInParent<UIInventorySlot>().slot.slotType == SlotTypes.StaticSlot)
+    { 
+       if (GetComponentInParent<UIInventorySlot>().slot.slotType == SlotTypes.StaticSlot)
+          return;
+        if (GetComponentInParent<UIInventorySlot>().slot.item.info.itemType==ItemTypes.CraftComponents)
             return;
+        if (transform.parent.GetComponentInParent<UIInventory>().inventory.isBlock==true)
+            return;
+
         _rectTransform.anchoredPosition += eventData.delta/_mainCanvas.scaleFactor;
         
         

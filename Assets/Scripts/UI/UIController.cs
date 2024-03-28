@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] GameObject playerUIInterface;
+    [SerializeField] public GameObject playerUIInterface;
     [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject[] screens;
     [SerializeField] GameObject uiHud;
@@ -77,7 +77,6 @@ public class UIController : MonoBehaviour
                 menuID = 0;
             else if (menuID < 0)
                 menuID = screens.Length - 1;
-
             screens[menuID].SetActive(true);
         }
     }

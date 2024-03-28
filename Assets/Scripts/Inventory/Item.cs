@@ -3,23 +3,23 @@ using UnityEngine;
 
 [System.Serializable]
 
-public class Item : IItem
+public class Item 
 {
-    public IItemInfo info { get; set; }
+    public InventoryItemInfo info { get; set; }
 
-    public IItemState state { get; set; }
-    public Item(IItemInfo info)
+    public InventoryItemState state { get; set; }
+    public Item(InventoryItemInfo info)
     {
         this.info = info;
         state = new InventoryItemState();
     }
-    public Item(IItemInfo info , int count)
+    public Item(InventoryItemInfo info , int count)
     {
         this.info = info;
         state = new InventoryItemState();
         state.count = count;
     }
-    public IItem Clone()
+    public Item Clone()
     {
         var clonedExampleItem = new Item(info);
         clonedExampleItem.state.count = state.count;

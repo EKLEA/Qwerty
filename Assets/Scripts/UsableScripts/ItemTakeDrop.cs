@@ -1,32 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Progress;
 
-public class ItemTake : ExampleUsable
+
+
+
+public class ItemTakeDrop : ExampleUsable
 {
-    [SerializeField] InventoryItemInfo itemInf;
-    Item item;
-    private void Start()
-    {
-        Item item = new Item(itemInf);
-    }
+    public InventoryItemInfo itemInf;
+    public int count;
+
     public override void UseMoment()
     {
-        if (itemInf.itemType == ItemTypes.UsableItem)
-        {
-            gameObject.transform.parent = playerUseMoment.Hand.transform;
-            transform.localPosition = new Vector3(-0.67f, -0.036f, -0.013f);
-            transform.localRotation = Quaternion.Euler(0, -90, 90);
-            playerUseMoment.OnUsedEvent -= Cheker;
-        }
-        else if (itemInf.itemType== ItemTypes.CraftComponents)
-        {
-            PlayerInventory.Instance.craftComponents.TryToAdd(null,item);
-        }
-        else if(itemInf.itemType==ItemTypes.collectableItems)
-        {
-            PlayerInventory.Instance.collectableItems.TryToAdd(null, item);
-        }
+       // if (gameObject.layer==LayerMask.NameToLayer("Weapon"))
+       // {
+       //     gameObject.transform.parent = playerUseMoment.Hand.transform;
+       //     transform.localPosition = new Vector3(-0.67f, -0.036f, -0.013f);
+       //     transform.localRotation = Quaternion.Euler(0, -90, 90);
+        //    playerUseMoment.OnUsedEvent -= Cheker;
+       // }
+        //else
+            PlayerInventory.AddItem(itemInf.id, count);
+        playerUseMoment.OnUsedEvent -= Cheker;
+        DestroyImmediate (gameObject);
+    }
+    public static void SpawnItem(string id,int count)
+    {
+        GameObject gm= Instantiate(ItemBase.ItemsInfo[id].itemGO);
+        gm.GetComponent<ItemTakeDrop>().count = count;
     }
 }

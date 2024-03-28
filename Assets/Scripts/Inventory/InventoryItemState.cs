@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [SerializeField]
-public class InventoryItemState : IItemState
+public class InventoryItemState 
 {
     public int itemAmount;
     public bool isItemEquipped;

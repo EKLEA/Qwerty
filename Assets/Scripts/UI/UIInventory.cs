@@ -7,11 +7,12 @@ using UnityEngine;
 
 public class UIInventory : MonoBehaviour
 {
-    PlayerInventory playerInventory=> PlayerController.Instance.GetComponent<PlayerInventory>();
     [HideInInspector] public InventoryWithSlots inventory;
     [HideInInspector] UIInventorySlot[] slots=> GetComponentsInChildren<UIInventorySlot>(includeInactive:true);
     public void SetupInvntoryUI(InventoryWithSlots inventory)
+        
     {
+        this.inventory = inventory;
         var allSlots = inventory.GetAllSlots();
         
         for (int i = 0; i < allSlots.Length; i++)

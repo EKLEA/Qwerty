@@ -9,13 +9,14 @@ public class PlayerAttackLogic : AttakingObjLogic
     private PlayerStateList pState => playerController.playerStateList;
     public GameObject Hand;
     [SerializeField] LayerMask attacableLayer;
-    public override IItem item
+    public override Item item
     {
         get
         {
             try
             {
-                return Hand.GetComponentInChildren<Item>();
+                
+               return PlayerInventory.Instance.weaponAndPerks.GetAllSlots()[0].item;
             }
             catch
             {
@@ -23,14 +24,14 @@ public class PlayerAttackLogic : AttakingObjLogic
             }
         }
     }
-    private int damage
+    private float damage
     {
         get
         {
             if (item == null)
                 return 1;
             else
-                return item.info.usableItemInfo.damage;
+                return (item.info as WeaponItemInfo).damage;
         }
     }
     private float range
@@ -40,7 +41,7 @@ public class PlayerAttackLogic : AttakingObjLogic
             if (item == null)
                 return 1;
             else
-                return item.info.usableItemInfo.range;
+                return (item.info as WeaponItemInfo).range;
         }
     }
     private float coolDown
@@ -50,7 +51,7 @@ public class PlayerAttackLogic : AttakingObjLogic
             if (item == null)
                 return 0.01f;
             else
-                return item.info.usableItemInfo.coolDown;
+                return (item.info as WeaponItemInfo).cooldown;
         }
     }
     private Vector3 sideAttackArea

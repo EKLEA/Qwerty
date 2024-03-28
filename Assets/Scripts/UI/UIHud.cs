@@ -18,8 +18,8 @@ public class UIHud : MonoBehaviour
     private void Start()
     {
         playerController =PlayerController.Instance;
-        heartContainers = new GameObject[playerController.playerHealthController.maxHealth];
-        heartFills = new Image[playerController.playerHealthController.maxHealth];
+        heartContainers = new GameObject[(int)playerController.playerHealthController.maxHealth];
+        heartFills = new Image[(int)playerController.playerHealthController.maxHealth];
 
         playerController.playerHealthController.OnHealthChangedCallBack += UpdateHeartHUD;
         playerController.playerHealthController.OnEnergyChangedCallBack += UpdateEnergyHUD;

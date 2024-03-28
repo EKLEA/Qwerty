@@ -13,8 +13,9 @@ public class PlayerInventory: MonoBehaviour
     public InventoryWithSlots equippedItems = new InventoryWithSlots(7, SlotTypes.DinamicSlot);
     public InventoryWithSlots collectableItems = new InventoryWithSlots(12, SlotTypes.StaticSlot);
     public InventoryWithSlots craftComponents= new InventoryWithSlots(3, SlotTypes.StaticSlot);
-    public InventoryWithSlots storageItems = new InventoryWithSlots(40, SlotTypes.DinamicSlot);
+    public InventoryWithSlots storageItems = new InventoryWithSlots(20, SlotTypes.DinamicSlot);
     public InventoryWithSlots craftableItems = new InventoryWithSlots(15, SlotTypes.StaticSlot);
+    public InventoryWithSlots weaponAndPerks = new InventoryWithSlots(4, SlotTypes.StaticSlot);
     public int levelTier= 0;
     public static PlayerInventory Instance;
 
@@ -31,19 +32,33 @@ public class PlayerInventory: MonoBehaviour
     }
     private void Start()
     {
+
         storageItems.SetBlockInventory(true);
-        CheatAdd(craftComponents, "Bolts", 0);
-        CheatAdd(craftComponents, "Fluid", 0);
-        CheatAdd(craftComponents, "Electronics", 0);
+        AddItem( "Bolts", 0);
+        AddItem( "Fluid", 0);
+        AddItem( "Electronics", 0);
 
     }
-    public static void CheatAdd(InventoryWithSlots inv ,string id,int count)
+    public static void AddItem(string id,int count)
     {
-        inv.TryToAdd(null,new Item(ItemBase.ItemsInfo[id],count));
+        if (!ItemBase.ItemsInfo.ContainsKey(id))
+            return;
+        if (ItemBase.ItemsInfo[id].itemType == ItemTypes.CraftComponents)
+            Instance.craftComponents.TryToAdd(null, new Item(ItemBase.ItemsInfo[id],count));
+        else if (ItemBase.ItemsInfo[id].itemType == ItemTypes.collectableItems)
+            Instance.collectableItems.TryToAdd(null, new Item(ItemBase.ItemsInfo[id], count));
+        else
+            Instance.storageItems.TryToAdd(null, new Item(ItemBase.ItemsInfo[id], count));
+
     }
-    public static void CheatRemove(InventoryWithSlots inv, string id, int count)
+    public static void RemoveItem(string id, int count)
     {
-        inv.Remove(null,id,count);
+        if (ItemBase.ItemsInfo[id].itemType == ItemTypes.CraftComponents)
+            Instance.craftComponents.Remove(null,id, count);
+        else if (ItemBase.ItemsInfo[id].itemType == ItemTypes.collectableItems)
+            Instance.collectableItems.Remove(null, id, count);
+        else
+            Instance.storageItems.Remove(null, id, count);
     }
 
 }

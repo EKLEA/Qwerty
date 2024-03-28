@@ -10,24 +10,20 @@ public class DamagableObj : MonoBehaviour
     public delegate void OnHealthChangedDelegate();
     [HideInInspector] public OnHealthChangedDelegate OnHealthChangedCallBack;
 
-    public delegate void OnEnergyChangedDelegate();
-    [HideInInspector] public OnEnergyChangedDelegate OnEnergyChangedCallBack;
-
     public delegate void OnDeadDelegate();
     [HideInInspector] public OnDeadDelegate OnDeadCallBack;
 
-    public int maxHealth;
-    public float maxEnergy;
-    private void OnEnable()
+    public float maxHealth;
+    
+    protected void OnEnable()
     {
         hp = maxHealth;
-        en = maxEnergy;
 
     }
-    protected int hp;
-    protected int df;
-    protected float en;
-    public int health
+    protected float hp;
+    protected float df;
+    
+    public float health
     {
         get
         {
@@ -48,20 +44,8 @@ public class DamagableObj : MonoBehaviour
 
         }
     }
-    public float energy
-    {
-        get
-        {
-            return en;
-        }
-        set
-        {
-            OnEnergyChangedCallBack?.Invoke();
-            en = value;
-
-        }
-    }
-    public int defense
+    
+    public float defense
     {
         get { return df; }
         set
@@ -69,6 +53,6 @@ public class DamagableObj : MonoBehaviour
             df = value;
         }
     }
-    public virtual void DamageMoment(int _damageDone, Vector2 _hitDirection, float _hitForce) { }
+    public virtual void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce) { }
 }
 

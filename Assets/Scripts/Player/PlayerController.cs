@@ -75,11 +75,11 @@ public class PlayerController : MonoBehaviour
             attackLogic.Attack();
             attackLogic.CastSpell();
         }
-        if (playerStateList.interactedWithCheckPoint && (Input.GetButtonDown("Cast/Heal") ||
+        if (playerStateList.interactedWithCheckPoint && ((Input.GetButtonDown("Cast/Heal") ||
                                                          Input.GetButtonDown("Horizontal") ||
                                                          Input.GetButtonDown("Vertical") ||
                                                          Input.GetButtonDown("Dash") ||
-                                                         Input.GetButtonDown("Attack")))
+                                                         Input.GetButtonDown("Attack") )&& UIController.Instance.playerUIInterface.activeInHierarchy == false)) 
             StartCoroutine(ExitFromCheckPoint());
             
        
@@ -109,6 +109,7 @@ public class PlayerController : MonoBehaviour
         // анимация входа
         yield return new WaitForSeconds(0.15f);
         rb.velocity = Vector3.zero;
+        PlayerInventory.Instance.storageItems.SetBlockInventory(false);
         playerStateList.interactedWithCheckPoint = true;
 
     }
@@ -116,6 +117,7 @@ public class PlayerController : MonoBehaviour
     {
         // анимация выхода
         yield return new WaitForSeconds(0.15f);
+        PlayerInventory.Instance.storageItems.SetBlockInventory(true);
         playerStateList.interactedWithCheckPoint = false;
     }
 }
