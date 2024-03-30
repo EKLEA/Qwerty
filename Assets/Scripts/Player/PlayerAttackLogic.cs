@@ -9,21 +9,24 @@ public class PlayerAttackLogic : AttakingObjLogic
     private PlayerStateList pState => playerController.playerStateList;
     public GameObject Hand;
     [SerializeField] LayerMask attacableLayer;
-    public override Item item
+    public  override Item item
     {
-        get
+        get 
         {
-            try
+            if (PlayerInventory.Instance != null)
             {
-                
-               return PlayerInventory.Instance.weaponAndPerks.GetAllSlots()[0].item;
+                if (PlayerInventory.Instance.weaponAndPerks.GetAllSlots()[0].item != null)
+                    return PlayerInventory.Instance.weaponAndPerks.GetAllSlots()[0].item;
+                else
+                    return null;
             }
-            catch
-            {
+            else
                 return null;
-            }
+
         }
     }
+
+
     private float damage
     {
         get

@@ -5,13 +5,19 @@ using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
 using static UnityEditor.Progress;
-
+public enum InventoryType
+{
+    Equippement,
+    Storage,
+}
 public class InventoryWithSlots
 {
     public event Action<object, Item, int> OnInventoryItemAddedEvent;
     public event Action<object, Item, int> OnInventoryItemRemovedEvent;
-    public event Action<object, Item, bool> OnEquippedItemEvent;
     public event Action<object> OnInventoryStateChangedEvent;
+    public event Action<bool, Item> OnEquippedEvent;
+    
+    public InventoryType invType;
     
     public int invCapacity { get; set; }
     public bool isBlock=false;
@@ -20,16 +26,17 @@ public class InventoryWithSlots
 
     private List<InventorySlot> _slots;
 
-    public InventoryWithSlots(int capacity,SlotTypes slotType)
+    public InventoryWithSlots(int capacity,SlotTypes slotType,InventoryType invType)
     {
         this.invCapacity = capacity;
         _slots=new List<InventorySlot>(capacity);
         for (int i = 0; i < capacity; i++)
-            _slots.Add(new InventorySlot(slotType));
+            _slots.Add(new InventorySlot(slotType,invType));
+        this.invType = invType;
     }
      public Item GetItem(string ItemID)
      {
-        return _slots.Find(slot => slot.item.info.id == ItemID).item;
+           return _slots.Find(slot => slot.item.info.id == ItemID).item;
      }
 
     public Item[] GetAllItems()
@@ -124,7 +131,7 @@ public class InventoryWithSlots
 
     public void TransitFromSlotToSlot(object sender, InventorySlot fromSlot, InventorySlot toSlot)
     {
-
+        
         if (fromSlot.slotType == SlotTypes.StaticSlot|| fromSlot.item.info.itemType==ItemTypes.CraftComponents)
             return;
         if (toSlot == null)
@@ -134,49 +141,57 @@ public class InventoryWithSlots
             return;
         if (this.isBlock == true)
             return;
-
-
-
-
         if (toSlot.slotType == SlotTypes.DinamicSlot)
         {
-            if ((!toSlot.isEmpty || toSlot.isFull) && fromSlot.item.info.id != toSlot.item.info.id)
+            if (toSlot.inventoryType != fromSlot.inventoryType)
             {
-                Item a = fromSlot.item;
-                Item b = toSlot.item;
-                toSlot.CLear();
-                toSlot.SetItem(a);
-                toSlot.item.state.count = a.state.count;
-                fromSlot.CLear();
-                fromSlot.SetItem(b);
-                fromSlot.item.state.count = b.state.count;
-
-                OnInventoryStateChangedEvent?.Invoke(sender);
+                if (fromSlot.inventoryType == InventoryType.Storage && toSlot.inventoryType == InventoryType.Equippement)
+                    PlayerInventory.Instance.EquippedMoment(true, fromSlot.item);
+                if (fromSlot.inventoryType == InventoryType.Equippement && toSlot.inventoryType == InventoryType.Storage)
+                    PlayerInventory.Instance.EquippedMoment(false, fromSlot.item);
             }
-            if (toSlot.isEmpty)
-            {
-                toSlot.SetItem(fromSlot.item);
-                toSlot.item.state.count = fromSlot.item.state.count;
-                fromSlot.CLear();
-                OnInventoryStateChangedEvent?.Invoke(sender);
-            }
-            if (fromSlot == toSlot) return;
-            if ((!toSlot.isEmpty && !fromSlot.isEmpty) && (fromSlot.item.info.id == toSlot.item.info.id))
-            {
-                var slotCapacity = toSlot.capacity;
-                var fits = fromSlot.count + toSlot.count <= slotCapacity;
-                var amountToAdd = fits ? fromSlot.count : slotCapacity - toSlot.count;
-                var amountLeft = fromSlot.count - amountToAdd;
-                toSlot.item.state.count += amountToAdd;
-                if (fits)
+                if ((!toSlot.isEmpty || toSlot.isFull) && fromSlot.item.info.id != toSlot.item.info.id)
+                {
+                    Item a = fromSlot.item;
+                    Item b = toSlot.item;
+                    toSlot.CLear();
+                    toSlot.SetItem(a);
+                    toSlot.item.state.count = a.state.count;
                     fromSlot.CLear();
-                else
-                    fromSlot.item.state.count = amountLeft;
-                OnInventoryStateChangedEvent?.Invoke(sender);
-            }
+                    fromSlot.SetItem(b);
+                    fromSlot.item.state.count = b.state.count;
+
+                    OnInventoryStateChangedEvent?.Invoke(sender);
+                }
+                if (toSlot.isEmpty)
+                {
+                    toSlot.SetItem(fromSlot.item);
+                    toSlot.item.state.count = fromSlot.item.state.count;
+                    fromSlot.CLear();
+                    OnInventoryStateChangedEvent?.Invoke(sender);
+
+                }
+                if (fromSlot == toSlot) return;
+                if ((!toSlot.isEmpty && !fromSlot.isEmpty) && (fromSlot.item.info.id == toSlot.item.info.id))
+                {
+                    var slotCapacity = toSlot.capacity;
+                    var fits = fromSlot.count + toSlot.count <= slotCapacity;
+                    var amountToAdd = fits ? fromSlot.count : slotCapacity - toSlot.count;
+                    var amountLeft = fromSlot.count - amountToAdd;
+                    toSlot.item.state.count += amountToAdd;
+                    if (fits)
+                        fromSlot.CLear();
+                    else
+                        fromSlot.item.state.count = amountLeft;
+                    OnInventoryStateChangedEvent?.Invoke(sender);
+                }
+            
         }
 
-    
+
+
+
+
 
 
     }

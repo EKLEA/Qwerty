@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 public class UIInventorySlot : UISlot
 
 {
-    
+
     [SerializeField] protected UIInventoryItem _uiInventoryItem;
     public bool GetItemDragState()
     {
@@ -27,6 +27,8 @@ public class UIInventorySlot : UISlot
     {
         if (slot.slotType == SlotTypes.StaticSlot)
             return;
+       
+
 
         var otherItemUI = eventData.pointerDrag.GetComponent<UIInventoryItem>(); 
         var otherSlotUI = otherItemUI.GetComponentInParent<UIInventorySlot>();
@@ -34,7 +36,24 @@ public class UIInventorySlot : UISlot
         var otherSlot = otherSlotUI.slot;
 
         var inventory = eventData.pointerDrag.GetComponentInParent<UIInventory>().inventory;
-        inventory.TransitFromSlotToSlot(this, otherSlot, slot);
+
+
+        if (slot.requieType != ItemTypes.Any)
+        {
+            
+            if (slot.requieType != otherSlot.item.info.itemType)
+                return;
+            else
+                inventory.TransitFromSlotToSlot(this, otherSlot, slot);
+                
+        }
+        else
+            inventory.TransitFromSlotToSlot(this, otherSlot, slot);
+
+
+
+
+
         Refresh();
         otherSlotUI.Refresh();
     }
@@ -45,6 +64,5 @@ public class UIInventorySlot : UISlot
         {
             _uiInventoryItem.Refresh(slot);
         }
-        else Debug.Log("соси");
     }
 }

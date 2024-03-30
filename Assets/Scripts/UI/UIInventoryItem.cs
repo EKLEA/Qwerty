@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIInventoryItem :  UIItem
 {
 
-    [SerializeField] private Image _imageIcon;
+    [SerializeField] public Image _imageIcon;
     [SerializeField] private Text _textAmount;
     public Item item { get; private set; }
     

@@ -16,3 +16,18 @@ public class InventoryItemInfo : ScriptableObject
     [SerializeField] public int requielevel;
 
 }
+public enum ItemTypes
+{
+    CraftComponents,
+    collectableItems,
+    UsableItem,
+    Perks,
+    RobotParts,
+    Any
+}
+public enum RobotParts
+{
+    Legs,
+    Arm,
+    Body,
+}

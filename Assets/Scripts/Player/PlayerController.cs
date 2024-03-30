@@ -108,8 +108,9 @@ public class PlayerController : MonoBehaviour
     {
         // анимация входа
         yield return new WaitForSeconds(0.15f);
+        PlayerInventory.Instance.blockInv = false;
         rb.velocity = Vector3.zero;
-        PlayerInventory.Instance.storageItems.SetBlockInventory(false);
+        PlayerInventory.Instance.BlockPlayerInv();
         playerStateList.interactedWithCheckPoint = true;
 
     }
@@ -117,7 +118,8 @@ public class PlayerController : MonoBehaviour
     {
         // анимация выхода
         yield return new WaitForSeconds(0.15f);
-        PlayerInventory.Instance.storageItems.SetBlockInventory(true);
+        PlayerInventory.Instance.blockInv = true;
+        PlayerInventory.Instance.BlockPlayerInv();
         playerStateList.interactedWithCheckPoint = false;
     }
 }
