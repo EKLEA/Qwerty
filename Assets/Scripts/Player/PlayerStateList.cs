@@ -17,8 +17,8 @@ public class PlayerStateList : MonoBehaviour
     public bool alive = true;
     public bool interactedWithCheckPoint = false;
     public bool invOpened = false;
+    public bool isDraging = false;
 
-    public float health;
-    public float energy;
+    
     public bool isHeartHas = true;
 }

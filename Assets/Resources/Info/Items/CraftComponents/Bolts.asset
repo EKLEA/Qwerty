@@ -15,9 +15,8 @@ MonoBehaviour:
   id: Bolts
   title: "\u0411\u043E\u043B\u0442\u044B"
   description: 
-  usableItemInfo: {fileID: 0}
   maxItemsInInventortySlot: 1000
   spriteIcon: {fileID: 21300000, guid: 6a50028b2f741a348bec94f8dc16fc03, type: 3}
-  itemType: 0
+  itemType: 1
   itemGO: {fileID: 8549525369062595447, guid: 29201b5018a8ac34a88ea38b939e72e5, type: 3}
   requielevel: 0

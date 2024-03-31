@@ -11,16 +11,16 @@ public class UIStorageController : MonoBehaviour
 
     PlayerInventory playerInventory => PlayerController.Instance.GetComponent<PlayerInventory>();
 
-    public UIInventory equippedGrid;
+   
     public UIInventory ñraftComponentsItemsGrid;
     public UIInventory storageItemsGrid;
 
     public UIInventory weaponAndPerksGrid;
     public UIInventory abilitiesGrid;
-
-
+    public UIInventory equippedGrid;
     private void Start()
     {
+
         equippedGrid.SetupInvntoryUI(playerInventory.equippedItems);
         ñraftComponentsItemsGrid.SetupInvntoryUI(playerInventory.craftComponents);
 

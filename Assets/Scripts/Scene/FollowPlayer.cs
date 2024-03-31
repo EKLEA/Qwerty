@@ -47,6 +47,6 @@ public class FollowPlayer : MonoBehaviour
 
 
         Vector3 targetPosition = new Vector3(DX, DY, 0);
-        transform.position = Vector3.Lerp(transform.position, transform.position + targetPosition, speed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, transform.position + targetPosition, speed * Time.deltaTime*PlayerController.Instance.playerLevelList.movekf);
     }
 }

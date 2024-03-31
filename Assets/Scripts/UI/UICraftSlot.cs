@@ -11,7 +11,7 @@ public class UICraftSlot : UIInventorySlot
 
     private void OnEnable()
     {
-        if(  slot==null|| slot.item == null)
+        if (slot == null || slot.item == null)
         {
             gameObject.GetComponent<Image>().enabled = false;
             _uiInventoryItem.gameObject.SetActive(false);
@@ -19,7 +19,7 @@ public class UICraftSlot : UIInventorySlot
             locker.SetActive(true);
             locker.GetComponentInChildren<TextMeshProUGUI>().text = $"нету";
         }
-        else if (slot.item.info.requielevel> PlayerInventory.Instance.levelTier)
+        else if (slot.item.info.requielevel > PlayerController.Instance.playerLevelList.levelTier)
         {
             gameObject.GetComponent<Image>().enabled = false;
             _uiInventoryItem.gameObject.SetActive(false);

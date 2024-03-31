@@ -24,6 +24,7 @@ public class UIInventory : MonoBehaviour
         }
         inventory.OnInventoryStateChangedEvent += OnInventoryStateChanged;
     }
+
     private void OnInventoryStateChanged(object obj)
     {
         

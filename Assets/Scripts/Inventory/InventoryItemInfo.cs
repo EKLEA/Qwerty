@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,13 +18,15 @@ public class InventoryItemInfo : ScriptableObject
 
 }
 public enum ItemTypes
-{
+{ 
+    Any,
     CraftComponents,
     collectableItems,
     UsableItem,
     Perks,
-    RobotParts,
-    Any
+    RobortParts
+
+    
 }
 public enum RobotParts
 {

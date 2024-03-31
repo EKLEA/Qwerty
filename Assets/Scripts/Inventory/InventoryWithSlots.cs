@@ -15,7 +15,6 @@ public class InventoryWithSlots
     public event Action<object, Item, int> OnInventoryItemAddedEvent;
     public event Action<object, Item, int> OnInventoryItemRemovedEvent;
     public event Action<object> OnInventoryStateChangedEvent;
-    public event Action<bool, Item> OnEquippedEvent;
     
     public InventoryType invType;
     
@@ -89,9 +88,15 @@ public class InventoryWithSlots
         if (slotWithSameItemButNotEmpty!=null)
             return TryAddToSlot(sender, slotWithSameItemButNotEmpty,item);
 
-        var emptySlot= _slots.Find(slot => slot.isEmpty);
+        var slotsWithRequie= _slots.
+            Find(slot => slot.isEmpty && (slot.requieType==item.info.itemType||(item.info.itemType==ItemTypes.RobortParts && slot.requieTypePart==(item.info as RobotPartInfo).robotParts)));
 
-        if (emptySlot!=null)
+        if (slotsWithRequie != null)
+            return TryAddToSlot(sender, slotsWithRequie, item);
+
+        var emptySlot= _slots.Find(slot => slot.isEmpty );
+
+        if (emptySlot != null )
             return TryAddToSlot(sender, emptySlot,item);
 
         Debug.Log($"Cannot add item ({item.info.id}), count: {item.state.count}, " +
@@ -146,9 +151,15 @@ public class InventoryWithSlots
             if (toSlot.inventoryType != fromSlot.inventoryType)
             {
                 if (fromSlot.inventoryType == InventoryType.Storage && toSlot.inventoryType == InventoryType.Equippement)
+                {
                     PlayerInventory.Instance.EquippedMoment(true, fromSlot.item);
+                    fromSlot.item.state.IsEquipped = true;
+                }
                 if (fromSlot.inventoryType == InventoryType.Equippement && toSlot.inventoryType == InventoryType.Storage)
+                {
                     PlayerInventory.Instance.EquippedMoment(false, fromSlot.item);
+                    fromSlot.item.state.IsEquipped = false;
+                }
             }
                 if ((!toSlot.isEmpty || toSlot.isFull) && fromSlot.item.info.id != toSlot.item.info.id)
                 {

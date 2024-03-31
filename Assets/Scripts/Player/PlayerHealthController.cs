@@ -18,8 +18,6 @@ public class PlayerHealthController : DamagableObjWithLogic
 
     public bool isHeartHas = true;
 
-
-   
     public new float health
     {
         get

@@ -7,7 +7,7 @@ using UnityEngine;
 public class ItemBase :MonoBehaviour
 {
     public static Dictionary<string, InventoryItemInfo> ItemsInfo = new Dictionary<string, InventoryItemInfo>();
-    void Start()
+    void Awake()
     {
 
         Object[] assets = Resources.LoadAll<InventoryItemInfo>("");

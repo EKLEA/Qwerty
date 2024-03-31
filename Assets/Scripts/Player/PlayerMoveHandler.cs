@@ -40,13 +40,12 @@ public class PlayerMoveHandler : MoveHandler
 
 
 
-    private PlayerController pController=> GetComponent<PlayerController>();
-    private Animator anim => pController.anim;
-    private PlayerStateList pState => pController.playerStateList;
+    private Animator anim => PlayerController.Instance.anim;
+    private PlayerStateList pState => PlayerController.Instance.playerStateList;
     public new void Move()
     {
         
-        rb.velocity= new Vector2(pController.playerStateList.Axis.x*  speed, rb.velocity.y);
+        rb.velocity= new Vector2(PlayerController.Instance.playerStateList.Axis.x*  speed*PlayerController.Instance.playerLevelList.movekf, rb.velocity.y);
 
         anim.SetBool("Runing", rb.velocity.x != 0 && Grounded());
         if (pState.recoilY)
@@ -74,7 +73,7 @@ public class PlayerMoveHandler : MoveHandler
         // animatiom
         rb.useGravity = false;
         int _dir = pState.lookRight ? 1 : -1;
-        rb.velocity = new Vector3(_dir * dashSpeed, 0,0);
+        rb.velocity = new Vector3(_dir * dashSpeed*PlayerController.Instance.playerLevelList.movekf, 0,0);
         yield return new WaitForSeconds(dashTime);
         rb.useGravity= true;
         pState.dashing = false;
@@ -108,7 +107,7 @@ public class PlayerMoveHandler : MoveHandler
         {
             anim.SetBool("Falling", false);
             anim.SetBool("FallingDown", true);
-            pController.pCollider.size = new Vector3(1.5f, 6, 1.5f);
+            PlayerController.Instance.pCollider.size = new Vector3(1.5f, 6, 1.5f);
             pState.jumping = false;
             coyoteTimeCounter = coyoteTime;
             airJumpCount = 0;
@@ -116,7 +115,7 @@ public class PlayerMoveHandler : MoveHandler
         else
         {
             anim.SetBool("Falling", true);
-            pController.pCollider.size = new Vector3(1.5f, 4, 1.5f);
+            PlayerController.Instance.pCollider.size = new Vector3(1.5f, 4, 1.5f);
             coyoteTimeCounter -= Time.deltaTime;
         }
         if (Input.GetButtonDown("Jump"))
@@ -126,15 +125,15 @@ public class PlayerMoveHandler : MoveHandler
     }
    public void Flip()
     {
-        if (pController.playerStateList.Axis.x< 0)
+        if (PlayerController.Instance.playerStateList.Axis.x< 0)
         {
             gameObject.transform.eulerAngles = new Vector3(0, -90, 0);
-            pController.playerStateList.lookRight = false;
+            PlayerController.Instance.playerStateList.lookRight = false;
         }
-        if (pController.playerStateList.Axis.x > 0)
+        if (PlayerController.Instance.playerStateList.Axis.x > 0)
         {
             gameObject.transform.eulerAngles = new Vector3(0, 90, 0);
-            pController.playerStateList.lookRight = true;
+            PlayerController.Instance.playerStateList.lookRight = true;
         }
     }
     public new bool Grounded()
@@ -153,12 +152,12 @@ public class PlayerMoveHandler : MoveHandler
             rb.velocity = jumpHeight * -_exitDir;
         if (_exitDir.x  != 0)
         {
-            pController.playerStateList.Axis.x = _exitDir.x>0? 1 : -1;
+            PlayerController.Instance.playerStateList.Axis.x = _exitDir.x>0? 1 : -1;
             Move();
         }    
         Flip();
         yield return new WaitForSeconds(_delay);
-        pController.playerStateList.cutscene = false;
+        PlayerController.Instance.playerStateList.cutscene = false;
         
 
     }

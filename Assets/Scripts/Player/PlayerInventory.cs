@@ -20,9 +20,9 @@ public class PlayerInventory: MonoBehaviour
 
 
     public InventoryWithSlots storageItems = new InventoryWithSlots(20, SlotTypes.DinamicSlot, InventoryType.Storage);
-    public InventoryWithSlots equippedItems = new InventoryWithSlots(4, SlotTypes.DinamicSlot, InventoryType.Equippement);
+    public InventoryWithSlots equippedItems = new InventoryWithSlots(3, SlotTypes.DinamicSlot, InventoryType.Equippement);
     public InventoryWithSlots weaponAndPerks = new InventoryWithSlots(4, SlotTypes.DinamicSlot, InventoryType.Equippement);
-    public int levelTier= 0;
+   
     public bool blockInv = true;
     public static PlayerInventory Instance;
 
@@ -36,7 +36,21 @@ public class PlayerInventory: MonoBehaviour
         {
             Instance = this;
         }
-        InventorySlot[] slots = weaponAndPerks.GetAllSlots();
+    }
+    private void Start()
+    {
+        InventorySlot[] slots = craftableItems.GetAllSlots();
+
+        slots[0].requieItem = ItemBase.ItemsInfo["Bolts"];
+        slots[1].requieItem = ItemBase.ItemsInfo["Fluid"];
+        slots[2].requieItem = ItemBase.ItemsInfo["Electronics"];
+
+        AddItem("Bolts", 1);
+        AddItem("Fluid", 1);
+        AddItem("Electronics", 1);
+
+
+        slots = weaponAndPerks.GetAllSlots();
         slots[0].requieType = ItemTypes.UsableItem;
         for (int i = 1; i < slots.Length; i++)
             slots[i].requieType = ItemTypes.Perks;
@@ -45,19 +59,38 @@ public class PlayerInventory: MonoBehaviour
         for (int i = 0; i < slots.Length; i++)
             slots[i].requieType = ItemTypes.Any;
 
+        slots = equippedItems.GetAllSlots();
+        for (int i = 0; i < slots.Length; i++)
+            slots[i].requieType = ItemTypes.RobortParts;
 
-    }
-    private void Start()
-    {
+        slots[0].requieTypePart = RobotParts.Body;
+        slots[1].requieTypePart = RobotParts.Arm;
+        slots[2].requieTypePart = RobotParts.Legs;
+
+
+
+        Instance.equippedItems.TryToAdd(null, new Item(ItemBase.ItemsInfo["body0"], 1));
+        Instance.equippedItems.TryToAdd(null, new Item(ItemBase.ItemsInfo["arm0"], 1));
+        Instance.equippedItems.TryToAdd(null, new Item(ItemBase.ItemsInfo["legs0"], 1));
 
         BlockPlayerInv();
-        InventorySlot[] slots = craftableItems.GetAllSlots();
-        slots[0].requieItem = ItemBase.ItemsInfo["Bolts"];
-        slots[0].requieItem = ItemBase.ItemsInfo["Fluid"];
-        slots[0].requieItem = ItemBase.ItemsInfo["Electronics"];
-        AddItem("Bolts", 0);
-        AddItem("Fluid", 0);
-        AddItem("Electronics", 0);
+
+        
+
+    }
+    public void SetupPlayerVariables()
+    {
+        foreach (Item rp in equippedItems.GetAllItems())
+        {
+            if (equippedItems.GetAllItems().Length != 0 && rp != null)
+            {
+                PlayerController.Instance.playerLevelList.movekf += (rp.info as RobotPartInfo).partMoveKf;
+                PlayerController.Instance.playerLevelList.baseDamage += (rp.info as RobotPartInfo).partBaseDamage;
+                PlayerController.Instance.playerLevelList.baseRange += (rp.info as RobotPartInfo).partbaseRange;
+                PlayerController.Instance.playerLevelList.baseCooldown += (rp.info as RobotPartInfo).partBaseCooldown;
+            }
+        }
+
     }
     public void BlockPlayerInv()
     {

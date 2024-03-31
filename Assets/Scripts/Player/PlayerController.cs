@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     PlayerAttackLogic attackLogic=> GetComponent<PlayerAttackLogic>();
     public PlayerHealthController playerHealthController => GetComponent<PlayerHealthController>();
     public PlayerStateList playerStateList =>GetComponent<PlayerStateList>();
+    public PlayerLevelList playerLevelList =>GetComponent<PlayerLevelList>();
     public BoxCollider pCollider=> gameObject.GetComponent<BoxCollider>();
     public Rigidbody rb => gameObject.GetComponent<Rigidbody>();
     public static PlayerController Instance;
@@ -28,12 +29,7 @@ public class PlayerController : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
     }
-    private void OnEnable()
-    {
-        playerHealthController.OnEnergyChangedCallBack += UpdateStats;
-        playerHealthController.OnHealthChangedCallBack += UpdateStats;
-        
-    }
+    
 
     float xAxis, yAxis;
     private void FixedUpdate()
@@ -86,13 +82,6 @@ public class PlayerController : MonoBehaviour
         playerHealthController.Heal();
 
 
-    }
-    
-    void UpdateStats()
-    {
-        playerStateList.health = playerHealthController.health;
-        playerStateList.energy=playerHealthController.energy;
-        
     }
     public void Respawned()
     {

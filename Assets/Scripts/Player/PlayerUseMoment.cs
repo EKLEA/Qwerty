@@ -23,7 +23,8 @@ public class PlayerUseMoment : MonoBehaviour
         if (Input.GetButtonDown("Use"))
             OnUsedEvent?.Invoke(this);
         if (Input.GetButtonDown("ChangeMenu"))
-            OnChangeMenuEvent?.Invoke(Input.GetAxisRaw("ChangeMenu"));
+            if(!PlayerController.Instance.playerStateList.isDraging)
+                OnChangeMenuEvent?.Invoke(Input.GetAxisRaw("ChangeMenu"));
         if (Input.GetButtonDown("Inventory")&& PlayerController.Instance.rb.velocity.x==0&&PlayerController.Instance.playerStateList.grounded)
             OnOpenInventoryCallBack?.Invoke();
         if (Input.GetMouseButtonDown(1))

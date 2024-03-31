@@ -6,5 +6,5 @@ public class WeaponItemInfo : InventoryItemInfo
 {
     [SerializeField] public float damage;
     [SerializeField] public float cooldown;
-    [SerializeField] public  float range;
+    [SerializeField] public float range;
 }

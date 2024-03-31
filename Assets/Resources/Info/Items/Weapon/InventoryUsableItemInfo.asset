@@ -17,7 +17,7 @@ MonoBehaviour:
   description: 
   maxItemsInInventortySlot: 1
   spriteIcon: {fileID: 21300000, guid: e6981d59e7481764990ffaf067663b61, type: 3}
-  itemType: 2
+  itemType: 3
   itemGO: {fileID: 1256111181909976, guid: afe0ac3b9a4f00b44a6d0b3ae0d39bf6, type: 3}
   requielevel: 0
   damage: 2

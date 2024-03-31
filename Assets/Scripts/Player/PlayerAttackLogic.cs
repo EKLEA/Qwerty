@@ -5,8 +5,6 @@ using UnityEngine;
 public class PlayerAttackLogic : AttakingObjLogic
 {
    
-    private PlayerController playerController => GetComponent<PlayerController>();
-    private PlayerStateList pState => playerController.playerStateList;
     public GameObject Hand;
     [SerializeField] LayerMask attacableLayer;
     public  override Item item
@@ -31,78 +29,70 @@ public class PlayerAttackLogic : AttakingObjLogic
     {
         get
         {
-            if (item == null)
-                return 1;
+            if (PlayerController.Instance != null)
+            {
+                if (item == null)
+                    return PlayerController.Instance.playerLevelList.baseDamage;
+                else
+                    return (item.info as WeaponItemInfo).damage;
+            }
             else
-                return (item.info as WeaponItemInfo).damage;
+                return 1;
         }
     }
     private float range
     {
         get
         {
-            if (item == null)
-                return 1;
+            if (PlayerController.Instance != null)
+            {
+                if (item == null)
+                return PlayerController.Instance.playerLevelList.baseRange;
             else
                 return (item.info as WeaponItemInfo).range;
+            }
+            else
+                return 1;
         }
     }
     private float coolDown
     {
         get
         {
-            if (item == null)
-                return 0.01f;
+            if (PlayerController.Instance != null)
+            {
+                if (item == null)
+                return PlayerController.Instance.playerLevelList.baseCooldown;
             else
                 return (item.info as WeaponItemInfo).cooldown;
+            }
+            else
+                return 1;
         }
     }
     private Vector3 sideAttackArea
     {
         get
         {
-            if (item == null)
-            {
-                sideAttackTransform.localPosition = new Vector3(0f, 3f, 1.5f);
-                return sideAttackTransformArea;
-            }
-            else
-            {
-                sideAttackTransform.localPosition = new Vector3(0f, 3f, 1f + range / 2);
+            sideAttackTransform.localPosition = new Vector3(0f, 3f, 1f + range / 2);
                 return new Vector3(range, sideAttackTransformArea.y, sideAttackTransformArea.z);
-            }
         }
     }
     private Vector3 upAttackArea
     {
         get
         {
-            if (item == null)
-            {
-                upAttackTransform.localPosition = new Vector3(0, 7f, 0);
-                return upAttackTransformArea;
-            }
-            else
-            {
                 upAttackTransform.localPosition = new Vector3(0,  7 + range/2,0);
                 return new Vector3(upAttackTransformArea.x, range, upAttackTransformArea.z);
-            }
         }
     }
     private Vector3 downAttackArea
     {
         get
         {
-            if (item == null)
-            {
-                downAttackTransform.localPosition = new Vector3(0, -1.5f,0);
-                return downAttackTransformArea;
-            }
-            else
-            {
+           
                 downAttackTransform.localPosition = new Vector3(0,  -1-range/2,0);
                 return new Vector3(downAttackTransformArea.x, range, downAttackTransformArea.z);
-            }
         }
     }
     [SerializeField] private int recoilXSteps = 5;
@@ -131,7 +121,7 @@ public class PlayerAttackLogic : AttakingObjLogic
     [SerializeField] GameObject upSpellFireball;
     [SerializeField] GameObject downSpellFireball;
 
-    Rigidbody rb => playerController.rb;
+    Rigidbody rb => PlayerController.Instance.rb;
 
 
     private void OnDrawGizmos()
@@ -148,26 +138,26 @@ public class PlayerAttackLogic : AttakingObjLogic
         if (Input.GetButtonDown("Attack")&& timeSinceAttack >= coolDown)
         {
            //каждому добавить эффекты
-            playerController.anim.SetTrigger("Attacking");
+            PlayerController.Instance.anim.SetTrigger("Attacking");
 
-            if (playerController.playerStateList.Axis.y == 0 )
+            if (PlayerController.Instance.playerStateList.Axis.y == 0 )
             {
 
-                int recoilLeftOrRight = pState.lookRight ? 1 : -1;
+                int recoilLeftOrRight = PlayerController.Instance.playerStateList.lookRight ? 1 : -1;
 
-                Hit(sideAttackTransform, sideAttackArea, ref pState.recoilX, Vector2.right*recoilLeftOrRight, recoilXSpeed);
+                Hit(sideAttackTransform, sideAttackArea, ref PlayerController.Instance.playerStateList.recoilX, Vector2.right*recoilLeftOrRight, recoilXSpeed);
             }
            
             
-            else if (playerController.playerStateList.Axis.y > 0)
+            else if (PlayerController.Instance.playerStateList.Axis.y > 0)
             {
-                Hit(upAttackTransform, upAttackArea, ref pState.recoilY, Vector2.up, recoilYSpeed);
+                Hit(upAttackTransform, upAttackArea, ref PlayerController.Instance.playerStateList.recoilY, Vector2.up, recoilYSpeed);
             }
             
             
-            else if ( playerController.playerStateList.Axis.y < 0 && !playerController.playerStateList.grounded)
+            else if ( PlayerController.Instance.playerStateList.Axis.y < 0 && !PlayerController.Instance.playerStateList.grounded)
             {
-                Hit(downAttackTransform, downAttackArea, ref pState.recoilY, Vector2.down, recoilYSpeed);
+                Hit(downAttackTransform, downAttackArea, ref PlayerController.Instance.playerStateList.recoilY, Vector2.down, recoilYSpeed);
             }
             timeSinceAttack = 0;
         }
@@ -189,15 +179,15 @@ public class PlayerAttackLogic : AttakingObjLogic
                 objectsToHit[i].gameObject.GetComponent<DamagableObj>().DamageMoment(damage, _recoilDir, _recoilStrenght);
                 if (objectsToHit[i].CompareTag("Enemy"))
                 {
-                    if (playerController.playerHealthController.energy + playerController.playerHealthController.energyGain > playerController.playerHealthController.maxEnergy)
+                    if (PlayerController.Instance.playerHealthController.energy + PlayerController.Instance.playerHealthController.energyGain > PlayerController.Instance.playerHealthController.maxEnergy)
                     {
-                        playerController.playerHealthController.energy = playerController.playerHealthController.maxEnergy;
+                        PlayerController.Instance.playerHealthController.energy = PlayerController.Instance.playerHealthController.maxEnergy;
                     }
                     else
-                        playerController.playerHealthController.energy += playerController.playerHealthController.energyGain;
+                        PlayerController.Instance.playerHealthController.energy += PlayerController.Instance.playerHealthController.energyGain;
 
                 }
-                playerController.playerHealthController.OnEnergyChangedCallBack?.Invoke();
+                PlayerController.Instance.playerHealthController.OnEnergyChangedCallBack?.Invoke();
             }
         }
 
@@ -205,15 +195,15 @@ public class PlayerAttackLogic : AttakingObjLogic
     }
     public void Recoil()
     {
-        if (pState.recoilX)
-            if (pState.lookRight)
+        if (PlayerController.Instance.playerStateList.recoilX)
+            if (PlayerController.Instance.playerStateList.lookRight)
                 rb.velocity = new Vector2(-recoilXSpeed, 0);
             else
                 rb.velocity = new Vector2(recoilXSpeed, 0);
-        if (pState.recoilY)
+        if (PlayerController.Instance.playerStateList.recoilY)
         {
             rb.useGravity = false;
-            if (pState.Axis.y < 0)
+            if (PlayerController.Instance.playerStateList.Axis.y < 0)
                 rb.velocity = new Vector2(rb.velocity.x, recoilYSpeed);
 
             else
@@ -223,15 +213,15 @@ public class PlayerAttackLogic : AttakingObjLogic
             rb.useGravity = true;
 
 
-        if (pState.recoilX && stepsXRecoiled < recoilXSteps)
+        if (PlayerController.Instance.playerStateList.recoilX && stepsXRecoiled < recoilXSteps)
             stepsXRecoiled++;
         else
             StopRecoilX();
-        if (pState.recoilY && stepsYRecoiled < recoilYSteps)
+        if (PlayerController.Instance.playerStateList.recoilY && stepsYRecoiled < recoilYSteps)
             stepsYRecoiled++;
         else
             StopRecoilY();
-        if (pState.grounded)
+        if (PlayerController.Instance.playerStateList.grounded)
             StopRecoilY();
 
 
@@ -240,28 +230,28 @@ public class PlayerAttackLogic : AttakingObjLogic
     public void StopRecoilX()
     {
         stepsXRecoiled = 0;
-        pState.recoilX = false;
+        PlayerController.Instance.playerStateList.recoilX = false;
     }
     public void StopRecoilY()
     {
         stepsYRecoiled = 0;
-        pState.recoilY = false;
+        PlayerController.Instance.playerStateList.recoilY = false;
     }
 
     public void CastSpell()
     {
-        if(Input.GetButtonUp("Cast/Heal")&& playerController.castOrHealTimer<=0.05f && timeSinceAttack >=timeBetweenCast&& playerController.playerHealthController.energy >= energySpellCost)
+        if(Input.GetButtonUp("Cast/Heal")&& PlayerController.Instance.castOrHealTimer<=0.05f && timeSinceAttack >=timeBetweenCast&& PlayerController.Instance.playerHealthController.energy >= energySpellCost)
         {
-            playerController.playerStateList.casting = true;
+            PlayerController.Instance.playerStateList.casting = true;
             timeSinceAttack= 0;
             StartCoroutine(CastCoroutine());
-            playerController.playerHealthController. OnEnergyChangedCallBack?.Invoke();
+            PlayerController.Instance.playerHealthController. OnEnergyChangedCallBack?.Invoke();
         }
         else
         {
             timeSinceAttack += Time.deltaTime;
         }
-       if(playerController.playerStateList.grounded)
+       if(PlayerController.Instance.playerStateList.grounded)
             downSpellFireball.SetActive(false);
         if (downSpellFireball.activeInHierarchy)
            rb.velocity += downSpellForce * Vector3.down;
@@ -271,16 +261,16 @@ public class PlayerAttackLogic : AttakingObjLogic
 
         //анимция
         yield return new WaitForSeconds(0.15f);//потом поменть
-        if (playerController.playerStateList.Axis.y == 0 || (playerController.playerStateList.Axis.y < 0 && playerController.playerStateList.grounded))
+        if (PlayerController.Instance.playerStateList.Axis.y == 0 || (PlayerController.Instance.playerStateList.Axis.y < 0 && PlayerController.Instance.playerStateList.grounded))
         {
             GameObject _fireBall = Instantiate(sideSpellFireball, sideAttackTransform.position, Quaternion.identity);
-            if (playerController.playerStateList.lookRight)
+            if (PlayerController.Instance.playerStateList.lookRight)
                 _fireBall.transform.eulerAngles = Vector3.zero;
             else
                 _fireBall.transform.eulerAngles = new Vector2(_fireBall.transform.eulerAngles.x, 180);
-            playerController.playerStateList.recoilX = true;
+            PlayerController.Instance.playerStateList.recoilX = true;
         }
-        else if (playerController.playerStateList.Axis.y > 0)
+        else if (PlayerController.Instance.playerStateList.Axis.y > 0)
         {
            GameObject _upFireBall =Instantiate(upSpellFireball, transform);
             _upFireBall.transform.localPosition = new Vector2(0f, 3.5f);
@@ -288,21 +278,21 @@ public class PlayerAttackLogic : AttakingObjLogic
             rb.velocity= Vector3.zero;
             Destroy(_upFireBall, timeOfUpAttack);
         }
-        else if(playerController.playerStateList.Axis.y < 0 && !playerController.playerStateList.grounded)
+        else if(PlayerController.Instance.playerStateList.Axis.y < 0 && !PlayerController.Instance.playerStateList.grounded)
         {
             downSpellFireball.SetActive(true);
         }
 
 
-        playerController.playerHealthController.energy -= energySpellCost;
+        PlayerController.Instance.playerHealthController.energy -= energySpellCost;
         yield return new WaitForSeconds(0.35f);
         //анимция
-        playerController.playerStateList.casting = false;
+        PlayerController.Instance.playerStateList.casting = false;
     }
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.GetComponent<EnemyHealthController>() != null && playerController.playerStateList.casting)
+        if (other.GetComponent<EnemyHealthController>() != null && PlayerController.Instance.playerStateList.casting)
         {
             other.GetComponent<EnemyHealthController>().DamageMoment(spellDamage, (other.transform.position - transform.position).normalized, -recoilYSpeed);
         }

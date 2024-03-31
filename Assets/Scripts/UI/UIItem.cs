@@ -12,7 +12,6 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
     private CanvasGroup _canvasGroup;
     private Canvas _mainCanvas;
     private RectTransform _rectTransform;
-    public bool isUsed;
     
     private void Start()
     {
@@ -20,7 +19,6 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
         _mainCanvas = GetComponentInParent<Canvas>();
         _canvasGroup = GetComponent<CanvasGroup>();
 
-        isUsed = true;
     }
    
     public void OnBeginDrag(PointerEventData eventData)
@@ -31,9 +29,10 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
             eventData.pointerDrag = null;
         else
         {
-            if (GetComponentInParent<UIInventorySlot>().slot == null||GetComponentInParent<UIInventorySlot>().slot.item.info.itemType == ItemTypes.CraftComponents)
+            PlayerController.Instance.playerStateList.isDraging = true;
+            if (GetComponentInParent<UIInventorySlot>().slot == null||GetComponentInParent<UIInventorySlot>().slot.item.info.itemType == ItemTypes.CraftComponents|| GetComponentInParent<UIInventorySlot>().slot.isBlock)
             {
-                isUsed = true;
+                
                 eventData.pointerDrag = null;
             }
             else
@@ -43,7 +42,6 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
                 slotTransform.parent.SetAsLastSibling();
                 slotTransform.parent.parent. SetAsLastSibling();
                 _canvasGroup.blocksRaycasts = false;
-                isUsed = false;
             }
         }
         
@@ -67,12 +65,8 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
     {
         transform.localPosition = Vector3.zero;
         _canvasGroup.blocksRaycasts = true;
-        isUsed= true;
+        PlayerController.Instance.playerStateList.isDraging = false;
 
-    }
-    public bool GetItemDragState()
-    {
-        return isUsed;
     }
     
 }

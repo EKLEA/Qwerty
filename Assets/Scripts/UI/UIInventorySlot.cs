@@ -12,10 +12,6 @@ public class UIInventorySlot : UISlot
 {
 
     [SerializeField] protected UIInventoryItem _uiInventoryItem;
-    public bool GetItemDragState()
-    {
-        return _uiInventoryItem.GetItemDragState();
-    }
 
     public InventorySlot slot { get; private set; }
 
@@ -40,8 +36,8 @@ public class UIInventorySlot : UISlot
 
         if (slot.requieType != ItemTypes.Any)
         {
-            
-            if (slot.requieType != otherSlot.item.info.itemType)
+
+            if (slot.requieType != otherSlot.item.info.itemType || slot.requieTypePart != (otherSlot.item.info as RobotPartInfo).robotParts)
                 return;
             else
                 inventory.TransitFromSlotToSlot(this, otherSlot, slot);
@@ -56,6 +52,7 @@ public class UIInventorySlot : UISlot
 
         Refresh();
         otherSlotUI.Refresh();
+        PlayerController.Instance.playerStateList.isDraging = false;
     }
     public void Refresh()
     {

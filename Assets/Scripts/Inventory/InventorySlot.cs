@@ -24,6 +24,7 @@ public class InventorySlot
     public bool isBlock { get; set; }
     public InventoryItemInfo requieItem {  get; set; }
     public ItemTypes requieType{  get;set; }
+    public RobotParts requieTypePart { get; set; }
     public SlotTypes slotType { get; set; }
     public InventoryType inventoryType { get; set; }
 
