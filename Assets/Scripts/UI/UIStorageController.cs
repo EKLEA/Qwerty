@@ -18,7 +18,7 @@ public class UIStorageController : MonoBehaviour
     public UIInventory weaponAndPerksGrid;
     public UIInventory abilitiesGrid;
     public UIInventory equippedGrid;
-    private void Start()
+    private void OnEnable()
     {
 
         equippedGrid.SetupInvntoryUI(playerInventory.equippedItems);

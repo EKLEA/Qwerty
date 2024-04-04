@@ -12,7 +12,7 @@ public class UIInventoryController : MonoBehaviour
     public UIInventory ñraftComponentsItemsGrid;
     public UIInventory weaponAndPerksGrid;
     public UIInventory abilitiesGrid;
-    private void Start()
+    private void OnEnable()
     {
         equippedGrid.SetupInvntoryUI(playerInventory.equippedItems);
         ñollectableItemsGrid.SetupInvntoryUI(playerInventory.collectableItems);

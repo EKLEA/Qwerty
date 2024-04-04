@@ -222,7 +222,7 @@ public class InventoryWithSlots
             if (slot.count >= amountToRemove)
             {
                 slot.item.state.count -= amountToRemove;
-                if (slot.count <= 0&& slot.requieType!=ItemTypes.CraftComponents)
+                if (slot.count <= 0 && slot.requieType!=ItemTypes.CraftComponents)
                     slot.CLear();
                    
                 Debug.Log($"item removed from inventort. ItemId: {ItemID}, amount {amountToRemove}");

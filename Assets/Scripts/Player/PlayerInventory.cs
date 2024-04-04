@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
@@ -13,7 +14,7 @@ public class PlayerInventory: MonoBehaviour
 {
 
     public InventoryWithSlots collectableItems = new InventoryWithSlots(12, SlotTypes.StaticSlot, InventoryType.Equippement);
-    public InventoryWithSlots craftableItems = new InventoryWithSlots(15, SlotTypes.StaticSlot, InventoryType.Storage);
+    public InventoryWithSlots craftableItems;
     public InventoryWithSlots craftComponents= new InventoryWithSlots(3, SlotTypes.StaticSlot, InventoryType.Storage);
 
     public InventoryWithSlots abilities= new InventoryWithSlots(3, SlotTypes.StaticSlot, InventoryType.Equippement);
@@ -39,8 +40,10 @@ public class PlayerInventory: MonoBehaviour
     }
     private void Start()
     {
-        InventorySlot[] slots = craftableItems.GetAllSlots();
+        InventorySlot[] slots = craftComponents.GetAllSlots();
 
+        foreach(InventorySlot slot in slots)
+            slot.requieType = ItemTypes.CraftComponents;
         slots[0].requieItem = ItemBase.ItemsInfo["Bolts"];
         slots[1].requieItem = ItemBase.ItemsInfo["Fluid"];
         slots[2].requieItem = ItemBase.ItemsInfo["Electronics"];
@@ -74,9 +77,16 @@ public class PlayerInventory: MonoBehaviour
         Instance.equippedItems.TryToAdd(null, new Item(ItemBase.ItemsInfo["legs0"], 1));
 
         BlockPlayerInv();
-
-        
-
+        List<InventoryItemInfo> list = new List<InventoryItemInfo>();
+        foreach( InventoryItemInfo itemInf in ItemBase.ItemsInfo.Values)
+        {
+            if(itemInf.isCraftable==true)
+                list.Add(itemInf);
+        }
+        list = list.OrderBy(item=> item.requielevel).ThenBy(item=> item.id).ToList();
+        craftableItems = new InventoryWithSlots(list.Count, SlotTypes.StaticSlot, InventoryType.Storage);
+        foreach( InventoryItemInfo itemInf in list)
+            craftableItems.TryToAdd(null, new Item(itemInf, 1));
     }
     public void SetupPlayerVariables()
     {

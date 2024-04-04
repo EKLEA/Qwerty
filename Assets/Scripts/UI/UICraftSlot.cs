@@ -9,8 +9,9 @@ public class UICraftSlot : UIInventorySlot
     [SerializeField] GameObject locker;
     [SerializeField] GameObject nameOfItem;
 
-    private void OnEnable()
+    private void LateUpdate()
     {
+        Refresh();
         if (slot == null || slot.item == null)
         {
             gameObject.GetComponent<Image>().enabled = false;

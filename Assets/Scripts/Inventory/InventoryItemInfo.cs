@@ -15,6 +15,7 @@ public class InventoryItemInfo : ScriptableObject
     [SerializeField] public ItemTypes itemType;
     [SerializeField] public GameObject itemGO;
     [SerializeField] public int requielevel;
+    [SerializeField] public bool isCraftable;
 
 }
 public enum ItemTypes

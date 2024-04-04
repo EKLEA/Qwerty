@@ -22,8 +22,13 @@ public class UIInventoryItem :  UIItem
         _imageIcon.color = Color.white;
         _imageIcon.sprite = item.info.spriteIcon;
         _imageIcon.gameObject.SetActive(true);
+        bool textAmountEnabled;
+        if (item.info.itemType == ItemTypes.CraftComponents)
 
-        var textAmountEnabled = slot.count > 1;
+            textAmountEnabled = slot.count > 0;
+        else
+            textAmountEnabled = slot.count > 1;
+
         _textAmount.gameObject.SetActive(textAmountEnabled);
         if (textAmountEnabled)
             _textAmount.text = $"x{slot.count.ToString()}";

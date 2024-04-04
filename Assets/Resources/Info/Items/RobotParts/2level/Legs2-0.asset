@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cbd341590e390044aab9cb4a8b83274, type: 3}
+  m_Name: Legs2-0
+  m_EditorClassIdentifier: 
+  id: legs2-0
+  title: "\u043D\u043E\u0433\u0438 2"
+  description: 
+  maxItemsInInventortySlot: 1
+  spriteIcon: {fileID: 21300000, guid: 4f724749ff5b8e446bf6986d91b2de4c, type: 3}
+  itemType: 5
+  itemGO: {fileID: 0}
+  requielevel: 2
+  isCraftable: 1
+  robotParts: 0
+  partMoveKf: 0
+  partBaseDamage: 0
+  partbaseRange: 0
+  partBaseCooldown: 0
+  requeBolts: 5
+  requeElectronics: 5
+  requeFluid: 5

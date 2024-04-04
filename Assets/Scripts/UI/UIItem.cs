@@ -38,7 +38,8 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
             else
             {
                 var slotTransform = _rectTransform.parent;
-                slotTransform.SetAsLastSibling();
+                if(slotTransform.GetComponentInParent<GridLayoutGroup>().isActiveAndEnabled==false)
+                    slotTransform.SetAsLastSibling();
                 slotTransform.parent.SetAsLastSibling();
                 slotTransform.parent.parent. SetAsLastSibling();
                 _canvasGroup.blocksRaycasts = false;
