@@ -151,6 +151,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookAt: {fileID: 20731403828116796}
-  bound: {x: 15, y: 3}
+  bound: {x: 13, y: 3}
   speed: 1
   zoomFloat: 13
