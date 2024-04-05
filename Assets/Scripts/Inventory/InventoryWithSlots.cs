@@ -99,8 +99,8 @@ public class InventoryWithSlots
         if (emptySlot != null )
             return TryAddToSlot(sender, emptySlot,item);
 
-        Debug.Log($"Cannot add item ({item.info.id}), count: {item.state.count}, " +
-            $"because there is no place for that.");
+       // Debug.Log($"Cannot add item ({item.info.id}), count: {item.state.count}, " +
+        //    $"because there is no place for that.");
         return false;
     }
     public bool TryAddToSlot (object sender, InventorySlot slot,Item item)
@@ -118,7 +118,7 @@ public class InventoryWithSlots
         else
             slot.item.state.count += amountToAdd;
 
-        Debug.Log($"item added to inventort. ItemId: {item.info.id}, amount {amountToAdd}");
+        //Debug.Log($"item added to inventort. ItemId: {item.info.id}, amount {amountToAdd}");
         OnInventoryItemAddedEvent?.Invoke(sender, item, amountToAdd);
         OnInventoryStateChangedEvent?.Invoke(sender);
 
@@ -224,8 +224,8 @@ public class InventoryWithSlots
                 slot.item.state.count -= amountToRemove;
                 if (slot.count <= 0 && slot.requieType!=ItemTypes.CraftComponents)
                     slot.CLear();
-                   
-                Debug.Log($"item removed from inventort. ItemId: {ItemID}, amount {amountToRemove}");
+                  
+              // Debug.Log($"item removed from inventort. ItemId: {ItemID}, amount {amountToRemove}");
                 OnInventoryItemRemovedEvent?.Invoke(sender, slot.item, amountToRemove);
                 OnInventoryStateChangedEvent?.Invoke(sender);
 
@@ -235,7 +235,7 @@ public class InventoryWithSlots
             amountToRemove-= slot.count;
             if (slot.requieType != ItemTypes.CraftComponents)
                 slot.CLear();
-            Debug.Log($"item removed from inventort. ItemId: {ItemID}, amount {amountRemoved}");
+            //Debug.Log($"item removed from inventort. ItemId: {ItemID}, amount {amountRemoved}");
             OnInventoryItemRemovedEvent?.Invoke(sender, slot.item, amountRemoved);
             OnInventoryStateChangedEvent?.Invoke(sender);
         }
@@ -246,6 +246,7 @@ public class InventoryWithSlots
         item = GetItem(ItemID);
         return item != null;
     }
+
     public InventorySlot[] GetAllSlots(string ItemID)
     {
         return _slots.

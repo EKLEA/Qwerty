@@ -37,7 +37,7 @@ public class UIInventorySlot : UISlot
         if (slot.requieType != ItemTypes.Any)
         {
 
-            if (slot.requieType != otherSlot.item.info.itemType || slot.requieTypePart != (otherSlot.item.info as RobotPartInfo).robotParts)
+            if ((slot.requieType != otherSlot.item.info.itemType ) || slot.requieTypePart != (otherSlot.item.info as RobotPartInfo).robotParts)
                 return;
             else
                 inventory.TransitFromSlotToSlot(this, otherSlot, slot);
@@ -54,7 +54,7 @@ public class UIInventorySlot : UISlot
         otherSlotUI.Refresh();
         PlayerController.Instance.playerStateList.isDraging = false;
     }
-    public void Refresh()
+    public virtual void Refresh()
     {
 
         if (slot != null)

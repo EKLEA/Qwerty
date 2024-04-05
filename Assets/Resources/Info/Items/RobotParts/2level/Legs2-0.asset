@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Legs2-0
   m_EditorClassIdentifier: 
   id: legs2-0
-  title: "\u043D\u043E\u0433\u0438 2"
+  title: "\u043D\u043E\u0433\u0438 2-0"
   description: 
   maxItemsInInventortySlot: 1
   spriteIcon: {fileID: 21300000, guid: 4f724749ff5b8e446bf6986d91b2de4c, type: 3}
@@ -21,11 +21,11 @@ MonoBehaviour:
   itemGO: {fileID: 0}
   requielevel: 2
   isCraftable: 1
+  requeBolts: 5
+  requeElectronics: 5
+  requeFluid: 5
   robotParts: 0
   partMoveKf: 0
   partBaseDamage: 0
   partbaseRange: 0
   partBaseCooldown: 0
-  requeBolts: 5
-  requeElectronics: 5
-  requeFluid: 5

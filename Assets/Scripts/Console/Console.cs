@@ -98,17 +98,29 @@ public class Console:MonoBehaviour
                     (commandList[i] as DebugCommand).Invoke();
                 else if (commandList[i] as DebugCommand<string, int> != null)
                 {
-                    Debug.Log("Add");
                     if (inputString.Contains("Item"))
                     {
-                        Debug.Log("Add");
                         int c;
+
                         if (prop[2] == "max")
-                            c = ItemBase.ItemsInfo[prop[1]].maxItemsInInventortySlot;
-                        else
+
+                            if (prop[1] == "CraftComponents")
+                                c = 1000;
+                            else
+                                c = ItemBase.ItemsInfo[prop[1]].maxItemsInInventortySlot;
+                            else
                             c = Convert.ToInt32(prop[2]);
 
-                        (commandList[i] as DebugCommand<string, int>).Invoke(prop[1], c);
+
+                        if (prop[1]=="CraftComponents")
+                        {
+                            (commandList[i] as DebugCommand<string, int>).Invoke("Bolts", c);
+                            (commandList[i] as DebugCommand<string, int>).Invoke("Fluid", c);
+                            (commandList[i] as DebugCommand<string, int>).Invoke("Electronics", c);
+                        }
+                            
+                        else
+                            (commandList[i] as DebugCommand<string, int>).Invoke(prop[1], c);
                     }
                 }
                 inputString = "";
