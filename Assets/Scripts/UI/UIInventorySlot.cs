@@ -36,8 +36,9 @@ public class UIInventorySlot : UISlot
 
         if (slot.requieType != ItemTypes.Any)
         {
-
-            if ((slot.requieType != otherSlot.item.info.itemType ) || slot.requieTypePart != (otherSlot.item.info as RobotPartInfo).robotParts)
+            
+            if ( (otherSlot.item.info.itemType==ItemTypes.UsableItem && (slot.requieType != otherSlot.item.info.itemType )) || 
+                (otherSlot.item.info.itemType==ItemTypes.RobortParts &&(slot.requieTypePart != (otherSlot.item.info as RobotPartInfo).robotParts)) )
                 return;
             else
                 inventory.TransitFromSlotToSlot(this, otherSlot, slot);

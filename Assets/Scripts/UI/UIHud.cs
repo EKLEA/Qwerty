@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using Unity.Mathematics;
 using Unity.VisualScripting;
@@ -17,23 +18,44 @@ public class UIHud : MonoBehaviour
 
     private void Start()
     {
-        playerController =PlayerController.Instance;
-        heartContainers = new GameObject[(int)playerController.playerHealthController.maxHealth];
-        heartFills = new Image[(int)playerController.playerHealthController.maxHealth];
 
+        playerController = PlayerController.Instance;
+        StartCoroutine(SetupHud());
         playerController.playerHealthController.OnHealthChangedCallBack += UpdateHeartHUD;
         playerController.playerHealthController.OnEnergyChangedCallBack += UpdateEnergyHUD;
 
+
+    }
+    float tempMaxEn;
+    IEnumerator SetupHud()
+    {
+        yield return new WaitForSeconds(0.001f);
+        heartContainers = new GameObject[(int)playerController.playerHealthController.resHealth];
+        heartFills = new Image[(int)playerController.playerHealthController.resHealth];
         InstantiateHeartContainers();
         SetEnergyBar();
         UpdateHeartHUD();
-    }  
-    
+
+        
+    }
+    private void UpdateHud()
+    {
+        for (int i = heartsParent.transform.childCount - 1; i >= 0; i--)
+        {
+            DestroyImmediate(heartsParent.transform.GetChild(i).gameObject);
+        }
+        heartContainers = new GameObject[0];
+        heartFills = new Image[0];
+        StartCoroutine(SetupHud());
+
+    }
+
     void SetHeartContainers()
     {
+
         for (int i = 0; i < heartContainers.Length; i++)
         {
-            if (i < playerController.playerHealthController.maxHealth)
+            if (i < playerController.playerHealthController.resHealth)
             {
                 heartContainers[i].SetActive(true);
             }
@@ -59,6 +81,7 @@ public class UIHud : MonoBehaviour
     }
     void InstantiateHeartContainers()
     {
+        
         for (int i = 0; i < heartContainers.Length; i++)
         {
             GameObject temp = Instantiate(heartsContainerPrefab);
@@ -71,27 +94,42 @@ public class UIHud : MonoBehaviour
     private Image enBarFill;
     void SetEnergyBar()
     {
+        if (energyParent.transform.childCount!=0)
+            DestroyImmediate(energyParent.transform.GetChild(0).gameObject);
+
+        tempMaxEn =playerController.playerHealthController.resEnergy;
+
         GameObject enBar = Instantiate(energyBarPrefab);
         enBar.transform.SetParent(energyParent, false);
-        enBarFill= enBar.transform.Find("EnergyFill").GetComponent <Image>();
-        enBar.transform.localScale = new Vector3(playerController.playerHealthController.maxEnergy, 0.5f,0.1f);
-        enBarFill.fillAmount = playerController.playerHealthController.energy / playerController.playerHealthController.maxEnergy;
-        enBar.transform.localPosition = new Vector3(enBar.transform.localPosition.x + enBar.GetComponent<RectTransform>().rect.width* enBar.transform.localScale.x / 2, enBar.transform.localPosition.y,0.1f);
-        
 
+        enBarFill= enBar.transform.Find("EnergyFill").GetComponent <Image>();
+
+
+        enBar.transform.localScale = new Vector3(playerController.playerHealthController.resEnergy, 0.5f,0.1f);
+
+        enBarFill.fillAmount = playerController.playerHealthController.energy / playerController.playerHealthController.resEnergy;
+
+        enBar.transform.localPosition = new Vector3(enBar.transform.localPosition.x + enBar.GetComponent<RectTransform>().rect.width* enBar.transform.localScale.x / 2, enBar.transform.localPosition.y,0.1f);
+
+        UpdateEnergyBar();
 
     }
     void UpdateEnergyBar()
     {
-        enBarFill.fillAmount = playerController.playerHealthController.energy / playerController.playerHealthController.maxEnergy;
+        enBarFill.fillAmount = playerController.playerHealthController.energy / playerController.playerHealthController.resEnergy;
     }
     void UpdateHeartHUD()
     {
+        if (heartContainers.Length != (int)playerController.playerHealthController.resHealth)
+            UpdateHud();
+
         SetHeartContainers();
         SetFilledHearts();
     }
     void UpdateEnergyHUD()
     {
+        if (tempMaxEn != playerController.playerHealthController.resEnergy)
+            UpdateHud();
         UpdateEnergyBar();
     }
 

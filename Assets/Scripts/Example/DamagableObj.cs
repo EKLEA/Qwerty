@@ -15,7 +15,7 @@ public class DamagableObj : MonoBehaviour
 
     public float maxHealth;
     
-    protected void OnEnable()
+    protected void Start()
     {
         hp = maxHealth;
 

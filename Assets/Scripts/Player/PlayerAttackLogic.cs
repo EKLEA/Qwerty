@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerAttackLogic : AttakingObjLogic
@@ -29,13 +30,10 @@ public class PlayerAttackLogic : AttakingObjLogic
     {
         get
         {
-            if (PlayerController.Instance != null)
-            {
-                if (item == null)
-                    return PlayerController.Instance.playerLevelList.baseDamage;
-                else
-                    return (item.info as WeaponItemInfo).damage;
-            }
+            if (PlayerController.Instance != null && item != null)
+                return (item.info as WeaponItemInfo).damage+PlayerInventory.Instance.weaponAndPerks.GetAllItems()
+                                                           .Where(rp => rp != null && rp.info is PerkInfo)
+                                                           .Sum(rp => (rp.info as PerkInfo).partBaseDamage);
             else
                 return 1;
         }
@@ -44,13 +42,10 @@ public class PlayerAttackLogic : AttakingObjLogic
     {
         get
         {
-            if (PlayerController.Instance != null)
-            {
-                if (item == null)
-                return PlayerController.Instance.playerLevelList.baseRange;
-            else
-                return (item.info as WeaponItemInfo).range;
-            }
+            if (PlayerController.Instance != null && item != null)
+                return (item.info as WeaponItemInfo).damage + PlayerInventory.Instance.weaponAndPerks.GetAllItems()
+                                                           .Where(rp => rp != null && rp.info is PerkInfo)
+                                                           .Sum(rp => (rp.info as PerkInfo).partbaseRange);
             else
                 return 1;
         }
@@ -59,13 +54,10 @@ public class PlayerAttackLogic : AttakingObjLogic
     {
         get
         {
-            if (PlayerController.Instance != null)
-            {
-                if (item == null)
-                return PlayerController.Instance.playerLevelList.baseCooldown;
-            else
-                return (item.info as WeaponItemInfo).cooldown;
-            }
+            if (PlayerController.Instance != null && item != null)
+                return (item.info as WeaponItemInfo).damage + PlayerInventory.Instance.weaponAndPerks.GetAllItems()
+                                                           .Where(rp => rp != null && rp.info is PerkInfo)
+                                                           .Sum(rp => (rp.info as PerkInfo).partBaseCooldown);
             else
                 return 1;
         }

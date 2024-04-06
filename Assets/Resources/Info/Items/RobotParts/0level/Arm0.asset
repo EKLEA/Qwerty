@@ -20,8 +20,11 @@ MonoBehaviour:
   itemType: 5
   itemGO: {fileID: 0}
   requielevel: 0
+  isCraftable: 0
+  requeBolts: 0
+  requeElectronics: 0
+  requeFluid: 0
   robotParts: 1
   partMoveKf: 0
-  partBaseDamage: 0
-  partbaseRange: 0
-  partBaseCooldown: 0
+  partHp: 1
+  partEn: 1

@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class PlayerLevelList : MonoBehaviour
 {
-    [Header("Damage")]
-
-    public float baseDamage;
-    public float baseRange;
-    public float baseCooldown;
+    [Header("Health")]
+    public float addEnergy;
+    public float addHealth;
     [Space(5)]
     [Header("Move")]
     public float movekf;

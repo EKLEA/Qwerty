@@ -6,7 +6,7 @@ public class RobotPartInfo : CraftableItemInfo
 {
     public RobotParts robotParts;
     public float partMoveKf;
-    public float partBaseDamage;
-    public float partbaseRange;
-    public float partBaseCooldown;
+    public int partHp;
+    public int partEn;
+   
 }

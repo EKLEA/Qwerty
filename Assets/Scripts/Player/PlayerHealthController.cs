@@ -18,6 +18,32 @@ public class PlayerHealthController : DamagableObjWithLogic
 
     public bool isHeartHas = true;
 
+    public float resHealth;
+    public float resEnergy;
+    protected new void Start()
+    {
+        UpdateHealthVar();
+        hp = resHealth;
+        en = resEnergy;
+    }
+    private void UpdateHealthVar()
+    {
+        resHealth = maxHealth + PlayerController.Instance.playerLevelList.addHealth;
+        resEnergy = maxEnergy + PlayerController.Instance.playerLevelList.addEnergy;
+        
+    }
+    public void IncreaseMaxHealth(int var)
+    {
+        maxHealth += var;
+        UpdateHealthVar() ;
+        OnHealthChangedCallBack?.Invoke();
+    }
+    public void IncreaseMaxEnergy(int var)
+    {
+        maxEnergy+=var;
+        UpdateHealthVar();
+        OnEnergyChangedCallBack?.Invoke();
+    }
     public new float health
     {
         get

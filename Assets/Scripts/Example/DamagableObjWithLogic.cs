@@ -23,9 +23,9 @@ public class DamagableObjWithLogic : DamagableObj
 
         }
     }
-    protected new void OnEnable()
+    protected new void Start()
     {
-        base.OnEnable();
+        base.Start();
         en = maxEnergy;
 
     }

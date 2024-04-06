@@ -22,7 +22,7 @@ public class PlayerInventory: MonoBehaviour
 
     public InventoryWithSlots storageItems = new InventoryWithSlots(20, SlotTypes.DinamicSlot, InventoryType.Storage);
     public InventoryWithSlots equippedItems = new InventoryWithSlots(3, SlotTypes.DinamicSlot, InventoryType.Equippement);
-    public InventoryWithSlots weaponAndPerks = new InventoryWithSlots(4, SlotTypes.DinamicSlot, InventoryType.Equippement);
+    public InventoryWithSlots weaponAndPerks = new InventoryWithSlots(2, SlotTypes.DinamicSlot, InventoryType.Equippement);
    
     public bool blockInv = true;
     public static PlayerInventory Instance;
@@ -44,6 +44,7 @@ public class PlayerInventory: MonoBehaviour
 
         foreach(InventorySlot slot in slots)
             slot.requieType = ItemTypes.CraftComponents;
+
         slots[0].requieItem = ItemBase.ItemsInfo["Bolts"];
         slots[1].requieItem = ItemBase.ItemsInfo["Fluid"];
         slots[2].requieItem = ItemBase.ItemsInfo["Electronics"];
@@ -55,8 +56,7 @@ public class PlayerInventory: MonoBehaviour
 
         slots = weaponAndPerks.GetAllSlots();
         slots[0].requieType = ItemTypes.UsableItem;
-        for (int i = 1; i < slots.Length; i++)
-            slots[i].requieType = ItemTypes.Perks;
+        slots[1].requieType = ItemTypes.Perks;
 
         slots = storageItems.GetAllSlots();
         for (int i = 0; i < slots.Length; i++)
@@ -87,19 +87,24 @@ public class PlayerInventory: MonoBehaviour
         craftableItems = new InventoryWithSlots(list.Count, SlotTypes.StaticSlot, InventoryType.Storage);
         foreach( InventoryItemInfo itemInf in list)
             craftableItems.TryToAdd(null, new Item(itemInf, 1));
+
+        SetupPlayerVariables();
     }
     public void SetupPlayerVariables()
     {
-        foreach (Item rp in equippedItems.GetAllItems())
-        {
-            if (equippedItems.GetAllItems().Length != 0 && rp != null)
-            {
-                PlayerController.Instance.playerLevelList.movekf += (rp.info as RobotPartInfo).partMoveKf;
-                PlayerController.Instance.playerLevelList.baseDamage += (rp.info as RobotPartInfo).partBaseDamage;
-                PlayerController.Instance.playerLevelList.baseRange += (rp.info as RobotPartInfo).partbaseRange;
-                PlayerController.Instance.playerLevelList.baseCooldown += (rp.info as RobotPartInfo).partBaseCooldown;
-            }
-        }
+
+        PlayerController.Instance.playerLevelList.movekf = 1 + equippedItems.GetAllItems()
+                                                                   .Where(rp => rp != null && rp.info is RobotPartInfo)
+                                                                   .Sum(rp => (rp.info as RobotPartInfo).partMoveKf);
+
+
+        PlayerController.Instance.playerLevelList.addHealth = equippedItems.GetAllItems()
+                                                           .Where(rp => rp != null && rp.info is RobotPartInfo)
+                                                           .Sum(rp => (rp.info as RobotPartInfo).partHp);
+
+        PlayerController.Instance.playerLevelList.addEnergy = equippedItems.GetAllItems()
+                                                           .Where(rp => rp != null && rp.info is RobotPartInfo)
+                                                           .Sum(rp => (rp.info as RobotPartInfo).partEn);
 
     }
     public void BlockPlayerInv()

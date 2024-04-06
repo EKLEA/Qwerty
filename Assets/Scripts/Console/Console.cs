@@ -21,6 +21,8 @@ public class Console:MonoBehaviour
     //команды
     DebugCommand< string, int> AddItem;
     DebugCommand< string, int> RemoveItem;
+    DebugCommand<int> AddHealth;
+    DebugCommand<  int> AddEnergy;
     DebugCommand Help;
 
     private void Awake()
@@ -30,6 +32,8 @@ public class Console:MonoBehaviour
         //команды
         AddItem = new DebugCommand<string, int>("AddItem", "Добавляет предметы в инвентарь", "AddItem <id> <Count>", (  id,count)=> { PlayerInventory.AddItem(id,count); } );
         RemoveItem = new DebugCommand<string, int>("RemoveItem", "Удаляет предметы из инвентаря", "RemoveItem <id> <Count>", ( id,count)=> { PlayerInventory.RemoveItem(id,count); } );
+        AddHealth = new DebugCommand<int>("AddHealth", "Добавляет одну ячейку хп", "AddHealth <count>", ( count)=> { PlayerController.Instance.playerHealthController.IncreaseMaxHealth(count); } );
+        AddEnergy = new DebugCommand< int>("AddEnergy", "Добавляет одну ячейку tythubb", "AddEnergy <Count>", ( count)=> { PlayerController.Instance.playerHealthController.IncreaseMaxEnergy(count); } );
         Help = new DebugCommand("Help", "Показывает все доступные команды", "Help", () => { showHelp = true; }); 
 
 
@@ -38,6 +42,8 @@ public class Console:MonoBehaviour
         {
             AddItem,
             RemoveItem,
+            AddHealth,
+            AddEnergy,
             Help,
         };
     }
@@ -122,6 +128,10 @@ public class Console:MonoBehaviour
                         else
                             (commandList[i] as DebugCommand<string, int>).Invoke(prop[1], c);
                     }
+                }
+                else if (commandList[i] as DebugCommand< int> != null)
+                {
+                    (commandList[i]as DebugCommand<int>).Invoke(Convert.ToInt32(prop[1]));
                 }
                 inputString = "";
             }
