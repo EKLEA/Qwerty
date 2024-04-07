@@ -13,4 +13,13 @@ public class PlayerLevelList : MonoBehaviour
     [Space(5)]
     [Header("Inventory")]
     public int levelTier = 0;
+    [Space(5)]
+    [Header("Ability")]
+    
+    public bool SideCast = false;
+    public bool DownCast = false;
+    public bool UPCast = false;
+
+
+
 }

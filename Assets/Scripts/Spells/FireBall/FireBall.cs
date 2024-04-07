@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class FireBall : MonoBehaviour
 {
-    [SerializeField] private FireballInfo fireballInfo;
+    [SerializeField] private int damage;
+    [SerializeField] private float hitForce;
+    [SerializeField] private int speed;
+    [SerializeField] private float lifeTime;
     private void Start()
     {
-        Destroy(gameObject, fireballInfo.lifeTime);
+        if (PlayerController.Instance.playerLevelList.levelTier == 2)
+        {
+            damage *= 2;
+            // доп анимция
+        }
+        Destroy(gameObject, lifeTime);
     }
     private void FixedUpdate()
     {
-        transform.position += fireballInfo.speed * transform.right;
+        transform.position += speed * transform.right;
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag ( "Enemy"))
         {
-            other.GetComponent<EnemyHealthController>().DamageMoment(fireballInfo.damage, (other.transform.position - transform.position).normalized, -fireballInfo.hitForce);
-            Debug.Log("damage");
+            other.GetComponent<EnemyHealthController>().DamageMoment(damage, (other.transform.position - transform.position).normalized, -hitForce);
+            Debug.Log(other.GetComponent<EnemyHealthController>().health);
         }
     }
 }

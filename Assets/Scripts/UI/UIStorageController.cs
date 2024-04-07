@@ -27,6 +27,23 @@ public class UIStorageController : MonoBehaviour
         storageItemsGrid.SetupInvntoryUI(playerInventory.storageItems);
         weaponAndPerksGrid.SetupInvntoryUI(playerInventory.weaponAndPerks);
         abilitiesGrid.SetupInvntoryUI(playerInventory.abilities);
+
+        InventorySlot[] slots = playerInventory.weaponAndPerks.GetAllSlots();
+        switch (PlayerController.Instance.playerLevelList.levelTier)
+        {
+            case 0:
+                slots[1].isBlock = true;
+                slots[2].isBlock = true;
+                return;
+            case 1:
+                slots[1].isBlock = false;
+                slots[2].isBlock = true;
+                return;
+            case 2:
+                slots[1].isBlock = false;
+                slots[2].isBlock = false;
+                return;
+        }
     }
    
 }

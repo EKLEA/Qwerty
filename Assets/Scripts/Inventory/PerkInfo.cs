@@ -5,6 +5,6 @@ using UnityEngine;
 public class PerkInfo : CraftableItemInfo
 {
     public float partBaseDamage;
-    public float partbaseRange;
+    public float partBaseRange;
     public float partBaseCooldown;
 }

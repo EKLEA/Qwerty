@@ -22,7 +22,7 @@ public class PlayerInventory: MonoBehaviour
 
     public InventoryWithSlots storageItems = new InventoryWithSlots(20, SlotTypes.DinamicSlot, InventoryType.Storage);
     public InventoryWithSlots equippedItems = new InventoryWithSlots(3, SlotTypes.DinamicSlot, InventoryType.Equippement);
-    public InventoryWithSlots weaponAndPerks = new InventoryWithSlots(2, SlotTypes.DinamicSlot, InventoryType.Equippement);
+    public InventoryWithSlots weaponAndPerks = new InventoryWithSlots(3, SlotTypes.DinamicSlot, InventoryType.Equippement);
    
     public bool blockInv = true;
     public static PlayerInventory Instance;
@@ -58,6 +58,8 @@ public class PlayerInventory: MonoBehaviour
         slots[0].requieType = ItemTypes.UsableItem;
         slots[1].requieType = ItemTypes.Perks;
 
+        slots[2].requieType = ItemTypes.Perks;
+
         slots = storageItems.GetAllSlots();
         for (int i = 0; i < slots.Length; i++)
             slots[i].requieType = ItemTypes.Any;
@@ -76,7 +78,22 @@ public class PlayerInventory: MonoBehaviour
         Instance.equippedItems.TryToAdd(null, new Item(ItemBase.ItemsInfo["arm0"], 1));
         Instance.equippedItems.TryToAdd(null, new Item(ItemBase.ItemsInfo["legs0"], 1));
 
+        slots = abilities.GetAllSlots();
+
+        for (int i = 0; i < slots.Length; i++)
+            slots[i].requieType = ItemTypes.Ability;
+
+        slots[0].requieItem = ItemBase.ItemsInfo["sideSpell"];
+        slots[1].requieItem = ItemBase.ItemsInfo["downSpell"];
+        slots[2].requieItem = ItemBase.ItemsInfo["upSpell"];
+
+
+        abilities.TryToAdd(null, new Item(ItemBase.ItemsInfo["sideSpell"], 1));
+        abilities.TryToAdd(null, new Item(ItemBase.ItemsInfo["downSpell"], 1));
+        abilities.TryToAdd(null, new Item(ItemBase.ItemsInfo["upSpell"], 1));
+
         BlockPlayerInv();
+
         List<InventoryItemInfo> list = new List<InventoryItemInfo>();
         foreach( InventoryItemInfo itemInf in ItemBase.ItemsInfo.Values)
         {
@@ -84,9 +101,14 @@ public class PlayerInventory: MonoBehaviour
                 list.Add(itemInf);
         }
         list = list.OrderBy(item=> item.requielevel).ThenBy(item=> item.id).ToList();
+
         craftableItems = new InventoryWithSlots(list.Count, SlotTypes.StaticSlot, InventoryType.Storage);
         foreach( InventoryItemInfo itemInf in list)
             craftableItems.TryToAdd(null, new Item(itemInf, 1));
+
+        
+
+
 
         SetupPlayerVariables();
     }
@@ -112,10 +134,11 @@ public class PlayerInventory: MonoBehaviour
         storageItems.SetBlockInventory(blockInv);
         equippedItems.SetBlockInventory(blockInv);
         weaponAndPerks.SetBlockInventory(blockInv);
+
     }
     public static void AddItem(string id,int count)
     {
-        if (!ItemBase.ItemsInfo.ContainsKey(id))
+        if (!ItemBase.ItemsInfo.ContainsKey(id)|| ItemBase.ItemsInfo[id].itemType==ItemTypes.Ability)
             return;
         if (ItemBase.ItemsInfo[id].itemType == ItemTypes.CraftComponents)
             Instance.craftComponents.TryToAdd(null, new Item(ItemBase.ItemsInfo[id],count));
@@ -127,6 +150,8 @@ public class PlayerInventory: MonoBehaviour
     }
     public static void RemoveItem(string id, int count)
     {
+        if (!ItemBase.ItemsInfo.ContainsKey(id) || ItemBase.ItemsInfo[id].itemType == ItemTypes.Ability)
+            return;
         if (ItemBase.ItemsInfo[id].itemType == ItemTypes.CraftComponents)
             Instance.craftComponents.Remove(null,id, count);
         else if (ItemBase.ItemsInfo[id].itemType == ItemTypes.collectableItems)

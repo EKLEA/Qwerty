@@ -5,16 +5,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UICraftSlot : UIInventorySlot
+public class UICraftSlot : UISlotWithLock
 {
-    [SerializeField] GameObject locker;
+    
     [SerializeField] GameObject nameOfItem;
 
-    private void OnEnable()
-    {
-        SetLock();
-    }
-    private void SetLock()
+    
+    protected override void SetLock()
     {
         
         if (slot == null || slot.item == null)
@@ -48,11 +45,6 @@ public class UICraftSlot : UIInventorySlot
                 }
             }
         }
-    }
-    public override void Refresh()
-    {
-        base.Refresh();
-        SetLock();
     }
     
 }

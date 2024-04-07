@@ -25,7 +25,8 @@ public enum ItemTypes
     collectableItems,
     UsableItem,
     Perks,
-    RobortParts
+    RobortParts,
+    Ability
 
     
 }

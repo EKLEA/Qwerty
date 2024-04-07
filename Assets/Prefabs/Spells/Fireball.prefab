@@ -119,7 +119,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd49852b277e0641a2488b010936b6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireballInfo: {fileID: 11400000, guid: 3ae76b954bdacc947afab56692853f65, type: 2}
+  damage: 5
+  hitForce: 5
+  speed: 1
+  lifeTime: 2
 --- !u!1001 &2652914398522896171
 PrefabInstance:
   m_ObjectHideFlags: 0

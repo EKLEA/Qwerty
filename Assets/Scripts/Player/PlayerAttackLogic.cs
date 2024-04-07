@@ -45,7 +45,7 @@ public class PlayerAttackLogic : AttakingObjLogic
             if (PlayerController.Instance != null && item != null)
                 return (item.info as WeaponItemInfo).damage + PlayerInventory.Instance.weaponAndPerks.GetAllItems()
                                                            .Where(rp => rp != null && rp.info is PerkInfo)
-                                                           .Sum(rp => (rp.info as PerkInfo).partbaseRange);
+                                                           .Sum(rp => (rp.info as PerkInfo).partBaseRange);
             else
                 return 1;
         }
@@ -87,13 +87,16 @@ public class PlayerAttackLogic : AttakingObjLogic
                 return new Vector3(downAttackTransformArea.x, range, downAttackTransformArea.z);
         }
     }
+
+    [Header("Recoil Settings")]
     [SerializeField] private int recoilXSteps = 5;
     [SerializeField] private int recoilYSteps = 5;
     [SerializeField] private int recoilXSpeed = 100;
     [SerializeField] private int recoilYSpeed = 100;
 
     private int stepsXRecoiled, stepsYRecoiled;
-
+    [Space(5)]
+    [Header("Spell Settings")]
     private float timeSinceAttack;
     [SerializeField] Transform sideAttackTransform, upAttackTransform, downAttackTransform;
     [SerializeField] Vector3 sideAttackTransformArea;
@@ -104,7 +107,8 @@ public class PlayerAttackLogic : AttakingObjLogic
     [SerializeField] float timeBetweenCast=0.5f;
    
 
-    [SerializeField] int spellDamage= 1; // потом вынести в инфу о спеллах
+    [SerializeField] int spellDamage= 1;
+
     [SerializeField] float downSpellForce = 0.5f;
     [SerializeField] float timeOfUpAttack = 0.4f;
 
@@ -232,7 +236,9 @@ public class PlayerAttackLogic : AttakingObjLogic
 
     public void CastSpell()
     {
-        if(Input.GetButtonUp("Cast/Heal")&& PlayerController.Instance.castOrHealTimer<=0.05f && timeSinceAttack >=timeBetweenCast&& PlayerController.Instance.playerHealthController.energy >= energySpellCost)
+        if((Input.GetButtonUp("Cast/Heal")&& PlayerController.Instance.castOrHealTimer<=0.05f && timeSinceAttack >=timeBetweenCast&& PlayerController.Instance.playerHealthController.energy >= energySpellCost)&&(PlayerController.Instance.playerLevelList.SideCast
+                                                                                                                                                                                                                || PlayerController.Instance.playerLevelList.DownCast
+                                                                                                                                                                                                                || PlayerController.Instance.playerLevelList.UPCast))
         {
             PlayerController.Instance.playerStateList.casting = true;
             timeSinceAttack= 0;
@@ -253,7 +259,7 @@ public class PlayerAttackLogic : AttakingObjLogic
 
         //анимция
         yield return new WaitForSeconds(0.15f);//потом поменть
-        if (PlayerController.Instance.playerStateList.Axis.y == 0 || (PlayerController.Instance.playerStateList.Axis.y < 0 && PlayerController.Instance.playerStateList.grounded))
+        if ((PlayerController.Instance.playerStateList.Axis.y == 0 || (PlayerController.Instance.playerStateList.Axis.y < 0 && PlayerController.Instance.playerStateList.grounded))&&PlayerController.Instance.playerLevelList.SideCast)
         {
             GameObject _fireBall = Instantiate(sideSpellFireball, sideAttackTransform.position, Quaternion.identity);
             if (PlayerController.Instance.playerStateList.lookRight)
@@ -261,22 +267,25 @@ public class PlayerAttackLogic : AttakingObjLogic
             else
                 _fireBall.transform.eulerAngles = new Vector2(_fireBall.transform.eulerAngles.x, 180);
             PlayerController.Instance.playerStateList.recoilX = true;
+            PlayerController.Instance.playerHealthController.energy -= energySpellCost;
         }
-        else if (PlayerController.Instance.playerStateList.Axis.y > 0)
+        else if ((PlayerController.Instance.playerStateList.Axis.y > 0) && PlayerController.Instance.playerLevelList.UPCast)
         {
            GameObject _upFireBall =Instantiate(upSpellFireball, transform);
             _upFireBall.transform.localPosition = new Vector2(0f, 3.5f);
 
             rb.velocity= Vector3.zero;
             Destroy(_upFireBall, timeOfUpAttack);
+            PlayerController.Instance.playerHealthController.energy -= energySpellCost;
         }
-        else if(PlayerController.Instance.playerStateList.Axis.y < 0 && !PlayerController.Instance.playerStateList.grounded)
+        else if((PlayerController.Instance.playerStateList.Axis.y < 0 && !PlayerController.Instance.playerStateList.grounded)&& PlayerController.Instance.playerLevelList.DownCast)
         {
             downSpellFireball.SetActive(true);
+            PlayerController.Instance.playerHealthController.energy -= energySpellCost;
         }
 
 
-        PlayerController.Instance.playerHealthController.energy -= energySpellCost;
+        
         yield return new WaitForSeconds(0.35f);
         //анимция
         PlayerController.Instance.playerStateList.casting = false;
