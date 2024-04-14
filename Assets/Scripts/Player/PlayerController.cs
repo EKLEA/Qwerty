@@ -57,14 +57,21 @@ public class PlayerController : MonoBehaviour
 
         if (playerStateList.alive && !playerStateList.interactedWithCheckPoint && !playerStateList.invOpened)
         {
-            moveHandler.Flip();
+            
             if (Input.GetButton("Cast/Heal"))
                 castOrHealTimer += Time.deltaTime;
             else
                 castOrHealTimer = 0;
 
-            moveHandler.Move();
-            moveHandler.JumpMoment();
+            if (!moveHandler.isWallJumping)
+            {
+                moveHandler.Flip();
+                moveHandler.Move();
+                moveHandler.JumpMoment();
+            }
+            moveHandler.WallSlide();
+            moveHandler.WallJump();
+
             moveHandler.StartDash();
 
 

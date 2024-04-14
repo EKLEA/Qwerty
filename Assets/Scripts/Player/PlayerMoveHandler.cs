@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.EventSystems;
@@ -28,6 +29,17 @@ public class PlayerMoveHandler : MoveHandler
     [Header("Coyote Settings")]
     [SerializeField] private float coyoteTime;
     private float coyoteTimeCounter = 0;
+    [Space(5)]
+
+    [Header("Wall Jump Settings")]
+    [SerializeField] float wallSlidingSpeed = 2f;
+    [SerializeField] Transform wallCheck;
+    [SerializeField] LayerMask wallLayer;
+    [SerializeField] float wallJumpingDutarion;
+    [SerializeField] Vector2 wallJumpingPower;
+    float wallJumpingDirection;
+    bool isWallSliding;
+    public bool isWallJumping;
 
     [Space(5)]
 
@@ -123,7 +135,54 @@ public class PlayerMoveHandler : MoveHandler
         else
             jumpBufferCount--;
     }
-   public void Flip()
+    private bool Walled()
+    {
+        var t=Physics.OverlapSphere(wallCheck.position, 0.2f, wallLayer);
+        if (t.Length > 0)
+            return true;
+        else return false;
+    }
+    public void WallSlide()
+    {
+        
+        if(Walled() && !Grounded() && pState.Axis.x!= 0)
+        {
+            isWallSliding = true;
+            rb.velocity = new Vector2(rb.velocity.x,Mathf.Clamp( rb.velocity.y, -wallSlidingSpeed,float.MaxValue));
+        }
+        else
+        {
+            isWallSliding=false;
+        }
+    }
+    public void WallJump()
+    {
+        if (isWallSliding)
+        {
+            isWallJumping = false;
+            wallJumpingDirection = !pState.lookRight ? 1 : -1;
+            CancelInvoke(nameof(StopWallJumping));
+        }
+        if(Input.GetButtonDown("Jump") && isWallSliding)
+        {
+            isWallJumping=true;
+            rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
+            dashed = false;
+            airJumpCount = 0;
+            if ((pState.lookRight && transform.eulerAngles.y==0) || (!pState.lookRight && transform.eulerAngles.y != 0))
+            {
+                pState.lookRight=!pState.lookRight;
+                int _yRotation = pState.lookRight ? 0 : 180;
+                transform.eulerAngles=new Vector2(transform.eulerAngles.x,_yRotation);
+            }
+            Invoke(nameof(StopWallJumping), wallJumpingDutarion);
+        }
+    }
+    void StopWallJumping()
+    {
+        isWallJumping = false;
+    }
+    public void Flip()
     {
         if (PlayerController.Instance.playerStateList.Axis.x< 0)
         {
