@@ -175,12 +175,16 @@ public class PlayerAttackLogic : AttakingObjLogic
                 objectsToHit[i].gameObject.GetComponent<DamagableObj>().DamageMoment(damage, _recoilDir, _recoilStrenght);
                 if (objectsToHit[i].CompareTag("Enemy"))
                 {
-                    if (PlayerController.Instance.playerHealthController.energy + PlayerController.Instance.playerHealthController.energyGain > PlayerController.Instance.playerHealthController.maxEnergy)
+                    if (PlayerController.Instance.playerHealthController.energy + PlayerController.Instance.playerHealthController.energyGain > PlayerController.Instance.playerHealthController.resEnergy)
                     {
-                        PlayerController.Instance.playerHealthController.energy = PlayerController.Instance.playerHealthController.maxEnergy;
+                        PlayerController.Instance.playerHealthController.energy = PlayerController.Instance.playerHealthController.resEnergy;
+                        Debug.Log("1");
                     }
                     else
+                    {
                         PlayerController.Instance.playerHealthController.energy += PlayerController.Instance.playerHealthController.energyGain;
+                        Debug.Log("2");
+                    }
 
                 }
                 PlayerController.Instance.playerHealthController.OnEnergyChangedCallBack?.Invoke();
@@ -236,9 +240,13 @@ public class PlayerAttackLogic : AttakingObjLogic
 
     public void CastSpell()
     {
-        if((Input.GetButtonUp("Cast/Heal")&& PlayerController.Instance.castOrHealTimer<=0.05f && timeSinceAttack >=timeBetweenCast&& PlayerController.Instance.playerHealthController.energy >= energySpellCost)&&(PlayerController.Instance.playerLevelList.SideCast
-                                                                                                                                                                                                                || PlayerController.Instance.playerLevelList.DownCast
-                                                                                                                                                                                                                || PlayerController.Instance.playerLevelList.UPCast))
+        if((Input.GetButtonUp("Cast/Heal")&& PlayerController.Instance.castOrHealTimer<=0.05f 
+            && timeSinceAttack >=timeBetweenCast
+            && PlayerController.Instance.playerHealthController.energy >= energySpellCost)
+
+            &&(PlayerController.Instance.playerLevelList.SideCast
+            || PlayerController.Instance.playerLevelList.DownCast
+            || PlayerController.Instance.playerLevelList.UPCast))
         {
             PlayerController.Instance.playerStateList.casting = true;
             timeSinceAttack= 0;

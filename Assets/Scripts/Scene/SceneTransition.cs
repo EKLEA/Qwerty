@@ -14,6 +14,7 @@ public class SceneTransition : MonoBehaviour
     {
         if(transitionTo== GameManager.Instance.transitionedFromScene)
         {
+            Debug.Log("sss");
             PlayerController.Instance.transform.position = startPoint.position;
             FollowPlayer.Instance.transform.position =  new Vector3(startPoint.position.x, startPoint.position.y, startPoint.position.z - 20.75f);
             StartCoroutine(PlayerController.Instance.moveHandler.WalkIntoNewScene(exitDirection,exitTime));

@@ -119,7 +119,7 @@ public class PlayerMoveHandler : MoveHandler
         {
             anim.SetBool("Falling", false);
             anim.SetBool("FallingDown", true);
-            PlayerController.Instance.pCollider.size = new Vector3(1.5f, 6, 1.5f);
+            PlayerController.Instance.pCollider.size = new Vector3(1.5f, 7, 1.5f);
             pState.jumping = false;
             coyoteTimeCounter = coyoteTime;
             airJumpCount = 0;

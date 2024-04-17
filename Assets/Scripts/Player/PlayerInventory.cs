@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using UnityEditor;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.Port;
 using static UnityEditor.Progress;
@@ -106,10 +107,10 @@ public class PlayerInventory: MonoBehaviour
         foreach( InventoryItemInfo itemInf in list)
             craftableItems.TryToAdd(null, new Item(itemInf, 1));
 
-        
 
 
 
+        collectableItems.OnInventoryItemAddedEvent += updateCollectablesStats;
         SetupPlayerVariables();
     }
     public void SetupPlayerVariables()
@@ -177,5 +178,18 @@ public class PlayerInventory: MonoBehaviour
             }
                 
         }
+    }
+    void updateCollectablesStats(object t,Item item, int count)
+    {
+        switch (item.info.id)
+        {
+            case "dashUnlock":
+                PlayerController.Instance.playerLevelList.canDash = true;
+                break;
+            case "doubleJumpUnlock":
+                PlayerController.Instance.playerLevelList.canDoubleWallJump = true;
+                break;
+        }
+      
     }
 }

@@ -19,6 +19,8 @@ public class PlayerLevelList : MonoBehaviour
     public bool SideCast = false;
     public bool DownCast = false;
     public bool UPCast = false;
+    public bool canDash = false;
+    public bool canDoubleWallJump=false;
 
 
 
