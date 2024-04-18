@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(EnemyHealthController))]
+[RequireComponent(typeof(Animator))]
 public class EnemyLogicBase : MonoBehaviour
 {
      protected float timer;

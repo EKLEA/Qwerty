@@ -35,7 +35,6 @@ public class ChargerEnemyLogicController : EnemyLogicBase
         switch (GetCurrectEnemyState)
         {
             case EnemyStates.Charger_Idle:
-                
 
                 if (!Physics.Raycast(transform.position + _ledgeCheckStart, Vector2.down, ledgeCheckY, whatIsGround)
                     || Physics.Raycast(transform.position, _wallCheckDir, ledgeCheckX, whatIsGround))
@@ -55,6 +54,7 @@ public class ChargerEnemyLogicController : EnemyLogicBase
                 else
                     rb.velocity = new Vector2(-speed, rb.velocity.y);
                 break;
+                
             case EnemyStates.Charger_Suprised:
                 rb.velocity = new Vector2(0, JumpForce);
 

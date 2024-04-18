@@ -92,10 +92,11 @@ public class PlayerController : MonoBehaviour
     }
     public void Respawned()
     {
+        // запуск коротины ыхода их принтора
         if(!playerStateList.alive)
         {
             playerStateList.alive = true;
-            playerHealthController.health = playerHealthController.maxHealth;
+            playerHealthController.health = playerHealthController.resHealth;
             anim.Play("Stading_Idle");
             playerHealthController.isHeartHas = false;
         }
