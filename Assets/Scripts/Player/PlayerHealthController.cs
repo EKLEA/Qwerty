@@ -130,7 +130,7 @@ public class PlayerHealthController : DamagableObjWithLogic
 
    public void Heal()
    {
-        if (Input.GetButton("Cast/Heal") && pController.castOrHealTimer > 0.05f&& health<maxHealth && energy>0 && !pController.playerStateList.jumping && !pController.playerStateList.dashing&& pController.rb.velocity== Vector3.zero)
+        if (Input.GetButton("Cast/Heal") && pController.castOrHealTimer > 0.05f&& health<resHealth && energy>0 && !pController.playerStateList.jumping && !pController.playerStateList.dashing&& pController.rb.velocity== Vector3.zero)
         {
             pController.playerStateList.healing = true;
             healTimer += Time.deltaTime;

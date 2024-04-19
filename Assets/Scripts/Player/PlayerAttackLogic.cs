@@ -178,12 +178,10 @@ public class PlayerAttackLogic : AttakingObjLogic
                     if (PlayerController.Instance.playerHealthController.energy + PlayerController.Instance.playerHealthController.energyGain > PlayerController.Instance.playerHealthController.resEnergy)
                     {
                         PlayerController.Instance.playerHealthController.energy = PlayerController.Instance.playerHealthController.resEnergy;
-                        Debug.Log("1");
                     }
                     else
                     {
                         PlayerController.Instance.playerHealthController.energy += PlayerController.Instance.playerHealthController.energyGain;
-                        Debug.Log("2");
                     }
 
                 }

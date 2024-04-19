@@ -7,8 +7,8 @@ public class PlayerLevelList : MonoBehaviour
     [Header("Health")]
     public float addEnergy;
     public float addHealth;
-    private float taHP;
-    private float taEN;
+    public float taHP;
+    public float taEN;
     public float tempAddHP
     {
         get { return taHP; }
@@ -17,6 +17,11 @@ public class PlayerLevelList : MonoBehaviour
             if (value % 3 == 0)
             {
                 taHP = 0;
+                PlayerController.Instance.playerHealthController.IncreaseMaxHealth(1);
+            }
+            else if (value > 3)
+            {
+                taHP = value - 3;
                 PlayerController.Instance.playerHealthController.IncreaseMaxHealth(1);
             }
             else
@@ -31,6 +36,11 @@ public class PlayerLevelList : MonoBehaviour
             if (value % 3 == 0)
             {
                 taEN = 0;
+                PlayerController.Instance.playerHealthController.IncreaseMaxEnergy(1);
+            }
+            else if (value > 3)
+            {
+                taHP = value - 3;
                 PlayerController.Instance.playerHealthController.IncreaseMaxEnergy(1);
             }
             else
