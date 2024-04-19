@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44300285, g: 0.49219579, b: 0.5719256, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -626,7 +626,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1720,7 +1720,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -1815,6 +1816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3939e4cedcf68a147a5b2add31ae0d62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Hand: {fileID: 0}
 --- !u!114 &336361265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1827,6 +1829,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dbd9c3fa80331647898646c0aa6499c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0
+  jumpHeight: 0
+  jumpBufferFrames: 0
+  maxAirJump: 0
+  dashSpeed: 0
+  dashTime: 0
+  dashCooldown: 0
+  coyoteTime: 0
+  wallSlidingSpeed: 2
+  wallCheck: {fileID: 0}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  wallJumpingDutarion: 0
+  wallJumpingPower: {x: 0, y: 0}
+  isWallJumping: 0
+  groundCheckPoint: {fileID: 0}
+  groundCheckY: 0.2
+  groundCheckX: 0.5
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &336361266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1839,9 +1863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ba62664dae26a840aee35e714dc17e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 13
-  jumpHeight: 2
-  gravityValue: -50
+  castOrHealTimer: 0
 --- !u!143 &336361267
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1880,7 +1902,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98abab9ab642a3a4490c50b850a2368f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cashInvCapacity: 10
+  blockInv: 1
+--- !u!54 &336361269
+Rigidbody:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336361262}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &357155631
 GameObject:
   m_ObjectHideFlags: 0
@@ -2415,7 +2464,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 59095278}
   _textAmount: {fileID: 1371262077}
 --- !u!225 &451996850
@@ -2481,7 +2529,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 1230169295}
   _textAmount: {fileID: 1691205762}
 --- !u!225 &514044792
@@ -2628,7 +2675,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 44850590}
   _textAmount: {fileID: 742445602}
 --- !u!225 &530865397
@@ -2694,7 +2740,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 688936087}
   _textAmount: {fileID: 802034578}
 --- !u!225 &532145550
@@ -3125,7 +3170,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3221,7 +3266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 862650190}
   _textAmount: {fileID: 2078913261}
 --- !u!225 &573607045
@@ -3543,7 +3587,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -3677,7 +3722,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3861,7 +3906,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 1482277615}
   _textAmount: {fileID: 1932490215}
 --- !u!225 &691488072
@@ -4182,7 +4226,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 195827945}
   _textAmount: {fileID: 548619418}
 --- !u!225 &722943911
@@ -4689,7 +4732,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5571,6 +5614,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lookAt: {fileID: 336361263}
   bound: {x: 1, y: 1}
+  speed: 5
+  zoomFloat: 13
 --- !u!81 &963194230
 AudioListener:
   m_ObjectHideFlags: 0
@@ -5786,7 +5831,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 1260038300}
   _textAmount: {fileID: 383261170}
 --- !u!225 &1029964450
@@ -6063,10 +6107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44573b60ca08b8e4e802d0e5156a0a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInventory: {fileID: 336361268}
-  playerUseMoment: {fileID: 336361264}
-  contextMenu: {fileID: 1925663993}
-  inventoryUIInterface: {fileID: 1106774521}
 --- !u!114 &1106774524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6311,7 +6351,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 1605666946}
   _textAmount: {fileID: 21926998}
 --- !u!225 &1213071530
@@ -7102,7 +7141,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 1170032006}
   _textAmount: {fileID: 1407564737}
 --- !u!225 &1446194462
@@ -7168,7 +7206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 1684010850}
   _textAmount: {fileID: 643324024}
 --- !u!225 &1475756326
@@ -7555,7 +7592,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 989659700}
   _textAmount: {fileID: 1784799205}
 --- !u!225 &1516794014
@@ -7711,7 +7747,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 2073017080}
   _textAmount: {fileID: 528197324}
 --- !u!225 &1568501148
@@ -7852,7 +7887,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 1847307298}
   _textAmount: {fileID: 903566642}
 --- !u!225 &1608858220
@@ -7993,7 +8027,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 1656306843}
   _textAmount: {fileID: 1007928156}
 --- !u!225 &1635910563
@@ -8134,7 +8167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 1513437877}
   _textAmount: {fileID: 566118030}
 --- !u!225 &1648771693
@@ -8275,7 +8307,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 1901879904}
   _textAmount: {fileID: 442251988}
 --- !u!225 &1663338961
@@ -8416,7 +8447,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 599774223}
   _textAmount: {fileID: 836964095}
 --- !u!225 &1687307088
@@ -8665,7 +8695,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 149856541}
   _textAmount: {fileID: 357155633}
 --- !u!1 &1719999514
@@ -8819,7 +8848,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -9481,7 +9511,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 1615135173}
   _textAmount: {fileID: 1800613662}
 --- !u!225 &1879037600
@@ -9806,7 +9835,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 1319243975}
   _textAmount: {fileID: 780335158}
 --- !u!225 &1935443506
@@ -9912,7 +9940,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 275256451}
   _textAmount: {fileID: 186062454}
 --- !u!225 &1978839289
@@ -9978,7 +10005,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 939363553}
   _textAmount: {fileID: 407071544}
 --- !u!225 &2020160721
@@ -10068,7 +10094,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10164,7 +10190,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 719383120}
   _textAmount: {fileID: 1509143395}
 --- !u!225 &2061871213
@@ -10476,7 +10501,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3df45e5684b874b8135bbcb7e111c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsed: 0
   _imageIcon: {fileID: 1643410997}
   _textAmount: {fileID: 2134138681}
 --- !u!225 &2082070635
