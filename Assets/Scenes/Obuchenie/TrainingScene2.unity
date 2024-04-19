@@ -135,13 +135,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneTransition (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875161936660894809, guid: a5aa64e736385ec44b43d707f466c1fc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.47
+      objectReference: {fileID: 0}
     - target: {fileID: 7608126754651652796, guid: a5aa64e736385ec44b43d707f466c1fc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 150.5
+      value: 176.26
       objectReference: {fileID: 0}
     - target: {fileID: 7608126754651652796, guid: a5aa64e736385ec44b43d707f466c1fc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.85
+      value: 5.55
       objectReference: {fileID: 0}
     - target: {fileID: 7608126754651652796, guid: a5aa64e736385ec44b43d707f466c1fc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -177,11 +181,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8421583090302445750, guid: a5aa64e736385ec44b43d707f466c1fc, type: 3}
       propertyPath: exitTime
-      value: 0.2
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 8421583090302445750, guid: a5aa64e736385ec44b43d707f466c1fc, type: 3}
       propertyPath: transitionTo
-      value: TrainingScene1
+      value: TrainingScene3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8421583090302445750, guid: a5aa64e736385ec44b43d707f466c1fc, type: 3}
+      propertyPath: exitDirection.x
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4018,19 +4026,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6875161936660894809, guid: a5aa64e736385ec44b43d707f466c1fc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6875161936660894809, guid: a5aa64e736385ec44b43d707f466c1fc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.01
+      value: -6.1
       objectReference: {fileID: 0}
     - target: {fileID: 7608126754651652796, guid: a5aa64e736385ec44b43d707f466c1fc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 171.3
+      value: 30.96
       objectReference: {fileID: 0}
     - target: {fileID: 7608126754651652796, guid: a5aa64e736385ec44b43d707f466c1fc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.9
+      value: 5.42
       objectReference: {fileID: 0}
     - target: {fileID: 7608126754651652796, guid: a5aa64e736385ec44b43d707f466c1fc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4070,7 +4078,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8421583090302445750, guid: a5aa64e736385ec44b43d707f466c1fc, type: 3}
       propertyPath: transitionTo
-      value: TrainingScene3
+      value: TrainingScene1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

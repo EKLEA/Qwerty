@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Lab/TrainingScene3.unity
+    path: Assets/Scenes/Obuchenie/TrainingScene3.unity
     guid: 2d2efc5b027ffce4bad355adfedf6dc2
   - enabled: 1
-    path: Assets/Scenes/Lab/TrainingScene1.unity
+    path: Assets/Scenes/Obuchenie/TrainingScene1.unity
     guid: 3c818738596a8ac4693b4e56d77c8649
   - enabled: 1
-    path: Assets/Scenes/Lab/TrainingScene2.unity
+    path: Assets/Scenes/Obuchenie/TrainingScene2.unity
     guid: 139889bb8721bcb4a9e5c99416b78e35
   m_configObjects: {}
