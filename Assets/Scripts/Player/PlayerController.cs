@@ -119,4 +119,8 @@ public class PlayerController : MonoBehaviour
         PlayerInventory.Instance.BlockPlayerInv();
         playerStateList.interactedWithCheckPoint = false;
     }
+    public IEnumerator TakeShard(bool b)
+    {
+        yield return new WaitForSeconds(0.15f);
+    }
 }

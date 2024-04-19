@@ -44,7 +44,7 @@ public class CraftMenuScript : MonoBehaviour
     }
     private void OnEnable()
     {
-        craftableItemsGrid.transform.localPosition = new Vector3(0, -1060f, 0f);
+        craftableItemsGrid.transform.localPosition = new Vector3(0, -1630f, 0f);
     }
     public void OnButtonClick(UnityEngine.UI.Button tempBt)
     {
@@ -87,8 +87,8 @@ public class CraftMenuScript : MonoBehaviour
         
 
         if ((playerInventory.craftComponents.GetItemCount("Bolts")>= (slot.item.info as CraftableItemInfo).requeBolts)&&
-            (playerInventory.craftComponents.GetItemCount("Fluid") >= (slot.item.info as CraftableItemInfo).requeBolts)&&
-            (playerInventory.craftComponents.GetItemCount("Electronics") >= (slot.item.info as CraftableItemInfo).requeBolts))
+            (playerInventory.craftComponents.GetItemCount("Fluid") >= (slot.item.info as CraftableItemInfo).requeFluid)&&
+            (playerInventory.craftComponents.GetItemCount("Electronics") >= (slot.item.info as CraftableItemInfo).requeElectronics))
         {
             //синюю обводку добавить в кнопку
             bt.interactable = true;

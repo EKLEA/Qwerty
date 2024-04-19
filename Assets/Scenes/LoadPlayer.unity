@@ -217,6 +217,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 537051798}
+    - target: {fileID: 1263835808459705833, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1427656700818184021, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
       propertyPath: m_Size.y
       value: 7
@@ -228,6 +232,10 @@ PrefabInstance:
     - target: {fileID: 2558719675519645883, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
       propertyPath: groundCheckY
       value: 2.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2858767313086894094, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
+      propertyPath: m_Constraints
+      value: 88
       objectReference: {fileID: 0}
     - target: {fileID: 3060713371764538615, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
