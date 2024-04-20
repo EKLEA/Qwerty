@@ -56,12 +56,14 @@ public class PlayerMoveHandler : MoveHandler
     private PlayerStateList pState => PlayerController.Instance.playerStateList;
     public new void Move()
     {
-        
-        rb.velocity= new Vector2(PlayerController.Instance.playerStateList.Axis.x*  speed*PlayerController.Instance.playerLevelList.movekf, rb.velocity.y);
+        if ((PlayerController.Instance.playerHealthController.energy > 0 && PlayerController.Instance.playerHealthController.isHeartHas == false) || (PlayerController.Instance.playerHealthController.isHeartHas == true))
+        {
+            rb.velocity = new Vector2(PlayerController.Instance.playerStateList.Axis.x * speed * PlayerController.Instance.playerLevelList.movekf, rb.velocity.y);
 
-        anim.SetBool("Runing", rb.velocity.x != 0 && Grounded());
-        if (pState.recoilY)
-            airJumpCount = 0;
+            anim.SetBool("Runing", rb.velocity.x != 0 && Grounded());
+            if (pState.recoilY)
+                airJumpCount = 0;
+        }
 
     }
     public void StartDash()
@@ -86,6 +88,8 @@ public class PlayerMoveHandler : MoveHandler
         rb.useGravity = false;
         int _dir = pState.lookRight ? 1 : -1;
         rb.velocity = new Vector3(_dir * dashSpeed*PlayerController.Instance.playerLevelList.movekf, 0,0);
+        if(PlayerController.Instance.playerHealthController.isHeartHas==false)
+            PlayerController.Instance.playerHealthController.energy -= 0.1f;
         yield return new WaitForSeconds(dashTime);
         rb.useGravity= true;
         pState.dashing = false;
@@ -98,6 +102,9 @@ public class PlayerMoveHandler : MoveHandler
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
             pState.jumping = true;
+
+            if (PlayerController.Instance.playerHealthController.isHeartHas == false)
+                PlayerController.Instance.playerHealthController.energy -= 0.1f;
         }
         if(!Grounded() && airJumpCount<maxAirJump && Input.GetButtonUp("Jump"))
         {
@@ -119,7 +126,7 @@ public class PlayerMoveHandler : MoveHandler
         {
             anim.SetBool("Falling", false);
             anim.SetBool("FallingDown", true);
-            PlayerController.Instance.pCollider.size = new Vector3(1.5f, 7, 1.5f);
+            PlayerController.Instance.pCollider.height = 7;
             pState.jumping = false;
             coyoteTimeCounter = coyoteTime;
             airJumpCount = 0;
@@ -127,7 +134,7 @@ public class PlayerMoveHandler : MoveHandler
         else
         {
             anim.SetBool("Falling", true);
-            PlayerController.Instance.pCollider.size = new Vector3(1.5f, 4, 1.5f);
+            PlayerController.Instance.pCollider.height = 4;
             coyoteTimeCounter -= Time.deltaTime;
         }
         if (Input.GetButtonDown("Jump"))
@@ -176,6 +183,9 @@ public class PlayerMoveHandler : MoveHandler
                 transform.eulerAngles=new Vector2(transform.eulerAngles.x,_yRotation);
             }
             Invoke(nameof(StopWallJumping), wallJumpingDutarion);
+
+            if (PlayerController.Instance.playerHealthController.isHeartHas == false)
+                PlayerController.Instance.playerHealthController.energy -= 0.1f;
         }
     }
     void StopWallJumping()

@@ -25,9 +25,9 @@ public class FlyingEnemyLogicController : EnemyLogicBase
                     ChangeState(EnemyStates.FlyingEn_Chase);
                 break;
             case EnemyStates.FlyingEn_Chase:
-                targetPosition = playerController.transform.position;
-                MoveTowardsTarget();
-                FlipFlyingEn();
+                targetPosition = new Vector3(playerController.transform.position.x, playerController.transform.position.y+3, playerController.transform.position.z);
+                rb.MovePosition(Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * speed));
+                transform.eulerAngles = new Vector3(-90, 90, 0);
                 break;
             case EnemyStates.FlyingEn_Stunned:
 
@@ -60,17 +60,5 @@ public class FlyingEnemyLogicController : EnemyLogicBase
     protected override void ChangeCurrentAnimation()
     {
             //анимация
-    }
-    void MoveTowardsTarget()
-    {
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * speed);
-    }
-
-    void FlipFlyingEn()
-    {
-        if(playerController.transform.position.x<transform.position.x)
-            transform.eulerAngles = new Vector3(0, 90, 0);
-        else 
-            transform.eulerAngles = new Vector3(0, -90, 0);
     }
 }

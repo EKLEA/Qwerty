@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using Unity.Mathematics;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
@@ -15,6 +16,9 @@ public class UIHud : MonoBehaviour
     public GameObject heartsContainerPrefab;
     public Transform energyParent;
     public GameObject energyBarPrefab;
+    public GameObject heart;
+    public Material enBarMat1;
+    public Material enBarMat2;
 
     private void Start()
     {
@@ -23,27 +27,27 @@ public class UIHud : MonoBehaviour
         StartCoroutine(SetupHud());
         playerController.playerHealthController.OnHealthChangedCallBack += UpdateHeartHUD;
         playerController.playerHealthController.OnEnergyChangedCallBack += UpdateEnergyHUD;
-
+        playerController.playerHealthController.OnDeadCallBack+=UpdateHeart;
+        playerController.playerHealthController.OnHealthVarChange += UpdateHud;
 
     }
     float tempMaxEn;
     IEnumerator SetupHud()
     {
         yield return new WaitForSeconds(0.001f);
+        
         heartContainers = new GameObject[(int)playerController.playerHealthController.resHealth];
         heartFills = new Image[(int)playerController.playerHealthController.resHealth];
         InstantiateHeartContainers();
         SetEnergyBar();
         UpdateHeartHUD();
+        UpdateHeart();
 
-        
+
     }
-    private void UpdateHud()
+    private void UpdateHud(object t)
     {
-        for (int i = heartsParent.transform.childCount - 1; i >= 0; i--)
-        {
-            DestroyImmediate(heartsParent.transform.GetChild(i).gameObject);
-        }
+        
         heartContainers = new GameObject[0];
         heartFills = new Image[0];
         StartCoroutine(SetupHud());
@@ -81,7 +85,12 @@ public class UIHud : MonoBehaviour
     }
     void InstantiateHeartContainers()
     {
-        
+        int childCount = heartsParent.transform.childCount;
+        for (int i = childCount - 1; i >= 0; i--)
+        {
+            Destroy(heartsParent.transform.GetChild(i).gameObject);
+        }
+
         for (int i = 0; i < heartContainers.Length; i++)
         {
             GameObject temp = Instantiate(heartsContainerPrefab);
@@ -103,9 +112,14 @@ public class UIHud : MonoBehaviour
         enBar.transform.SetParent(energyParent, false);
 
         enBarFill= enBar.transform.Find("EnergyFill").GetComponent <Image>();
+        if (playerController.playerHealthController.isHeartHas)
+            enBarFill.material = enBarMat1;
+        else
+            enBarFill.material = enBarMat2;
 
 
-        enBar.transform.localScale = new Vector3(playerController.playerHealthController.resEnergy, 0.5f,0.1f);
+
+        enBar.transform.localScale = new Vector3(playerController.playerHealthController.resEnergy, 0.5f, 0.1f);
 
         enBarFill.fillAmount = playerController.playerHealthController.energy / playerController.playerHealthController.resEnergy;
 
@@ -120,17 +134,24 @@ public class UIHud : MonoBehaviour
     }
     void UpdateHeartHUD()
     {
-        if (heartContainers.Length != (int)playerController.playerHealthController.resHealth)
-            UpdateHud();
-
         SetHeartContainers();
         SetFilledHearts();
     }
     void UpdateEnergyHUD()
     {
-        if (tempMaxEn != playerController.playerHealthController.resEnergy)
-            UpdateHud();
         UpdateEnergyBar();
     }
+    public void UpdateHeart()//переписать тут
+    {
+        if (playerController.playerHealthController.isHeartHas)
+        {
+            heart.GetComponent<Image>().color = new Color(121 / 256f, 211 / 256f, 255 / 256f);
+        }
+        else
+        {
+            heart.GetComponent<Image>().color = new Color(248 / 256f, 23 / 256f, 62 / 256f);
+        }
+        SetEnergyBar();
 
+    }
 }

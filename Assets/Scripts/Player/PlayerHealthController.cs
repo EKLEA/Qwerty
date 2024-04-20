@@ -11,17 +11,30 @@ public class PlayerHealthController : DamagableObjWithLogic
     bool restoreTime;
     float restoreTimeSpeed;
     float healTimer;
+    float restoreEnergyTimer;
 
     [SerializeField] private float timeToHeal;
+    [SerializeField] private float restoreTimeEnergy;
     [SerializeField] float energyDrainSpeed;
     [SerializeField] public float energyGain;
-
-    public bool isHeartHas = true;
+    bool heartHas;
+    public bool isHeartHas
+    {
+        get {  return heartHas; }
+        set 
+        { 
+            heartHas = value;
+            OnDeadCallBack.Invoke();
+        }
+    }
 
     public float resHealth;
     public float resEnergy;
+
+    public Action<object> OnHealthVarChange;
     protected new void Start()
     {
+        isHeartHas = true;
         UpdateHealthVar();
         hp = resHealth;
         en = resEnergy;
@@ -30,19 +43,19 @@ public class PlayerHealthController : DamagableObjWithLogic
     {
         resHealth = maxHealth + PlayerController.Instance.playerLevelList.addHealth;
         resEnergy = maxEnergy + PlayerController.Instance.playerLevelList.addEnergy;
-        
+       
     }
     public void IncreaseMaxHealth(int var)
     {
         maxHealth += var;
         UpdateHealthVar() ;
-        OnHealthChangedCallBack?.Invoke();
+        OnHealthVarChange(null);
     }
     public void IncreaseMaxEnergy(int var)
     {
         maxEnergy+=var;
         UpdateHealthVar();
-        OnEnergyChangedCallBack?.Invoke();
+         OnHealthVarChange(null);
     }
     public new float health
     {
@@ -66,6 +79,27 @@ public class PlayerHealthController : DamagableObjWithLogic
                 StartCoroutine(StopTakingDamage());
             }
 
+        }
+    }
+    public void MoveWithoutHeart()
+    {
+        if (!isHeartHas)
+        {
+            if (pController.rb.velocity.x == 0 && pController.playerStateList.grounded)
+            {
+                restoreEnergyTimer += Time.deltaTime;
+                if (restoreEnergyTimer >= restoreTimeEnergy)
+                {
+                    energy += Time.deltaTime * energyDrainSpeed / 2;
+                }
+            }
+            else if (pController.rb.velocity.x == 0 && !pController.playerStateList.grounded)
+                return;
+            else
+            {
+                energy -= Time.deltaTime * energyDrainSpeed / 2;
+                if (energy <= 0) PlayerController.Instance.rb.velocity = new Vector3(0, PlayerController.Instance.rb.velocity.y, 0);
+            }
         }
     }
     public override void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce)
@@ -112,6 +146,7 @@ public class PlayerHealthController : DamagableObjWithLogic
     }
     IEnumerator Death()
     {
+        OnDeadCallBack?.Invoke();
         pController.playerStateList.alive=false;
         Time.timeScale = 1f;
         GameObject _damageEffect = Instantiate(DamageEffect, new Vector2(transform.position.x, transform.position.y + 1.5f), Quaternion.identity);
@@ -141,7 +176,6 @@ public class PlayerHealthController : DamagableObjWithLogic
             }
             
             energy -= Time.deltaTime * energyDrainSpeed;
-            Debug.Log(energy);
         }
         else
         {

@@ -12,12 +12,12 @@ public class TakeShard : ExampleUsable
         if (_tempEN > 0)
         {
             PlayerController.Instance.playerLevelList.tempAddEN += _tempEN;
-            PlayerController.Instance.TakeShard(false);// хп
+           StartCoroutine( PlayerController.Instance.TakeShard(false));// хп
         }
         else if (_tempHP > 0)
         {
             PlayerController.Instance.playerLevelList.tempAddHP += _tempHP;
-            PlayerController.Instance.TakeShard(true);//енергия
+            StartCoroutine( PlayerController.Instance.TakeShard(true));//енергия
 
         }
         else

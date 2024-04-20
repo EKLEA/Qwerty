@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: EnbarMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: 1ef2639aa8d56f641b81ca1bf34179f4, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: ecd723e752fec624ebb761152c54763d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -128,7 +128,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0.6484375, g: 0.921875, b: 0.98828125, a: 1}
-    - _Color_1: {r: 0, g: 0.70703125, b: 0.98828125, a: 1}
+    - _Color_1: {r: 0, g: 0.703125, b: 0.984375, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []

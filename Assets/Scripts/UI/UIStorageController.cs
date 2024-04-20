@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Device;
 using UnityEngine.UI;
@@ -20,7 +21,6 @@ public class UIStorageController : MonoBehaviour
     public UIInventory equippedGrid;
     private void OnEnable()
     {
-
         equippedGrid.SetupInvntoryUI(playerInventory.equippedItems);
         ñraftComponentsItemsGrid.SetupInvntoryUI(playerInventory.craftComponents);
 

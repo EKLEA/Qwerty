@@ -6,13 +6,14 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
+
     public Animator anim=> GetComponent<Animator>();
     public PlayerMoveHandler moveHandler=> GetComponent<PlayerMoveHandler>();
     PlayerAttackLogic attackLogic=> GetComponent<PlayerAttackLogic>();
     public PlayerHealthController playerHealthController => GetComponent<PlayerHealthController>();
     public PlayerStateList playerStateList =>GetComponent<PlayerStateList>();
     public PlayerLevelList playerLevelList =>GetComponent<PlayerLevelList>();
-    public BoxCollider pCollider=> gameObject.GetComponent<BoxCollider>();
+    public CapsuleCollider pCollider=> gameObject.GetComponent<CapsuleCollider>();
     public Rigidbody rb => gameObject.GetComponent<Rigidbody>();
     public static PlayerController Instance;
     [HideInInspector] public float castOrHealTimer;
@@ -77,6 +78,7 @@ public class PlayerController : MonoBehaviour
 
             attackLogic.Attack();
             attackLogic.CastSpell();
+            
         }
         if (playerStateList.interactedWithCheckPoint && ((Input.GetButtonDown("Cast/Heal") ||
                                                          Input.GetButtonDown("Horizontal") ||
@@ -87,6 +89,7 @@ public class PlayerController : MonoBehaviour
             
        
         playerHealthController.Heal();
+        playerHealthController.MoveWithoutHeart();
 
 
     }
@@ -98,7 +101,9 @@ public class PlayerController : MonoBehaviour
             playerStateList.alive = true;
             playerHealthController.health = playerHealthController.resHealth;
             anim.Play("Stading_Idle");
-            playerHealthController.isHeartHas = false;
+            playerHealthController.isHeartHas= false;
+            playerStateList.isHeartHas = false;
+            UIController.Instance.uiHud.GetComponent<UIHud>().UpdateHeart();
         }
     }
     public  IEnumerator EnterInCheckPoint()
@@ -121,6 +126,7 @@ public class PlayerController : MonoBehaviour
     }
     public IEnumerator TakeShard(bool b)
     {
+
         yield return new WaitForSeconds(0.15f);
     }
 }

@@ -1,31 +1,36 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerLevelList : MonoBehaviour
 {
+    public event Action<object> OnShardAdded;
+
     [Header("Health")]
     public float addEnergy;
     public float addHealth;
-    public float taHP;
-    public float taEN;
+    float taHP;
+    float taEN;
     public float tempAddHP
     {
         get { return taHP; }
         set
         {
-            if (value % 3 == 0)
+            if (value % 4 == 0)
             {
                 taHP = 0;
                 PlayerController.Instance.playerHealthController.IncreaseMaxHealth(1);
             }
-            else if (value > 3)
+            else if (value > 4)
             {
-                taHP = value - 3;
+                taHP = value - 4;
                 PlayerController.Instance.playerHealthController.IncreaseMaxHealth(1);
             }
             else
                 taHP = value;
+            OnShardAdded?.Invoke(this);
         }
     }
     public float tempAddEN
@@ -33,18 +38,19 @@ public class PlayerLevelList : MonoBehaviour
         get { return taEN; }
         set
         {
-            if (value % 3 == 0)
+            if (value % 4 == 0)
             {
                 taEN = 0;
-                PlayerController.Instance.playerHealthController.IncreaseMaxEnergy(1);
+                PlayerController.Instance.playerHealthController.IncreaseMaxEnergy((int)(value/4));
             }
-            else if (value > 3)
+            else if (value > 4)
             {
-                taHP = value - 3;
+                taEN= value - 4;
                 PlayerController.Instance.playerHealthController.IncreaseMaxEnergy(1);
             }
             else
                 taEN = value;
+            OnShardAdded?.Invoke(this);
         }
     }
     [Space(5)]

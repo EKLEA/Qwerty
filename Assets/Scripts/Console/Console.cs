@@ -22,7 +22,11 @@ public class Console:MonoBehaviour
     DebugCommand< string, int> AddItem;
     DebugCommand< string, int> RemoveItem;
     DebugCommand<int> AddHealth;
+    DebugCommand<int> SetActHeart;
     DebugCommand<  int> AddEnergy;
+    DebugCommand<  int,int> AddShard;
+    DebugCommand Kill;
+    
     DebugCommand Help;
 
     private void Awake()
@@ -34,6 +38,21 @@ public class Console:MonoBehaviour
         RemoveItem = new DebugCommand<string, int>("RemoveItem", "Удаляет предметы из инвентаря", "RemoveItem <id> <Count>", ( id,count)=> { PlayerInventory.RemoveItem(id,count); } );
         AddHealth = new DebugCommand<int>("AddHealth", "Добавляет одну ячейку хп", "AddHealth <count>", ( count)=> { PlayerController.Instance.playerHealthController.IncreaseMaxHealth(count); } );
         AddEnergy = new DebugCommand< int>("AddEnergy", "Добавляет одну ячейку tythubb", "AddEnergy <Count>", ( count)=> { PlayerController.Instance.playerHealthController.IncreaseMaxEnergy(count); } );
+        AddShard = new DebugCommand<int, int>("AddShard", "Добавляет ячейки хп и энкргии", "AddShard <Count of Hp Shard> <Count of En Shard> ", (cHp, cEn) =>
+        {
+
+            PlayerController.Instance.playerLevelList.tempAddHP += cHp;
+            PlayerController.Instance.playerLevelList.tempAddEN += cEn;
+        });
+        Kill = new DebugCommand("Kill", "Убивает игрока", "Kill", () => { PlayerController.Instance.playerHealthController.DamageMoment(1000f, Vector2.zero, 0f); });
+        SetActHeart= new DebugCommand<int>("SetActHeart", "Меняет значение сердца игрока", "SetActHeart <1 or 0>", (t) => 
+        {
+            if (t == 1)
+                PlayerController.Instance.playerHealthController.isHeartHas = true;
+            else if (t == 0)
+                PlayerController.Instance.playerHealthController.isHeartHas = false;
+
+        });
         Help = new DebugCommand("Help", "Показывает все доступные команды", "Help", () => { showHelp = true; }); 
 
 
@@ -44,6 +63,9 @@ public class Console:MonoBehaviour
             RemoveItem,
             AddHealth,
             AddEnergy,
+            AddShard,
+            Kill,
+            SetActHeart,
             Help,
         };
     }
@@ -133,7 +155,12 @@ public class Console:MonoBehaviour
                 {
                     (commandList[i]as DebugCommand<int>).Invoke(Convert.ToInt32(prop[1]));
                 }
-                inputString = "";
+                else if (commandList[i] as DebugCommand<int,int> != null)
+                {
+                    (commandList[i] as DebugCommand<int, int>).Invoke(Convert.ToInt32(prop[1]), Convert.ToInt32(prop[2]));
+                }
+
+                    inputString = "";
             }
         }
     }

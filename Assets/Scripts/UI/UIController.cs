@@ -7,7 +7,7 @@ public class UIController : MonoBehaviour
     [SerializeField] public GameObject playerUIInterface;
     [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject[] screens;
-    [SerializeField] GameObject uiHud;
+    [SerializeField] public GameObject uiHud;
     [SerializeField] GameObject Console;
     public static UIController Instance;
     Camera uiCam;
@@ -89,7 +89,7 @@ public class UIController : MonoBehaviour
     }
     public IEnumerator DeactivateDeathScreen()
     {
-       
+        
         yield return new WaitForSeconds(0.5f);
         deathScreen.SetActive(false);
         StartCoroutine(sceneFader.Fade(SceneFader.FadeDirection.Out));
