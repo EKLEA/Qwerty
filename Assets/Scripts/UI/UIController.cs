@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class UIController : MonoBehaviour
 {
@@ -9,12 +10,15 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject[] screens;
     [SerializeField] public GameObject uiHud;
     [SerializeField] GameObject Console;
+    [SerializeField] public GameObject mapHandler;
+
+
     public static UIController Instance;
     Camera uiCam;
     PlayerUseMoment playerUseMoment=> PlayerController.Instance.GetComponent<PlayerUseMoment>();
 
 
-    int menuID;
+    
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -45,6 +49,31 @@ public class UIController : MonoBehaviour
             StartCoroutine(CloseInventory());
 
     }
+    int id;
+    int menuID
+    {
+        get
+        {
+
+            
+            return id;
+        }
+        set
+        {
+            
+            if (value == screens.Length)
+                id = 0;
+
+            else if (value < 0)
+                id = screens.Length - 1;
+            else
+                id = value;
+
+            
+
+
+        }
+    }
     private void ChangeMenu(float s)
     {
 
@@ -52,7 +81,8 @@ public class UIController : MonoBehaviour
             return;
         else
         {
-            
+            screens[menuID].SetActive(false);
+
             int t;
             if (s > 0)
                 t = 1;
@@ -61,24 +91,12 @@ public class UIController : MonoBehaviour
             else
                 t = 0;
 
-            screens[menuID].SetActive(false);
-
             menuID += t;
-
-            if (menuID == screens.Length)
-                menuID = 0;
-            else if (menuID < 0)
-                menuID = screens.Length - 1;
-
-            if (screens[menuID].CompareTag("CheckPointMenu") && !PlayerController.Instance.playerStateList.interactedWithCheckPoint)
-                menuID += t;
-
-            if (menuID >= screens.Length)
-                menuID = 0;
-            else if (menuID < 0)
-                menuID = screens.Length - 1;
+            while(screens[menuID].CompareTag("CheckPointMenu") && !PlayerController.Instance.playerStateList.interactedWithCheckPoint)
+                menuID += 1;
             screens[menuID].SetActive(true);
         }
+            
     }
     public IEnumerator ActivateDeathScreen()
     {

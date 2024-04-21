@@ -18,7 +18,8 @@ public class PlayerStateList : MonoBehaviour
     public bool interactedWithCheckPoint = false;
     public bool invOpened = false;
     public bool isDraging = false;
+    public bool respawning = false;
 
     
-    public bool isHeartHas = true;
+    //public bool isHeartHas = true;
 }

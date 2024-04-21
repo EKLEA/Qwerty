@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     
 
     float xAxis, yAxis;
+    bool openMap;
     private void FixedUpdate()
     {
         if (playerStateList.cutscene) return;
@@ -47,11 +48,12 @@ public class PlayerController : MonoBehaviour
         {
             xAxis = Input.GetAxisRaw("Horizontal");
             yAxis = Input.GetAxisRaw("Vertical");
+            openMap = Input.GetButton("Map");
             Axis = new Vector2(xAxis, yAxis);
             playerStateList.Axis = Axis;
         }
         
-        moveHandler.UpdateJumpVar();
+       
         playerHealthController.RestoreTimeScale();
 
         if (playerStateList.dashing) return;
@@ -69,6 +71,7 @@ public class PlayerController : MonoBehaviour
                 moveHandler.Flip();
                 moveHandler.Move();
                 moveHandler.JumpMoment();
+                moveHandler.UpdateJumpVar();
             }
             moveHandler.WallSlide();
             moveHandler.WallJump();
@@ -78,6 +81,7 @@ public class PlayerController : MonoBehaviour
 
             attackLogic.Attack();
             attackLogic.CastSpell();
+            ToggleMap();
             
         }
         if (playerStateList.interactedWithCheckPoint && ((Input.GetButtonDown("Cast/Heal") ||
@@ -93,6 +97,10 @@ public class PlayerController : MonoBehaviour
 
 
     }
+    void ToggleMap()
+    {
+        UIController.Instance.mapHandler.SetActive(openMap);
+    }
     public void Respawned()
     {
         // запуск коротины ыхода их принтора
@@ -102,8 +110,8 @@ public class PlayerController : MonoBehaviour
             playerHealthController.health = playerHealthController.resHealth;
             anim.Play("Stading_Idle");
             playerHealthController.isHeartHas= false;
-            playerStateList.isHeartHas = false;
             UIController.Instance.uiHud.GetComponent<UIHud>().UpdateHeart();
+            playerStateList.respawning = false;
         }
     }
     public  IEnumerator EnterInCheckPoint()
@@ -119,6 +127,7 @@ public class PlayerController : MonoBehaviour
     public   IEnumerator ExitFromCheckPoint()
     {
         // анимация выхода
+        
         yield return new WaitForSeconds(0.15f);
         PlayerInventory.Instance.blockInv = true;
         PlayerInventory.Instance.BlockPlayerInv();

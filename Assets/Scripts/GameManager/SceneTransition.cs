@@ -12,7 +12,8 @@ public class SceneTransition : MonoBehaviour
     [SerializeField] float exitTime;
     private void Start()
     {
-        if(transitionTo== GameManager.Instance.transitionedFromScene)
+        //тут делать по поводу сцене ттранзитиона
+        if(transitionTo== GameManager.Instance.transitionedFromScene )
         {
             PlayerController.Instance.transform.position = startPoint.position;
             FollowPlayer.Instance.transform.position =  new Vector3(startPoint.position.x, startPoint.position.y, startPoint.position.z - 20.75f);

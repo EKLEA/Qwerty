@@ -68,7 +68,7 @@ public class PlayerMoveHandler : MoveHandler
     }
     public void StartDash()
     {
-        if (Input.GetButtonDown("Dash") && canDash && !dashed)
+        if (Input.GetButtonDown("Dash") && canDash && !dashed && PlayerController.Instance.playerLevelList.canDash)
         {
             StartCoroutine(Dash());
             dashed = true;
@@ -98,7 +98,7 @@ public class PlayerMoveHandler : MoveHandler
     }
     public new void JumpMoment()
     {
-        if (jumpBufferCount>0 && coyoteTimeCounter>0&&!pState.jumping)
+        if (jumpBufferCount>0 && coyoteTimeCounter>0 && !pState.jumping)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
             pState.jumping = true;
@@ -106,13 +106,13 @@ public class PlayerMoveHandler : MoveHandler
             if (PlayerController.Instance.playerHealthController.isHeartHas == false)
                 PlayerController.Instance.playerHealthController.energy -= 0.1f;
         }
-        if(!Grounded() && airJumpCount<maxAirJump && Input.GetButtonUp("Jump"))
+        if (!Grounded() && airJumpCount < maxAirJump && Input.GetButtonUp("Jump") && PlayerController.Instance.playerLevelList.canDoubleWallJump)
         {
             pState.jumping = true;
             airJumpCount++;
             rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
         }
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 3)
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 9)
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
             pState.jumping = false;
@@ -152,7 +152,7 @@ public class PlayerMoveHandler : MoveHandler
     public void WallSlide()
     {
         
-        if(Walled() && !Grounded() && pState.Axis.x!= 0)
+        if(Walled() && !Grounded() && pState.Axis.x!= 0 && PlayerController.Instance.playerLevelList.canDoubleWallJump)
         {
             isWallSliding = true;
             rb.velocity = new Vector2(rb.velocity.x,Mathf.Clamp( rb.velocity.y, -wallSlidingSpeed,float.MaxValue));
@@ -170,7 +170,7 @@ public class PlayerMoveHandler : MoveHandler
             wallJumpingDirection = !pState.lookRight ? 1 : -1;
             CancelInvoke(nameof(StopWallJumping));
         }
-        if(Input.GetButtonDown("Jump") && isWallSliding)
+        if(Input.GetButtonDown("Jump") && isWallSliding && PlayerController.Instance.playerLevelList.canDoubleWallJump)
         {
             isWallJumping=true;
             rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
