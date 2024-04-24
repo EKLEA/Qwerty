@@ -4,19 +4,20 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SetUpdateShards : MonoBehaviour
+public class EquippedMenuController : MonoBehaviour
 {
     public Transform healthUPD;
     public GameObject healthBarPrefab;
     public Transform energyUPD;
     public GameObject energyBarPrefab;
     public GameObject heart;
+    public UIInventory equippedGrid;
 
 
     Image enBarFill;
     Image hpBarFill;
 
-    private void Start()
+    public void InitEquippedMenu()
     {
         SetBars();
         PlayerController.Instance.playerLevelList.OnShardAdded += UpdateBars;
@@ -27,6 +28,7 @@ public class SetUpdateShards : MonoBehaviour
             heart.GetComponent<Image>().color = new Color(121 / 256f, 211 / 256f, 255 / 256f);
         else
             heart.GetComponent<Image>().color = new Color(248 / 256f, 23 / 256f, 62 / 256f);
+        
     }
     void SetBars()
     {
@@ -53,5 +55,18 @@ public class SetUpdateShards : MonoBehaviour
     {
         enBarFill.fillAmount = PlayerController.Instance.playerLevelList.tempAddEN / 4;
         hpBarFill.fillAmount = PlayerController.Instance.playerLevelList.tempAddHP / 4;
+    }
+    public bool CheckSlots()
+    {
+       foreach(UIInventorySlot slot in equippedGrid.slots)
+        {
+            if (slot.slot.isEmpty )
+            {
+                slot.GetComponent<Image>().color = new Color(1, 153 / 255f, 153, 255/255f);
+                return false;
+            }
+            
+        }
+        return true;
     }
 }

@@ -16,6 +16,10 @@ public abstract class ExampleUsable : MonoBehaviour
         UseMoment();
 
     }
+    private void OnDisable()
+    {
+        playerUseMoment.OnUsedEvent -= Cheker;
+    }
     public abstract void UseMoment();
     public void OnTriggerEnter(Collider other)
     {

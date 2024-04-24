@@ -17,7 +17,7 @@ public class PlayerInventory: MonoBehaviour
     public InventoryWithSlots craftableItems;
     public InventoryWithSlots craftComponents= new InventoryWithSlots(3, SlotTypes.StaticSlot, InventoryType.Storage);
 
-    public InventoryWithSlots abilities= new InventoryWithSlots(3, SlotTypes.StaticSlot, InventoryType.Equippement);
+    public InventoryWithSlots abilities= new InventoryWithSlots(3, SlotTypes.StaticSlot, InventoryType.Equippement);// не сохронять
 
 
     public InventoryWithSlots storageItems = new InventoryWithSlots(20, SlotTypes.DinamicSlot, InventoryType.Storage);
@@ -38,7 +38,7 @@ public class PlayerInventory: MonoBehaviour
             Instance = this;
         }
     }
-    private void Start()
+    public void InitInv()
     {
         InventorySlot[] slots = craftComponents.GetAllSlots();
 
@@ -49,9 +49,9 @@ public class PlayerInventory: MonoBehaviour
         slots[1].requieItem = ItemBase.ItemsInfo["Fluid"];
         slots[2].requieItem = ItemBase.ItemsInfo["Electronics"];
 
-        AddItem("Bolts", 1);
-        AddItem("Fluid", 1);
-        AddItem("Electronics", 1);
+        AddItem("Bolts", 0);
+        AddItem("Fluid", 0);
+        AddItem("Electronics", 0);
 
 
         slots = weaponAndPerks.GetAllSlots();
@@ -74,9 +74,7 @@ public class PlayerInventory: MonoBehaviour
 
 
 
-        Instance.equippedItems.TryToAdd(null, new Item(ItemBase.ItemsInfo["body0"], 1));
-        Instance.equippedItems.TryToAdd(null, new Item(ItemBase.ItemsInfo["arm0"], 1));
-        Instance.equippedItems.TryToAdd(null, new Item(ItemBase.ItemsInfo["legs0"], 1));
+        
 
         slots = abilities.GetAllSlots();
 
@@ -110,7 +108,7 @@ public class PlayerInventory: MonoBehaviour
 
 
         collectableItems.OnInventoryItemAddedEvent += updateCollectablesStats;
-        SetupPlayerVariables();
+       
     }
     public void SetupPlayerVariables()
     {
@@ -129,13 +127,14 @@ public class PlayerInventory: MonoBehaviour
                                                            .Sum(rp => (rp.info as RobotPartInfo).partEn);
 
     }
-    public void BlockPlayerInv()
+   public void BlockPlayerInv()
     {
         storageItems.SetBlockInventory(blockInv);
         equippedItems.SetBlockInventory(blockInv);
         weaponAndPerks.SetBlockInventory(blockInv);
 
     }
+   
     public static void AddItem(string id,int count)
     {
         if (!ItemBase.ItemsInfo.ContainsKey(id)|| ItemBase.ItemsInfo[id].itemType==ItemTypes.Ability)

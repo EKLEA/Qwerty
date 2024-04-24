@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class CheckPoint : ExampleUsable
 {
     public bool interacted;
+   
     public override void UseMoment()
     {
         interacted = true;
@@ -17,6 +18,10 @@ public class CheckPoint : ExampleUsable
             gameObject.transform.position.y,
             gameObject.transform.position.z);
         SaveData.Instance.SaveCheckPoint();
+        SaveData.Instance.SavePlayerData();
+        SaveData.Instance.SavePlayerLevelListData();
+        SaveData.Instance.SavePlayerInv();
+        playerUseMoment.OnUsedEvent -= Cheker;
     }
     private new void OnTriggerExit(Collider other)
     {

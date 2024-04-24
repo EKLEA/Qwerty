@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Device;
 using UnityEngine.UI;
 
-public class UIStorageController : MonoBehaviour
+public class UIStorageController : UIInventoryScreen
 {
 
 
@@ -19,16 +19,23 @@ public class UIStorageController : MonoBehaviour
     public UIInventory weaponAndPerksGrid;
     public UIInventory abilitiesGrid;
     public UIInventory equippedGrid;
-    private void OnEnable()
+    public EquippedMenuController equippementGrid;
+    public override void InitUISceen()
     {
+
         equippedGrid.SetupInvntoryUI(playerInventory.equippedItems);
+        equippementGrid.InitEquippedMenu();
+        GetComponentInChildren<EquippedMenuController>().InitEquippedMenu();
         ñraftComponentsItemsGrid.SetupInvntoryUI(playerInventory.craftComponents);
 
         storageItemsGrid.SetupInvntoryUI(playerInventory.storageItems);
         weaponAndPerksGrid.SetupInvntoryUI(playerInventory.weaponAndPerks);
         abilitiesGrid.SetupInvntoryUI(playerInventory.abilities);
+        PlayerInventory.Instance.blockInv = false;
+        PlayerInventory.Instance.BlockPlayerInv();
 
         InventorySlot[] slots = playerInventory.weaponAndPerks.GetAllSlots();
+
         switch (PlayerController.Instance.playerLevelList.levelTier)
         {
             case 0:
@@ -44,6 +51,7 @@ public class UIStorageController : MonoBehaviour
                 slots[2].isBlock = false;
                 return;
         }
+       
     }
    
 }

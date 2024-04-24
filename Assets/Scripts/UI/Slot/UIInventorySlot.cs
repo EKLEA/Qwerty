@@ -60,6 +60,8 @@ public class UIInventorySlot : UISlot
 
         if (slot != null)
         {
+            if(!slot.isEmpty&& slot.requieType==ItemTypes.RobortParts)
+                gameObject.GetComponent<UnityEngine.UI.Image>().color = new Color(191/255f, 234 / 255f, 255/255f);
             _uiInventoryItem.Refresh(slot);
         }
     }

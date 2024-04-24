@@ -24,7 +24,6 @@ public class PlayerHealthController : DamagableObjWithLogic
         set 
         { 
             heartHas = value;
-            OnDeadCallBack.Invoke();
         }
     }
 
@@ -32,9 +31,8 @@ public class PlayerHealthController : DamagableObjWithLogic
     public float resEnergy;
 
     public Action<object> OnHealthVarChange;
-    protected new void Start()
+    public void InitPlayerHealth()
     {
-        isHeartHas = true;
         UpdateHealthVar();
         hp = resHealth;
         en = resEnergy;
@@ -49,13 +47,13 @@ public class PlayerHealthController : DamagableObjWithLogic
     {
         maxHealth += var;
         UpdateHealthVar() ;
-        OnHealthVarChange(null);
+        OnHealthVarChange.Invoke(null);
     }
     public void IncreaseMaxEnergy(int var)
     {
         maxEnergy+=var;
         UpdateHealthVar();
-         OnHealthVarChange(null);
+        OnHealthVarChange.Invoke(null);
     }
     public new float health
     {

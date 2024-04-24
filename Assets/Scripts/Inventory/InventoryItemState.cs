@@ -4,8 +4,8 @@ using UnityEngine;
 [SerializeField]
 public class InventoryItemState 
 {
-    public int itemAmount;
-    public bool isItemEquipped;
+     int itemAmount;
+    bool isItemEquipped;
     public GameObject isItemOperator;
 
     public int count { get => itemAmount; set => itemAmount = value; }   

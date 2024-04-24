@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIInventoryController : MonoBehaviour
+public class UIPlayerInventoryController : UIInventoryScreen
 {
     PlayerInventory playerInventory => PlayerController.Instance.GetComponent<PlayerInventory>();
 
@@ -14,14 +14,19 @@ public class UIInventoryController : MonoBehaviour
     public UIInventory ñraftComponentsItemsGrid;
     public UIInventory weaponAndPerksGrid;
     public UIInventory abilitiesGrid;
-    private void OnEnable()
+
+    public EquippedMenuController equippementGrid;
+    public override void InitUISceen()
     {
 
         equippedGrid.SetupInvntoryUI(playerInventory.equippedItems);
+        equippementGrid.InitEquippedMenu();
         ñollectableItemsGrid.SetupInvntoryUI(playerInventory.collectableItems);
         ñraftComponentsItemsGrid.SetupInvntoryUI(playerInventory.craftComponents);
         weaponAndPerksGrid.SetupInvntoryUI(playerInventory.weaponAndPerks);
         abilitiesGrid.SetupInvntoryUI(playerInventory.abilities);
+        PlayerInventory.Instance.blockInv = true;
+        PlayerInventory.Instance.BlockPlayerInv();
 
         InventorySlot[] slots = playerInventory. weaponAndPerks.GetAllSlots();
         switch (PlayerController.Instance.playerLevelList.levelTier)

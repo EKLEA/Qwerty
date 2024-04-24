@@ -30,7 +30,22 @@ public class PlayerController : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
     }
-    
+    private void Start()
+    {
+        PlayerInventory.Instance.InitInv();
+        SaveData.Instance.LoadPlayerInv();
+        PlayerInventory.Instance.SetupPlayerVariables();
+        SaveData.Instance.LoadPlayerLevelListData();
+        SaveData.Instance.LoadPlayerData();
+       
+        playerHealthController.InitPlayerHealth();
+
+       
+        UIController.Instance.InitUIController();
+        UIController.Instance.uiHud.GetComponent<UIHud>().InitHud();
+
+
+    }
 
     float xAxis, yAxis;
     bool openMap;
@@ -108,6 +123,7 @@ public class PlayerController : MonoBehaviour
         {
             playerStateList.alive = true;
             playerHealthController.health = playerHealthController.resHealth;
+            playerHealthController.energy = playerHealthController.resEnergy;
             anim.Play("Stading_Idle");
             playerHealthController.isHeartHas= false;
             UIController.Instance.uiHud.GetComponent<UIHud>().UpdateHeart();
@@ -118,9 +134,7 @@ public class PlayerController : MonoBehaviour
     {
         // анимация входа
         yield return new WaitForSeconds(0.15f);
-        PlayerInventory.Instance.blockInv = false;
         rb.velocity = Vector3.zero;
-        PlayerInventory.Instance.BlockPlayerInv();
         playerStateList.interactedWithCheckPoint = true;
 
     }
@@ -129,8 +143,6 @@ public class PlayerController : MonoBehaviour
         // анимация выхода
         
         yield return new WaitForSeconds(0.15f);
-        PlayerInventory.Instance.blockInv = true;
-        PlayerInventory.Instance.BlockPlayerInv();
         playerStateList.interactedWithCheckPoint = false;
     }
     public IEnumerator TakeShard(bool b)

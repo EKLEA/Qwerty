@@ -9,7 +9,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class UIHud : MonoBehaviour
 {
-    private PlayerController playerController;
+   
     private GameObject[] heartContainers;
     private Image[] heartFills;
     public Transform heartsParent;
@@ -20,15 +20,11 @@ public class UIHud : MonoBehaviour
     public Material enBarMat1;
     public Material enBarMat2;
 
-    private void Start()
+    public void InitHud()
     {
 
-        playerController = PlayerController.Instance;
         StartCoroutine(SetupHud());
-        playerController.playerHealthController.OnHealthChangedCallBack += UpdateHeartHUD;
-        playerController.playerHealthController.OnEnergyChangedCallBack += UpdateEnergyHUD;
-        playerController.playerHealthController.OnDeadCallBack+=UpdateHeart;
-        playerController.playerHealthController.OnHealthVarChange += UpdateHud;
+        
 
     }
     float tempMaxEn;
@@ -36,13 +32,20 @@ public class UIHud : MonoBehaviour
     {
         yield return new WaitForSeconds(0.001f);
         
-        heartContainers = new GameObject[(int)playerController.playerHealthController.resHealth];
-        heartFills = new Image[(int)playerController.playerHealthController.resHealth];
+        heartContainers = new GameObject[(int)PlayerController.Instance.playerHealthController.resHealth];
+        heartFills = new Image[(int)PlayerController.Instance.playerHealthController.resHealth];
         InstantiateHeartContainers();
-        SetEnergyBar();
+
+        yield return new WaitForSeconds(0.001f);
+
         UpdateHeartHUD();
         UpdateHeart();
+        SetEnergyBar();
 
+        PlayerController.Instance.playerHealthController.OnHealthChangedCallBack += UpdateHeartHUD;
+        PlayerController.Instance.playerHealthController.OnEnergyChangedCallBack += UpdateEnergyHUD;
+        PlayerController.Instance.playerHealthController.OnDeadCallBack += UpdateHeart;
+        PlayerController.Instance.playerHealthController.OnHealthVarChange += UpdateHud;
 
     }
     private void UpdateHud(object t)
@@ -59,7 +62,7 @@ public class UIHud : MonoBehaviour
 
         for (int i = 0; i < heartContainers.Length; i++)
         {
-            if (i < playerController.playerHealthController.resHealth)
+            if (i < PlayerController.Instance.playerHealthController.resHealth)
             {
                 heartContainers[i].SetActive(true);
             }
@@ -73,7 +76,7 @@ public class UIHud : MonoBehaviour
     {
         for (int i = 0; i < heartFills.Length; i++)
         {
-            if (i < playerController.playerHealthController.health)
+            if (i < PlayerController.Instance.playerHealthController.health)
             {
                 heartFills[i].color = Color.green;
             }
@@ -106,22 +109,22 @@ public class UIHud : MonoBehaviour
         if (energyParent.transform.childCount!=0)
             DestroyImmediate(energyParent.transform.GetChild(0).gameObject);
 
-        tempMaxEn =playerController.playerHealthController.resEnergy;
+        tempMaxEn =PlayerController.Instance.playerHealthController.resEnergy;
 
         GameObject enBar = Instantiate(energyBarPrefab);
         enBar.transform.SetParent(energyParent, false);
 
         enBarFill= enBar.transform.Find("EnergyFill").GetComponent <Image>();
-        if (playerController.playerHealthController.isHeartHas)
+        if (PlayerController.Instance.playerHealthController.isHeartHas)
             enBarFill.material = enBarMat1;
         else
             enBarFill.material = enBarMat2;
 
 
 
-        enBar.transform.localScale = new Vector3(playerController.playerHealthController.resEnergy, 0.5f, 0.1f);
+        enBar.transform.localScale = new Vector3(PlayerController.Instance.playerHealthController.resEnergy, 0.5f, 0.1f);
 
-        enBarFill.fillAmount = playerController.playerHealthController.energy / playerController.playerHealthController.resEnergy;
+        enBarFill.fillAmount = PlayerController.Instance.playerHealthController.energy / PlayerController.Instance.playerHealthController.resEnergy;
 
         enBar.transform.localPosition = new Vector3(enBar.transform.localPosition.x + enBar.GetComponent<RectTransform>().rect.width* enBar.transform.localScale.x / 2, enBar.transform.localPosition.y,0.1f);
 
@@ -130,7 +133,7 @@ public class UIHud : MonoBehaviour
     }
     void UpdateEnergyBar()
     {
-        enBarFill.fillAmount = playerController.playerHealthController.energy / playerController.playerHealthController.resEnergy;
+        enBarFill.fillAmount = PlayerController.Instance.playerHealthController.energy / PlayerController.Instance.playerHealthController.resEnergy;
     }
     void UpdateHeartHUD()
     {
@@ -143,7 +146,7 @@ public class UIHud : MonoBehaviour
     }
     public void UpdateHeart()//переписать тут
     {
-        if (playerController.playerHealthController.isHeartHas)
+        if (PlayerController.Instance.playerHealthController.isHeartHas)
         {
             heart.GetComponent<Image>().color = new Color(121 / 256f, 211 / 256f, 255 / 256f);
         }

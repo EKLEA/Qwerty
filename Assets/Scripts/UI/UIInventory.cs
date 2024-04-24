@@ -6,7 +6,7 @@ using UnityEngine;
 public class UIInventory : MonoBehaviour
 {
     [HideInInspector] public InventoryWithSlots inventory;
-    [HideInInspector] UIInventorySlot[] slots=> GetComponentsInChildren<UIInventorySlot>(includeInactive:true);
+    [HideInInspector] public UIInventorySlot[] slots=> GetComponentsInChildren<UIInventorySlot>(includeInactive:true);
     public void SetupInvntoryUI(InventoryWithSlots inventory)
         
     {

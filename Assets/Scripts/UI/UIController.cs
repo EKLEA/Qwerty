@@ -33,20 +33,32 @@ public class UIController : MonoBehaviour
     }
 
     public SceneFader sceneFader;
-    private void Start()
+    public void InitUIController()
     {
         
-        uiCam= FollowPlayer.Instance.GetComponent<Camera>();
+        uiCam = FollowPlayer.Instance.GetComponent<Camera>();
         playerUseMoment.OnOpenInventoryCallBack += OpenInv;
         playerUseMoment.OnChangeMenuEvent += ChangeMenu;
         playerUIInterface.SetActive(false);
+        foreach (GameObject screen in screens)
+            screen.GetComponent<UIInventoryScreen>().InitUISceen();
+        PlayerInventory.Instance.blockInv = true;
+        PlayerInventory.Instance.BlockPlayerInv();
     }
     private void OpenInv()
     {
         if (playerUIInterface.activeInHierarchy == false)
             StartCoroutine(OpenInventory());
         else
-            StartCoroutine(CloseInventory());
+        {
+            if (screens[menuID].GetComponentInChildren<EquippedMenuController>() != null)
+            {
+                if (screens[menuID].GetComponentInChildren<EquippedMenuController>().CheckSlots())
+                    StartCoroutine(CloseInventory());
+
+            }
+            else StartCoroutine(CloseInventory());
+        }
 
     }
     int id;
@@ -81,20 +93,50 @@ public class UIController : MonoBehaviour
             return;
         else
         {
-            screens[menuID].SetActive(false);
+            if (screens[menuID].GetComponentInChildren<EquippedMenuController>() != null)
+            {
+                if (screens[menuID].GetComponentInChildren<EquippedMenuController>().CheckSlots())
+                {
+                    screens[menuID].SetActive(false);
 
-            int t;
-            if (s > 0)
-                t = 1;
-            else if (s < 0)
-                t = -1;
+                    int t;
+                    if (s > 0)
+                        t = 1;
+                    else if (s < 0)
+                        t = -1;
+                    else
+                        t = 0;
+
+                    menuID += t;
+                    while (screens[menuID].CompareTag("CheckPointMenu") && !PlayerController.Instance.playerStateList.interactedWithCheckPoint)
+                        menuID += 1;
+                    screens[menuID].SetActive(true);
+                    screens[menuID].GetComponent<UIInventoryScreen>().InitUISceen();
+
+
+
+
+
+                }
+            }
             else
-                t = 0;
+            {
+                screens[menuID].SetActive(false);
 
-            menuID += t;
-            while(screens[menuID].CompareTag("CheckPointMenu") && !PlayerController.Instance.playerStateList.interactedWithCheckPoint)
-                menuID += 1;
-            screens[menuID].SetActive(true);
+                int t;
+                if (s > 0)
+                    t = 1;
+                else if (s < 0)
+                    t = -1;
+                else
+                    t = 0;
+
+                menuID += t;
+                while (screens[menuID].CompareTag("CheckPointMenu") && !PlayerController.Instance.playerStateList.interactedWithCheckPoint)
+                    menuID += 1;
+                screens[menuID].SetActive(true);
+                screens[menuID].GetComponent<UIInventoryScreen>().InitUISceen();
+            }
         }
             
     }

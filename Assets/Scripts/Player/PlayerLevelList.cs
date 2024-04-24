@@ -18,7 +18,7 @@ public class PlayerLevelList : MonoBehaviour
         get { return taHP; }
         set
         {
-            if (value % 4 == 0)
+            if (value % 4 == 0 && value != 0)
             {
                 taHP = 0;
                 PlayerController.Instance.playerHealthController.IncreaseMaxHealth(1);
@@ -38,7 +38,7 @@ public class PlayerLevelList : MonoBehaviour
         get { return taEN; }
         set
         {
-            if (value % 4 == 0)
+            if (value % 4 == 0 && value != 0)
             {
                 taEN = 0;
                 PlayerController.Instance.playerHealthController.IncreaseMaxEnergy((int)(value/4));

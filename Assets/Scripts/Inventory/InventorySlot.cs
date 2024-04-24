@@ -15,7 +15,7 @@ public class InventorySlot
         this.inventoryType = inventoryType;
     }
 
-    public Item item { get; private set; }
+    public Item item { get; set; }
 
 
     public int count => isEmpty ? 0 : item.state.count;

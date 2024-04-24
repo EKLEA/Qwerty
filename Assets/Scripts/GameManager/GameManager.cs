@@ -33,9 +33,9 @@ public class GameManager : MonoBehaviour
     }
     public void RespawnPlayer()
     {
+        transitionedFromScene = "";
         PlayerController.Instance.playerStateList.respawning = true;
         SaveData.Instance.LoadCheckPoint();
-
         if(SaveData.Instance.checkPointSceneName!=null)
         {
             SceneManager.LoadScene(SaveData.Instance.checkPointSceneName);
@@ -45,8 +45,9 @@ public class GameManager : MonoBehaviour
         else
             respawnPoint = platformingRespawnPoint;
 
-
+        
         PlayerController.Instance.transform.position = respawnPoint;
+        FollowPlayer.Instance.transform.position = new Vector3(respawnPoint.x, respawnPoint.y, respawnPoint.z - 20.75f);
         StartCoroutine(UIController.Instance.DeactivateDeathScreen());
         PlayerController.Instance.Respawned();
     }
