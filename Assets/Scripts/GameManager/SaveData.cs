@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
 using System;
+using Unity.Mathematics;
 
 [System.Serializable]
 public struct SaveData
@@ -31,6 +32,13 @@ public struct SaveData
     public bool UPCastS;
     public bool canDashS;
     public bool canDoubleWallJumpS;
+
+    // enemy
+    //shade
+    public Vector3 shadePos;
+    public string sceneWithShade;
+    public Quaternion shadeRot;
+
     public void Initialize()
     {
         if (!File.Exists(Application.persistentDataPath + "/save.checkPoint.data"))
@@ -58,6 +66,13 @@ public struct SaveData
             {
             }
         }
+        if (!File.Exists(Application.persistentDataPath + "/save.shade.data"))
+        {
+            using (BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + "/save.shade.data")))
+            {
+            }
+        }
+        
 
         if (sceneNames == null)
         {
@@ -86,6 +101,7 @@ public struct SaveData
                 checkPointPos.y=reader.ReadSingle();
                 checkPointPos.z=reader.ReadSingle();
             }
+            
         }
     }
 
@@ -399,4 +415,6 @@ public struct SaveData
             PlayerInventory.Instance.equippedItems.TryToAdd(null, new Item(ItemBase.ItemsInfo["legs0"], 1));
         }
     }
+
+    
 }

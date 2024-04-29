@@ -16,10 +16,12 @@ public class SceneTransition : MonoBehaviour
         if(transitionTo== GameManager.Instance.transitionedFromScene )
         {
             PlayerController.Instance.transform.position = startPoint.position;
-            FollowPlayer.Instance.transform.position =  new Vector3(startPoint.position.x, startPoint.position.y, startPoint.position.z - 20.75f);
+            FollowPlayer.Instance.transform.position =  new Vector3(startPoint.position.x, startPoint.position.y+3, startPoint.position.z - 20.75f);
             StartCoroutine(PlayerController.Instance.moveHandler.WalkIntoNewScene(exitDirection,exitTime));
         }
         StartCoroutine(UIController.Instance.sceneFader.Fade(SceneFader.FadeDirection.Out));
+
+        FollowPlayer.Instance.transform.position= new Vector3(PlayerController.Instance.transform.position.x, PlayerController.Instance.transform.position.y+3, PlayerController.Instance.transform.position.z - 20.75f);
     }
 
     private void OnTriggerEnter(Collider other)

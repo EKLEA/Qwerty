@@ -58,7 +58,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(playerStateList.cutscene) return;
+        if (GameManager.Instance.gameIsPaused) return;
+        if (playerStateList.cutscene) return;
         if (playerStateList.alive)
         {
             xAxis = Input.GetAxisRaw("Horizontal");

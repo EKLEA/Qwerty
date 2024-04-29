@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Obuchenie/TrainingScene3.unity
-    guid: 2d2efc5b027ffce4bad355adfedf6dc2
+    path: Assets/Scenes/MainMenu.unity
+    guid: 281b8e21acd4b2c4eb476107226c9f4f
   - enabled: 1
     path: Assets/Scenes/Obuchenie/TrainingScene1.unity
     guid: 3c818738596a8ac4693b4e56d77c8649
@@ -15,24 +15,27 @@ EditorBuildSettings:
     path: Assets/Scenes/Obuchenie/TrainingScene2.unity
     guid: 139889bb8721bcb4a9e5c99416b78e35
   - enabled: 1
-    path: Assets/Scenes/Lab/LabEnemy1.unity
-    guid: f691a0fd6315f484e93951a238929396
-  - enabled: 1
-    path: Assets/Scenes/Lab/LabEnemy2.unity
-    guid: 430aa124f7ab7d342ab78c67d21e27da
-  - enabled: 1
-    path: Assets/Scenes/Lab/LabLoot1.unity
-    guid: 7da5c111fb6bbe04dae7dc2911a05a01
-  - enabled: 1
-    path: Assets/Scenes/Lab/LabLoot2.unity
-    guid: a7918533b9bca1840bea9c7504a710c9
-  - enabled: 1
-    path: Assets/Scenes/Lab/SaveRoom.unity
-    guid: 8e56c28e1bf22f745b9948ba566ab37c
+    path: Assets/Scenes/Obuchenie/TrainingScene3.unity
+    guid: 2d2efc5b027ffce4bad355adfedf6dc2
   - enabled: 1
     path: Assets/Scenes/Obuchenie/HibernationScene1.unity
     guid: 81dd5299a9d9a704da91e93415761d76
   - enabled: 1
     path: Assets/Scenes/Obuchenie/HibernationScene2.unity
     guid: 31acd8dd25cdb7b42b9602090b08760c
+  - enabled: 1
+    path: Assets/Scenes/Lab/SaveRoom.unity
+    guid: 8e56c28e1bf22f745b9948ba566ab37c
+  - enabled: 1
+    path: Assets/Scenes/Lab/LabLoot1.unity
+    guid: 7da5c111fb6bbe04dae7dc2911a05a01
+  - enabled: 1
+    path: Assets/Scenes/Lab/LabEnemy1.unity
+    guid: f691a0fd6315f484e93951a238929396
+  - enabled: 1
+    path: Assets/Scenes/Lab/LabEnemy2.unity
+    guid: 430aa124f7ab7d342ab78c67d21e27da
+  - enabled: 1
+    path: Assets/Scenes/Lab/LabLoot2.unity
+    guid: a7918533b9bca1840bea9c7504a710c9
   m_configObjects: {}

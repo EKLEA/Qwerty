@@ -9,6 +9,14 @@ public class GameManager : MonoBehaviour
     public Vector3 platformingRespawnPoint;
     public Vector3 respawnPoint;
     [SerializeField] CheckPoint checkPoint;
+
+
+    [SerializeField] private FadeUI pauseMenu;
+
+    [SerializeField] float fadeTime;
+
+    public bool gameIsPaused;
+
     public static GameManager Instance { get; private set; }
     public void Awake()
     {
@@ -24,6 +32,24 @@ public class GameManager : MonoBehaviour
         SaveScene();
         DontDestroyOnLoad(gameObject);
         checkPoint=FindObjectOfType<CheckPoint>();
+    }
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            SaveData.Instance.SavePlayerData();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused)
+        {
+            pauseMenu.FadeUIIn(fadeTime);
+            Time.timeScale = 0;
+            gameIsPaused = true;
+        }
+    }
+    public void UnpauseGame()
+    {
+        Time.timeScale = 1;
+        gameIsPaused=false;
     }
 
     public void SaveScene()
@@ -43,11 +69,13 @@ public class GameManager : MonoBehaviour
         if (SaveData.Instance.checkPointPos != null)
             respawnPoint = SaveData.Instance.checkPointPos;
         else
+        {
             respawnPoint = platformingRespawnPoint;
+        }
 
-        
-        PlayerController.Instance.transform.position = respawnPoint;
         FollowPlayer.Instance.transform.position = new Vector3(respawnPoint.x, respawnPoint.y, respawnPoint.z - 20.75f);
+        PlayerController.Instance.transform.position = respawnPoint;
+        
         StartCoroutine(UIController.Instance.DeactivateDeathScreen());
         PlayerController.Instance.Respawned();
     }

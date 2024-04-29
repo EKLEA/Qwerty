@@ -22,7 +22,7 @@ public class EnemyHealthController : DamagableObjWithLogic
     protected Rigidbody rb=>GetComponent<Rigidbody>();
     protected virtual void Update()
     {
-        hasTakenDamage = false;
+        if (GameManager.Instance.gameIsPaused) return;
         if (isRecoiling)
         {
             if (recoilingTime < recoilLength)
