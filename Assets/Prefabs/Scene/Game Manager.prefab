@@ -49,6 +49,7 @@ MonoBehaviour:
   transitionedFromScene: 
   platformingRespawnPoint: {x: 0, y: 0, z: 0}
   respawnPoint: {x: 0, y: 0, z: 0}
+  heartEnemy: {fileID: 1761439401334171933, guid: 3df71829618fb004283c31964a6b26ac, type: 3}
   checkPoint: {fileID: 0}
   pauseMenu: {fileID: 0}
   fadeTime: 0.25

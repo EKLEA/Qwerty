@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.Progress;
 public enum InventoryType
 {
     Equippement,

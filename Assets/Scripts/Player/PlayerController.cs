@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
         PlayerInventory.Instance.InitInv();
         SaveData.Instance.LoadPlayerInv();
         PlayerInventory.Instance.SetupPlayerVariables();
+
         SaveData.Instance.LoadPlayerLevelListData();
         SaveData.Instance.LoadPlayerData();
        
@@ -126,7 +127,6 @@ public class PlayerController : MonoBehaviour
             playerHealthController.health = playerHealthController.resHealth;
             playerHealthController.energy = playerHealthController.resEnergy;
             anim.Play("Stading_Idle");
-            playerHealthController.isHeartHas= false;
             UIController.Instance.uiHud.GetComponent<UIHud>().UpdateHeart();
             playerStateList.respawning = false;
         }
@@ -134,6 +134,9 @@ public class PlayerController : MonoBehaviour
     public  IEnumerator EnterInCheckPoint()
     {
         // анимация входа
+        playerHealthController.health=playerHealthController.resHealth;
+        playerHealthController.energy=playerHealthController.resEnergy;
+        UIController.Instance.uiHud.GetComponent<UIHud>().InitHud();
         yield return new WaitForSeconds(0.15f);
         rb.velocity = Vector3.zero;
         playerStateList.interactedWithCheckPoint = true;

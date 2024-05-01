@@ -17,7 +17,7 @@ public class PlayerHealthController : DamagableObjWithLogic
     [SerializeField] private float restoreTimeEnergy;
     [SerializeField] float energyDrainSpeed;
     [SerializeField] public float energyGain;
-    bool heartHas;
+     public bool heartHas;
     public bool isHeartHas
     {
         get {  return heartHas; }
@@ -150,8 +150,16 @@ public class PlayerHealthController : DamagableObjWithLogic
         GameObject _damageEffect = Instantiate(DamageEffect, new Vector2(transform.position.x, transform.position.y + 1.5f), Quaternion.identity);
         Destroy(_damageEffect, 1.5f);
         pController.anim.SetTrigger("Death");
+
         yield return new WaitForSeconds(0.9f);
+
+        isHeartHas = false;
         StartCoroutine(UIController.Instance.ActivateDeathScreen());
+        yield return new WaitForSeconds(0.9f);
+        
+        Instantiate(GameManager.Instance.heartEnemy,transform.position, Quaternion.identity);
+        UIController.Instance.uiHud.GetComponent<UIHud>().InitHud();
+
     }
 
 

@@ -43,10 +43,7 @@ public class EnemyHealthController : DamagableObjWithLogic
     public override void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce)
     {
         if (hasTakenDamage) return;
-        if (defense > 0)
-            df -= _damageDone;
-        else
-            health -= _damageDone;
+        health -= _damageDone;
         if (!isRecoiling)
         {
             rb.velocity= _hitForce * recoilFactor* _hitDirection;

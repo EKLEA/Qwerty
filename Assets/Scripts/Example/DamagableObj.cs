@@ -36,9 +36,9 @@ public class DamagableObj : MonoBehaviour
             else
                 hp = value;
                 OnHealthChangedCallBack?.Invoke();
-                if (health <= 0)
+                if (hp <= 0)
                 {
-                OnDeadCallBack?.Invoke();
+                    OnDeadCallBack?.Invoke();
                     Destroy(gameObject);
                 }
 

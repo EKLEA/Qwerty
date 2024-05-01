@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public string transitionedFromScene;
     public Vector3 platformingRespawnPoint;
     public Vector3 respawnPoint;
+    public GameObject heartEnemy;
     [SerializeField] CheckPoint checkPoint;
 
 
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+
         SaveScene();
         DontDestroyOnLoad(gameObject);
         checkPoint=FindObjectOfType<CheckPoint>();
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.P))
         {
             SaveData.Instance.SavePlayerData();
+            Debug.Log(SceneManager.GetActiveScene().name);
         }
         if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused)
         {
@@ -78,5 +81,10 @@ public class GameManager : MonoBehaviour
         
         StartCoroutine(UIController.Instance.DeactivateDeathScreen());
         PlayerController.Instance.Respawned();
+
+        SaveData.Instance.SaveCheckPoint();
+        SaveData.Instance.SavePlayerData();
+        SaveData.Instance.SavePlayerLevelListData();
+        SaveData.Instance.SavePlayerInv();
     }
 }

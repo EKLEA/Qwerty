@@ -23,13 +23,15 @@ public class UIHud : MonoBehaviour
     public void InitHud()
     {
 
-        StartCoroutine(SetupHud());
+        UpdateHud(null);
         
 
     }
     float tempMaxEn;
     IEnumerator SetupHud()
     {
+        
+
         yield return new WaitForSeconds(0.001f);
         
         heartContainers = new GameObject[(int)PlayerController.Instance.playerHealthController.resHealth];
@@ -50,7 +52,10 @@ public class UIHud : MonoBehaviour
     }
     private void UpdateHud(object t)
     {
-        
+        PlayerController.Instance.playerHealthController.OnHealthChangedCallBack -= UpdateHeartHUD;
+        PlayerController.Instance.playerHealthController.OnEnergyChangedCallBack -= UpdateEnergyHUD;
+        PlayerController.Instance.playerHealthController.OnDeadCallBack -= UpdateHeart;
+        PlayerController.Instance.playerHealthController.OnHealthVarChange -= UpdateHud;
         heartContainers = new GameObject[0];
         heartFills = new Image[0];
         StartCoroutine(SetupHud());
@@ -107,7 +112,7 @@ public class UIHud : MonoBehaviour
     void SetEnergyBar()
     {
         if (energyParent.transform.childCount!=0)
-            DestroyImmediate(energyParent.transform.GetChild(0).gameObject);
+            Destroy(energyParent.transform.GetChild(0).gameObject);
 
         tempMaxEn =PlayerController.Instance.playerHealthController.resEnergy;
 

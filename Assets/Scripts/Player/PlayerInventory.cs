@@ -6,8 +6,6 @@ using System.Xml;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.Port;
-using static UnityEditor.Progress;
 
 
 public class PlayerInventory: MonoBehaviour

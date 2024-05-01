@@ -29,8 +29,13 @@ public class EnemyLogicBase : MonoBehaviour
         //преследующий
         Charger_Idle,
         Charger_Suprised,
-        Charger_Charge
-       
+        Charger_Charge,
+        //убегающий
+        Coward_Idle,
+        Coward_Suprised,
+        Coward_Run,
+
+
     }
     protected EnemyStates currectEnemyState;
     protected EnemyStates GetCurrectEnemyState

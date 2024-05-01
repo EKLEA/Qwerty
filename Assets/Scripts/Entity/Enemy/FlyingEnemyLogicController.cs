@@ -12,6 +12,7 @@ public class FlyingEnemyLogicController : EnemyLogicBase
     {
         ChangeState(EnemyStates.FlyingEn_Idle);
         rb.useGravity = false;
+        GetComponent<EnemyHealthController>().OnHealthChangedCallBack += CheckDeath;
     }
     public override  void UpdateEnemyStates()
     {
@@ -59,6 +60,6 @@ public class FlyingEnemyLogicController : EnemyLogicBase
     }
     protected override void ChangeCurrentAnimation()
     {
-            //анимация
+        //анимация
     }
 }

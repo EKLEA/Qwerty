@@ -72,7 +72,7 @@ public struct SaveData
             {
             }
         }
-        
+
 
         if (sceneNames == null)
         {
@@ -81,7 +81,7 @@ public struct SaveData
     }
     public void SaveCheckPoint()
     {
-        using(BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + "/save.checkPoint.data")))
+        using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + "/save.checkPoint.data")))
         {
             writer.Write(checkPointSceneName);
             writer.Write(checkPointPos.x);
@@ -92,22 +92,22 @@ public struct SaveData
 
     public void LoadCheckPoint()
     {
-        if(File.Exists(Application.persistentDataPath + "/save.checkPoint.data") && new FileInfo(Application.persistentDataPath + "/save.checkPoint.data").Length >0 )
+        if (File.Exists(Application.persistentDataPath + "/save.checkPoint.data") && new FileInfo(Application.persistentDataPath + "/save.checkPoint.data").Length > 0)
         {
             using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.checkPoint.data")))
             {
-                checkPointSceneName=reader.ReadString();
-                checkPointPos.x=reader.ReadSingle();
-                checkPointPos.y=reader.ReadSingle();
-                checkPointPos.z=reader.ReadSingle();
+                checkPointSceneName = reader.ReadString();
+                checkPointPos.x = reader.ReadSingle();
+                checkPointPos.y = reader.ReadSingle();
+                checkPointPos.z = reader.ReadSingle();
             }
-            
+
         }
     }
 
     public void SavePlayerData()//помогите...
     {
-        using(BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + "/save.player.data")))
+        using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + "/save.player.data")))
         {
             playerHealth = (int)PlayerController.Instance.playerHealthController.maxHealth;// сохранение базовых значений без предметов
             writer.Write(playerHealth);
@@ -115,33 +115,33 @@ public struct SaveData
             writer.Write(playerEnergy);
             isPlayerHasHeart = PlayerController.Instance.playerHealthController.isHeartHas;
             writer.Write(isPlayerHasHeart);
-            playerPos=PlayerController.Instance.transform.position;
+            playerPos = PlayerController.Instance.transform.position;
             writer.Write(playerPos.x);
             writer.Write(playerPos.y);
             writer.Write(playerPos.z);
             lastScene = SceneManager.GetActiveScene().name;
             writer.Write(lastScene);
-        
+
         }
     }
     public void LoadPlayerData()
     {
         if (File.Exists(Application.persistentDataPath + "/save.player.data") && new FileInfo(Application.persistentDataPath + "/save.player.data").Length > 0)
         {
-            using(BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.player.data")))
+            using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.player.data")))
             {
                 playerHealth = reader.ReadInt32();
                 playerEnergy = reader.ReadSingle();
-                isPlayerHasHeart =reader.ReadBoolean();
-                playerPos.x=reader.ReadSingle();
-                playerPos.y=reader.ReadSingle();
-                playerPos.z=reader.ReadSingle();
+                isPlayerHasHeart = reader.ReadBoolean();
+                playerPos.x = reader.ReadSingle();
+                playerPos.y = reader.ReadSingle();
+                playerPos.z = reader.ReadSingle();
                 lastScene = reader.ReadString();
 
                 SceneManager.LoadScene(lastScene);
                 PlayerController.Instance.transform.position = playerPos;
-                PlayerController.Instance.playerHealthController.isHeartHas=isPlayerHasHeart;
-                PlayerController.Instance.playerHealthController.maxHealth=playerHealth;
+                PlayerController.Instance.playerHealthController.isHeartHas = isPlayerHasHeart;
+                PlayerController.Instance.playerHealthController.maxHealth = playerHealth;
                 PlayerController.Instance.playerHealthController.maxEnergy = playerEnergy;
             }
         }
@@ -163,7 +163,7 @@ public struct SaveData
             tempAddEnS = PlayerController.Instance.playerLevelList.tempAddEN;
             writer.Write(tempAddEnS);
 
-            levelTierS=PlayerController.Instance.playerLevelList.levelTier;
+            levelTierS = PlayerController.Instance.playerLevelList.levelTier;
             writer.Write(levelTierS);
 
             SideCastS = PlayerController.Instance.playerLevelList.SideCast;
@@ -189,8 +189,8 @@ public struct SaveData
         {
             using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.pLevelList.data")))
             {
-                tempAddHpS=reader.ReadSingle();
-                tempAddEnS=reader.ReadSingle();
+                tempAddHpS = reader.ReadSingle();
+                tempAddEnS = reader.ReadSingle();
                 levelTierS = reader.ReadInt32();
                 SideCastS = reader.ReadBoolean();
                 DownCastS = reader.ReadBoolean();
@@ -198,14 +198,14 @@ public struct SaveData
                 canDashS = reader.ReadBoolean();
                 canDoubleWallJumpS = reader.ReadBoolean();
 
-                PlayerController.Instance.playerLevelList.tempAddHP=tempAddHpS;
-                PlayerController.Instance.playerLevelList.tempAddEN=tempAddEnS;
-                PlayerController.Instance.playerLevelList.levelTier=levelTierS;
+                PlayerController.Instance.playerLevelList.tempAddHP = tempAddHpS;
+                PlayerController.Instance.playerLevelList.tempAddEN = tempAddEnS;
+                PlayerController.Instance.playerLevelList.levelTier = levelTierS;
                 PlayerController.Instance.playerLevelList.SideCast = SideCastS;
                 PlayerController.Instance.playerLevelList.DownCast = DownCastS;
                 PlayerController.Instance.playerLevelList.UPCast = UPCastS;
-                PlayerController.Instance.playerLevelList.canDash=canDashS;
-                PlayerController.Instance.playerLevelList.canDoubleWallJump=canDoubleWallJumpS;
+                PlayerController.Instance.playerLevelList.canDash = canDashS;
+                PlayerController.Instance.playerLevelList.canDoubleWallJump = canDoubleWallJumpS;
             }
         }
         else
@@ -410,11 +410,54 @@ public struct SaveData
         else
         {
             Debug.Log("Файл не существует");
-            PlayerInventory. Instance.equippedItems.TryToAdd(null, new Item(ItemBase.ItemsInfo["body0"], 1));
+            PlayerInventory.Instance.equippedItems.TryToAdd(null, new Item(ItemBase.ItemsInfo["body0"], 1));
             PlayerInventory.Instance.equippedItems.TryToAdd(null, new Item(ItemBase.ItemsInfo["arm0"], 1));
             PlayerInventory.Instance.equippedItems.TryToAdd(null, new Item(ItemBase.ItemsInfo["legs0"], 1));
         }
     }
 
-    
+    public void SaveHeartEnemy()
+    {
+        if (File.Exists(Application.persistentDataPath + "/save.shade.data"))
+        {
+            using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + "/save.shade.data")))
+            {
+                sceneWithShade = SceneManager.GetActiveScene().name;
+                shadePos = HeartEnemyLogic.Instance.transform.position;
+                shadeRot = HeartEnemyLogic.Instance.transform.rotation;
+
+                writer.Write(sceneWithShade);
+                writer.Write(shadePos.x);
+                writer.Write(shadePos.y);
+                writer.Write(shadePos.z);
+
+                writer.Write(shadeRot.x);
+                writer.Write(shadeRot.y);
+                writer.Write(shadeRot.z);
+                writer.Write(shadeRot.w);
+            }
+        }
+    }
+    public void LoadHeartEnemy()
+    {
+        if (File.Exists(Application.persistentDataPath + "/save.shade.data") && new FileInfo(Application.persistentDataPath + "/save.shade.data").Length > 0)
+        {
+            using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.shade.data")))
+            {
+                sceneWithShade = reader.ReadString();
+                shadePos.x = reader.ReadSingle();
+                shadePos.y = reader.ReadSingle();
+                shadePos.z = reader.ReadSingle();
+                float rotatioX = reader.ReadSingle();
+                float rotatioY = reader.ReadSingle();
+                float rotatioZ = reader.ReadSingle();
+                float rotatioW = reader.ReadSingle();
+                shadeRot = new Quaternion(rotatioX, rotatioY, rotatioZ, rotatioW);
+            }
+        }
+        else
+        {
+            Debug.Log("Врага срдца нет");
+        }
+    }
 }
