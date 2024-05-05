@@ -879,7 +879,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.2627451, g: 0.5529412, b: 0.5568628, a: 1}
+  m_Color: {r: 0.6156863, g: 0.8156863, b: 0.8235294, a: 1}
   m_Intensity: 2500
   m_Range: 100
   m_SpotAngle: 160
@@ -1002,7 +1002,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.2627451, g: 0.5529412, b: 0.5568628, a: 1}
+  m_Color: {r: 0.6156863, g: 0.8156863, b: 0.8235294, a: 1}
   m_Intensity: 2500
   m_Range: 80
   m_SpotAngle: 100
@@ -1042,7 +1042,7 @@ Light:
     serializedVersion: 2
     m_Bits: 9
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -2695,7 +2695,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.2627451, g: 0.5529412, b: 0.5568628, a: 1}
+  m_Color: {r: 0.6156863, g: 0.8156863, b: 0.8235294, a: 1}
   m_Intensity: 2500
   m_Range: 80
   m_SpotAngle: 100
@@ -2735,7 +2735,7 @@ Light:
     serializedVersion: 2
     m_Bits: 9
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -3875,15 +3875,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10828764, guid: 8b5797a18349fb546be8acddc71151ff, type: 3}
       propertyPath: m_Color.b
-      value: 0.5568628
+      value: 0.8235294
       objectReference: {fileID: 0}
     - target: {fileID: 10828764, guid: 8b5797a18349fb546be8acddc71151ff, type: 3}
       propertyPath: m_Color.g
-      value: 0.5529412
+      value: 0.8156863
       objectReference: {fileID: 0}
     - target: {fileID: 10828764, guid: 8b5797a18349fb546be8acddc71151ff, type: 3}
       propertyPath: m_Color.r
-      value: 0.2627451
+      value: 0.6156863
+      objectReference: {fileID: 0}
+    - target: {fileID: 10828764, guid: 8b5797a18349fb546be8acddc71151ff, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 10828764, guid: 8b5797a18349fb546be8acddc71151ff, type: 3}
       propertyPath: m_Intensity
@@ -4593,15 +4597,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10828764, guid: 8b5797a18349fb546be8acddc71151ff, type: 3}
       propertyPath: m_Color.b
-      value: 0.5568628
+      value: 0.8235294
       objectReference: {fileID: 0}
     - target: {fileID: 10828764, guid: 8b5797a18349fb546be8acddc71151ff, type: 3}
       propertyPath: m_Color.g
-      value: 0.5529412
+      value: 0.8156863
       objectReference: {fileID: 0}
     - target: {fileID: 10828764, guid: 8b5797a18349fb546be8acddc71151ff, type: 3}
       propertyPath: m_Color.r
-      value: 0.2627451
+      value: 0.6156863
       objectReference: {fileID: 0}
     - target: {fileID: 10828764, guid: 8b5797a18349fb546be8acddc71151ff, type: 3}
       propertyPath: m_Intensity
