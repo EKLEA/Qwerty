@@ -34,6 +34,7 @@ public class UIItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
             {
                 
                 eventData.pointerDrag = null;
+                PlayerController.Instance.playerStateList.isDraging = false;
             }
             else
             {

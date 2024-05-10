@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1186494238191823991}
   - component: {fileID: 5958705879416223298}
-  - component: {fileID: 5047402147350113743}
   - component: {fileID: 8530443756199128900}
   m_Layer: 0
   m_Name: Game Manager
@@ -49,23 +48,11 @@ MonoBehaviour:
   transitionedFromScene: 
   platformingRespawnPoint: {x: 0, y: 0, z: 0}
   respawnPoint: {x: 0, y: 0, z: 0}
-  heartEnemy: {fileID: 1761439401334171933, guid: 3df71829618fb004283c31964a6b26ac, type: 3}
+  heartEnemy: {fileID: 5964403128061357078, guid: 05ec651892e433848883f0951d23e6cf, type: 3}
   checkPoint: {fileID: 0}
   pauseMenu: {fileID: 0}
   fadeTime: 0.25
   gameIsPaused: 0
---- !u!114 &5047402147350113743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4766905173726925096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ef9fdf2a95ef2649aed2f924f3b362f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8530443756199128900
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -44,6 +44,7 @@ public class UIController : MonoBehaviour
             screen.GetComponent<UIInventoryScreen>().InitUISceen();
         PlayerInventory.Instance.blockInv = true;
         PlayerInventory.Instance.BlockPlayerInv();
+
     }
     private void OpenInv()
     {
@@ -153,6 +154,7 @@ public class UIController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         deathScreen.SetActive(false);
         StartCoroutine(sceneFader.Fade(SceneFader.FadeDirection.Out));
+        uiHud.GetComponent<UIHud>().InitHud();
     }
     public IEnumerator OpenInventory()
     {

@@ -59,8 +59,11 @@ public class EnemyHealthController : DamagableObjWithLogic
     }
     protected virtual void ColliderAttack()
     {
-        playerController.playerHealthController.DamageMoment(colliderDamage,Vector2.zero,0);
-        if (playerController.playerStateList.alive)
-            playerController.playerHealthController.HitStopTime(0, 5, 0.5f);
+        if (colliderDamage != 0)
+        {
+            playerController.playerHealthController.DamageMoment(colliderDamage, Vector2.zero, 0);
+            if (playerController.playerStateList.alive)
+                playerController.playerHealthController.HitStopTime(0, 5, 0.5f);
+        }
     }
 }

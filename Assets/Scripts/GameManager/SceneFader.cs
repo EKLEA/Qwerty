@@ -21,6 +21,7 @@ public class SceneFader : MonoBehaviour
     {
         Time.timeScale = 1;
         StartCoroutine(FadeAndLoadScene(FadeDirection.In, _sceneToLoad));
+
         
     }
     public IEnumerator Fade(FadeDirection _fadeDirection)

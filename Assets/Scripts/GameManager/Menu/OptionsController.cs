@@ -10,10 +10,10 @@ public class OptionsController : MonoBehaviour
     {
         audioMixer.SetFloat("Volume", _volume);
     }
-    public void SetQuality(int _qualityIndex)
+    /*public void SetQuality(int _qualityIndex)
     {
         QualitySettings.SetQualityLevel(_qualityIndex);
-    }
+    }*/
     public void SetFullScreen(bool _isFullScreen)
     {
         Screen.fullScreen = _isFullScreen;

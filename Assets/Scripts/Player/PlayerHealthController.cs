@@ -18,6 +18,19 @@ public class PlayerHealthController : DamagableObjWithLogic
     [SerializeField] float energyDrainSpeed;
     [SerializeField] public float energyGain;
      public bool heartHas;
+
+    public static PlayerHealthController Instance;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     public bool isHeartHas
     {
         get {  return heartHas; }
@@ -34,10 +47,10 @@ public class PlayerHealthController : DamagableObjWithLogic
     public void InitPlayerHealth()
     {
         UpdateHealthVar();
-        hp = resHealth;
-        en = resEnergy;
+        health = resHealth;
+        energy = resEnergy;
     }
-    private void UpdateHealthVar()
+    public void UpdateHealthVar()
     {
         resHealth = maxHealth + PlayerController.Instance.playerLevelList.addHealth;
         resEnergy = maxEnergy + PlayerController.Instance.playerLevelList.addEnergy;
@@ -63,19 +76,26 @@ public class PlayerHealthController : DamagableObjWithLogic
         }
         set
         {
-            if (defense > 0)
-                defense -= value;
+            if(value<hp)
+            {
+                if (defense > 0)
+                    defense -= value;
+                else
+                {
+                    hp = value;
+                    OnHealthChangedCallBack?.Invoke();
+                    if (health <= 0)
+                    {
+                        StartCoroutine(Death());
+                    }
+                    else
+                    {
+                        StartCoroutine(StopTakingDamage());
+                    }
+                }
+            }
             else
                 hp = value;
-            OnHealthChangedCallBack?.Invoke();
-            if (health <= 0)
-            {
-                StartCoroutine(Death());
-            }
-            else
-            {
-                StartCoroutine(StopTakingDamage());
-            }
 
         }
     }
@@ -108,6 +128,7 @@ public class PlayerHealthController : DamagableObjWithLogic
     }
     IEnumerator StopTakingDamage()
     {
+        
         pController.playerStateList.invincible = true;
         GameObject  _damageEffect = Instantiate(DamageEffect,new Vector2(transform.position.x,transform.position.y+1.5f), Quaternion.identity);
         Destroy(_damageEffect, 1.5f);
@@ -140,7 +161,7 @@ public class PlayerHealthController : DamagableObjWithLogic
         {
             restoreTime = true;
         }
-        Time.timeScale = _newTimeScale;
+       Time.timeScale = _newTimeScale;
     }
     IEnumerator Death()
     {
@@ -157,7 +178,7 @@ public class PlayerHealthController : DamagableObjWithLogic
         StartCoroutine(UIController.Instance.ActivateDeathScreen());
         yield return new WaitForSeconds(0.9f);
         
-        Instantiate(GameManager.Instance.heartEnemy,transform.position, Quaternion.identity);
+        Instantiate(GameManager.Instance.heartEnemy,new Vector3(transform.position.x, transform.position.y+3, transform.position.z), Quaternion.identity);
         UIController.Instance.uiHud.GetComponent<UIHud>().InitHud();
 
     }

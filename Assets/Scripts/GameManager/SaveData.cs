@@ -79,6 +79,7 @@ public struct SaveData
             sceneNames = new HashSet<string>();
         }
     }
+    
     public void SaveCheckPoint()
     {
         using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + "/save.checkPoint.data")))
@@ -140,15 +141,17 @@ public struct SaveData
 
                 SceneManager.LoadScene(lastScene);
                 PlayerController.Instance.transform.position = playerPos;
-                PlayerController.Instance.playerHealthController.isHeartHas = isPlayerHasHeart;
-                PlayerController.Instance.playerHealthController.maxHealth = playerHealth;
-                PlayerController.Instance.playerHealthController.maxEnergy = playerEnergy;
+                PlayerHealthController.Instance.isHeartHas = isPlayerHasHeart;
+                PlayerHealthController.Instance.maxHealth = playerHealth;
+                PlayerHealthController.Instance.maxEnergy = playerEnergy;
             }
         }
         else
         {
             Debug.Log("Файл не существует");
-            PlayerController.Instance.playerHealthController.InitPlayerHealth();
+            PlayerController.Instance.playerHealthController.maxHealth = 5;
+            PlayerController.Instance.playerHealthController.maxEnergy = 5;
+
             PlayerController.Instance.playerHealthController.isHeartHas = true;
         }
     }
@@ -321,12 +324,13 @@ public struct SaveData
         {
             using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.inventory.data")))
             {
-                var slots = PlayerInventory.Instance.equippedItems.GetAllSlots();
+               
                 string id;
                 int countT;
                 bool isEqut;
                 Item item;
                 //equipped
+                var slots = PlayerInventory.Instance.equippedItems.GetAllSlots();
                 for (int i = 0; i < slots.Length; i++)
                 {
                     id = reader.ReadString();

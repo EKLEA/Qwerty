@@ -12,6 +12,8 @@ public class MenuFadeControll : MonoBehaviour
     {
         fadeUI = GetComponent<FadeUI>();
         fadeUI.FadeUIOut(fadeTime);
+        ItemBase.Instance.Initialize();
+       
 
     }
     public void CallFadeAndStartGame(string _sceneToLoad)

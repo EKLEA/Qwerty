@@ -111,19 +111,16 @@ public class PlayerInventory: MonoBehaviour
     public void SetupPlayerVariables()
     {
 
-        PlayerController.Instance.playerLevelList.movekf = 1 + equippedItems.GetAllItems()
-                                                                   .Where(rp => rp != null && rp.info is RobotPartInfo)
-                                                                   .Sum(rp => (rp.info as RobotPartInfo).partMoveKf);
-
-
-        PlayerController.Instance.playerLevelList.addHealth = equippedItems.GetAllItems()
-                                                           .Where(rp => rp != null && rp.info is RobotPartInfo)
-                                                           .Sum(rp => (rp.info as RobotPartInfo).partHp);
-
-        PlayerController.Instance.playerLevelList.addEnergy = equippedItems.GetAllItems()
-                                                           .Where(rp => rp != null && rp.info is RobotPartInfo)
-                                                           .Sum(rp => (rp.info as RobotPartInfo).partEn);
-
+        PlayerController.Instance.playerLevelList.movekf = 1 ;
+        PlayerController.Instance.playerLevelList.addHealth = 0 ;
+        PlayerController.Instance.playerLevelList.addEnergy = 0 ;
+        Item[] items= equippedItems.GetAllItems();
+        for(int i = 0; i< items.Length;i++)
+        {
+            PlayerController.Instance.playerLevelList.movekf += (items[i].info as RobotPartInfo).partMoveKf;
+            PlayerController.Instance.playerLevelList.addHealth += (items[i].info as RobotPartInfo).partHp;
+            PlayerController.Instance.playerLevelList.addEnergy += (items[i].info as RobotPartInfo).partEn;
+        }
     }
    public void BlockPlayerInv()
     {

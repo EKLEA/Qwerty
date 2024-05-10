@@ -4,10 +4,11 @@ using System.Linq;
 using System.Xml;
 using UnityEngine;
 
-public class ItemBase :MonoBehaviour
+public struct ItemBase
 {
+    public static ItemBase Instance;
     public static Dictionary<string, InventoryItemInfo> ItemsInfo = new Dictionary<string, InventoryItemInfo>();
-    void Awake()
+    public void Initialize()
     {
 
         Object[] assets = Resources.LoadAll<InventoryItemInfo>("");

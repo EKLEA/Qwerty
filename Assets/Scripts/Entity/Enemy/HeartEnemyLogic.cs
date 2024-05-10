@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeartEnemyLogic : CowardEnemyLogic
+public class HeartEnemyLogic : EnemyLogicBase
 {
 
     [SerializeField] GameObject itemHeart;
@@ -28,7 +28,14 @@ public class HeartEnemyLogic : CowardEnemyLogic
     }
     void CheckDeath()
     {
-
+        gameObject.GetComponent<EnemyHealthController>().OnDeadCallBack -= CheckDeath;
         Instantiate(itemHeart, transform.position, Quaternion.identity);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            GetComponent<EnemyHealthController>().DamageMoment(1000, Vector2.zero, 0f);
+        }
     }
 }

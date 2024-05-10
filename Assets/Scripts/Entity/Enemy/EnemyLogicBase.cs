@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[RequireComponent(typeof(EnemyHealthController))]
 [RequireComponent(typeof(Animator))]
 public class EnemyLogicBase : MonoBehaviour
 {
      protected float timer;
    protected EnemyHealthController enemyHealth=> GetComponent<EnemyHealthController>();
     protected Rigidbody rb => GetComponent<Rigidbody>();
-    [SerializeField] protected Animator animator => GetComponent<Animator>();
+    public Animator animator => GetComponent<Animator>();
     [HideInInspector] protected PlayerController playerController => PlayerController.Instance;
 
     [SerializeField] protected float speed;
@@ -34,6 +33,11 @@ public class EnemyLogicBase : MonoBehaviour
         Coward_Idle,
         Coward_Suprised,
         Coward_Run,
+        //boss1
+        Boss1_Stage1,
+        Boss1_Stage2,
+        Boss1_Stage3,
+        Boss1_Stage4,
 
 
     }
