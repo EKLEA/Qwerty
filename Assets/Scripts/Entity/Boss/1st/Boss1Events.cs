@@ -43,6 +43,14 @@ public class Boss1Events : MonoBehaviour
         {
             StartCoroutine(BarrageAttackTransition());
         }
+        if (Boss1.Instance.outbreakAttack)
+        {
+            StartCoroutine(OutbreakAttackTransition());
+        }
+        if (Boss1.Instance.bounceAttack)
+        {
+            Boss1.Instance.animator.SetTrigger("Bounce1");
+        }
     }
     void BarrageOrOutbreak()
     {
@@ -50,11 +58,25 @@ public class Boss1Events : MonoBehaviour
         {
             Boss1.Instance.StartCoroutine(Boss1.Instance.Barrage());
         }
+        if (Boss1.Instance.outbreakAttack)
+        {
+            Boss1.Instance.StartCoroutine(Boss1.Instance.Outbreak());
+        }
     }
     IEnumerator BarrageAttackTransition()
     {
         yield return new WaitForSeconds(1f);
         Boss1.Instance.animator.SetBool("Cast", true);
+    }
+    IEnumerator OutbreakAttackTransition()
+    {
+        yield return new WaitForSeconds(1f);
+        Boss1.Instance.animator.SetBool("Cast", true);
+    }
+    void DestroyAfterDeath()
+    {
+        SpawnBoss.Instance.IsNotTrigger();
+        Boss1.Instance.enemyHealth. DestroyAfterDeath();
     }
 
 

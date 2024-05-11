@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(AudioSource))]
 public class EnemyHealthController : DamagableObjWithLogic
 {
     
@@ -20,6 +21,8 @@ public class EnemyHealthController : DamagableObjWithLogic
     
     [SerializeField] protected int colliderDamage;
     protected Rigidbody rb=>GetComponent<Rigidbody>();
+    public AudioSource audioSource=>GetComponent<AudioSource>();
+    public AudioClip hurtSound;
     protected virtual void Update()
     {
         if (GameManager.Instance.gameIsPaused) return;
@@ -46,6 +49,7 @@ public class EnemyHealthController : DamagableObjWithLogic
         health -= _damageDone;
         if (!isRecoiling)
         {
+            audioSource.PlayOneShot(hurtSound);
             rb.velocity= _hitForce * recoilFactor* _hitDirection;
             hasTakenDamage = true;
         }

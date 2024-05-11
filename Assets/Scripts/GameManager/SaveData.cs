@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine.SceneManagement;
 using System;
 using Unity.Mathematics;
+using UnityEngine.Audio;
 
 [System.Serializable]
 public struct SaveData
@@ -72,6 +73,12 @@ public struct SaveData
             {
             }
         }
+        if (!File.Exists(Application.persistentDataPath + "/save.settings.data"))
+        {
+            using (BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + "/save.settings.data")))
+            {
+            }
+        }
 
 
         if (sceneNames == null)
@@ -79,7 +86,36 @@ public struct SaveData
             sceneNames = new HashSet<string>();
         }
     }
-    
+    public void SaveSettings(AudioMixer audioMixer)
+    {
+        using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + "/save.settings.data")))
+        {
+            
+            writer.Write(Screen.fullScreen);
+            float t;
+            audioMixer.GetFloat("Volume", out t);
+            writer.Write(t);
+        }
+    }
+    bool fullscreen;
+    public void LoadSettings(ref float volume)
+    {
+        if (File.Exists(Application.persistentDataPath + "/save.settings.data") && new FileInfo(Application.persistentDataPath + "/save.settings.data").Length > 0)
+        {
+            using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.settings.data")))
+            {
+                fullscreen= reader.ReadBoolean();
+                volume = reader.ReadSingle();
+                Screen.fullScreen = fullscreen;
+            }
+
+        }
+        else
+        {
+            volume = 0;
+            Screen.fullScreen = true;
+        }
+    }
     public void SaveCheckPoint()
     {
         using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + "/save.checkPoint.data")))

@@ -48,7 +48,8 @@ public class PlayerMoveHandler : MoveHandler
     [SerializeField] private float groundCheckY = 0.2f;
     [SerializeField] private float groundCheckX = 0.5f;
     [SerializeField] private LayerMask whatIsGround;
-    
+    bool landingSoundPlayed;
+
 
 
 
@@ -84,7 +85,8 @@ public class PlayerMoveHandler : MoveHandler
     {
         canDash = false;
         pState.dashing = true;
-        // animatiom
+        anim.SetTrigger("Dashing");
+        PlayerController.Instance.audioSource.PlayOneShot(PlayerController.Instance.dashAndAttackSound);
         rb.useGravity = false;
         int _dir = pState.lookRight ? 1 : -1;
         rb.velocity = new Vector3(_dir * dashSpeed*PlayerController.Instance.playerLevelList.movekf, 0,0);
@@ -96,26 +98,36 @@ public class PlayerMoveHandler : MoveHandler
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
+    bool jumpOnce;
     public new void JumpMoment()
     {
         if (jumpBufferCount>0 && coyoteTimeCounter>0 && !pState.jumping)
         {
+            
+             
+            PlayerController.Instance.audioSource.PlayOneShot(PlayerController.Instance.jumpSound);
             rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
             pState.jumping = true;
 
             if (PlayerController.Instance.playerHealthController.isHeartHas == false)
-                PlayerController.Instance.playerHealthController.energy -= 0.1f;
+                PlayerController.Instance.playerHealthController.energy -= 0.1f/ jumpBufferFrames;
         }
-        if (!Grounded() && airJumpCount < maxAirJump && Input.GetButtonUp("Jump") && PlayerController.Instance.playerLevelList.canDoubleWallJump)
+        else if (!Grounded() && airJumpCount < maxAirJump && Input.GetButtonDown("Jump") && PlayerController.Instance.playerLevelList.canDoubleWallJump)
         {
+
+            PlayerController.Instance.audioSource.PlayOneShot(PlayerController.Instance.jumpSound);
+            rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+            if(PlayerController.Instance.playerHealthController.isHeartHas == false)
+                PlayerController.Instance.playerHealthController.energy -= 0.1f;
             pState.jumping = true;
             airJumpCount++;
-            rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+            
         }
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 9)
+        else if (Input.GetButtonDown("Jump") && rb.velocity.y > 3)
         {
-            rb.velocity = new Vector2(rb.velocity.x, 0);
+            
             pState.jumping = false;
+            rb.velocity = new Vector2(rb.velocity.x, 0);
         }
         anim.SetBool("Jumping", pState.jumping);
     }
@@ -124,9 +136,15 @@ public class PlayerMoveHandler : MoveHandler
     {
         if (Grounded())
         {
+            if (!landingSoundPlayed)
+            {
+                PlayerController.Instance.audioSource.PlayOneShot(PlayerController.Instance.landingSound);
+                landingSoundPlayed = true;
+            }
             anim.SetBool("Falling", false);
             anim.SetBool("FallingDown", true);
             PlayerController.Instance.pCollider.height = 7;
+
             pState.jumping = false;
             coyoteTimeCounter = coyoteTime;
             airJumpCount = 0;
@@ -135,7 +153,10 @@ public class PlayerMoveHandler : MoveHandler
         {
             anim.SetBool("Falling", true);
             PlayerController.Instance.pCollider.height = 4;
+
             coyoteTimeCounter -= Time.deltaTime;
+
+            landingSoundPlayed = false;
         }
         if (Input.GetButtonDown("Jump"))
             jumpBufferCount = jumpBufferFrames;

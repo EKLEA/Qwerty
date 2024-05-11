@@ -129,13 +129,13 @@ public class PlayerAttackLogic : AttakingObjLogic
     }
     public override void Attack()
     {
-        
-        
+
+        timeSinceAttack += Time.deltaTime;
         if (Input.GetButtonDown("Attack")&& timeSinceAttack >= coolDown)
         {
-           //каждому добавить эффекты
+            timeSinceAttack = 0;
             PlayerController.Instance.anim.SetTrigger("Attacking");
-
+            PlayerController.Instance.audioSource.PlayOneShot(PlayerController.Instance.dashAndAttackSound);
             if (PlayerController.Instance.playerStateList.Axis.y == 0 )
             {
 
@@ -262,7 +262,7 @@ public class PlayerAttackLogic : AttakingObjLogic
     }
     IEnumerator CastCoroutine()
     {
-
+        PlayerController.Instance.audioSource.PlayOneShot(PlayerController.Instance.spellCastSound);
         //анимция
         yield return new WaitForSeconds(0.15f);//потом поменть
         if ((PlayerController.Instance.playerStateList.Axis.y == 0 || (PlayerController.Instance.playerStateList.Axis.y < 0 && PlayerController.Instance.playerStateList.grounded))&&PlayerController.Instance.playerLevelList.SideCast)

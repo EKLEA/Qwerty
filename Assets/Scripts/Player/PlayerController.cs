@@ -18,6 +18,15 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
     [HideInInspector] public float castOrHealTimer;
      Vector2 Axis;
+
+    [Header("Audio")]
+    
+    public AudioClip landingSound;
+    public AudioClip jumpSound;
+    public AudioClip dashAndAttackSound;
+    public AudioClip spellCastSound;
+    public AudioClip hurtSound;
+    public AudioSource audioSource => GetComponent<AudioSource>();
     private void Awake()
     {
         if (Instance != null && Instance != this)

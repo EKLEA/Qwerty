@@ -19,7 +19,6 @@ public class FadeUI : MonoBehaviour
         StartCoroutine (FadeIn(_seconds));
     }
 
-
     IEnumerator FadeOut(float _seconds)
     {
         canvasGroup.interactable = false;

@@ -78,6 +78,7 @@ public class PlayerHealthController : DamagableObjWithLogic
         {
             if(value<hp)
             {
+                PlayerController.Instance.audioSource.PlayOneShot(PlayerController.Instance.hurtSound);
                 if (defense > 0)
                     defense -= value;
                 else

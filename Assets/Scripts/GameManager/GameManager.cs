@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused)
         {
+            pauseMenu.StopAllCoroutines();
             pauseMenu.FadeUIIn(fadeTime);
             Time.timeScale = 0;
             gameIsPaused = true;
@@ -51,8 +52,9 @@ public class GameManager : MonoBehaviour
     }
     public void UnpauseGame()
     {
+
         Time.timeScale = 1;
-        gameIsPaused=false;
+        gameIsPaused = false;
     }
 
     public void SaveScene()

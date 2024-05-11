@@ -5,8 +5,8 @@ using UnityEngine;
 public class EnemyLogicBase : MonoBehaviour
 {
      protected float timer;
-   protected EnemyHealthController enemyHealth=> GetComponent<EnemyHealthController>();
-    protected Rigidbody rb => GetComponent<Rigidbody>();
+    public EnemyHealthController enemyHealth=> GetComponent<EnemyHealthController>();
+    [HideInInspector] public  Rigidbody rb => GetComponent<Rigidbody>();
     public Animator animator => GetComponent<Animator>();
     [HideInInspector] protected PlayerController playerController => PlayerController.Instance;
 
@@ -15,7 +15,7 @@ public class EnemyLogicBase : MonoBehaviour
     {
         UpdateEnemyStates();
     }
-    protected enum EnemyStates
+    public enum EnemyStates
     {
         //крадущийся чел
         Crawler_Idle,
@@ -41,8 +41,8 @@ public class EnemyLogicBase : MonoBehaviour
 
 
     }
-    protected EnemyStates currectEnemyState;
-    protected EnemyStates GetCurrectEnemyState
+    public EnemyStates currectEnemyState;
+    public EnemyStates GetCurrectEnemyState
     {
         get { return currectEnemyState; }
         set
@@ -57,7 +57,7 @@ public class EnemyLogicBase : MonoBehaviour
     }
     public virtual void UpdateEnemyStates(){ }
     protected virtual void ChangeCurrentAnimation() { }
-    protected virtual void ChangeState(EnemyStates state)
+    public virtual void ChangeState(EnemyStates state)
     {
         GetCurrectEnemyState = state;
     }

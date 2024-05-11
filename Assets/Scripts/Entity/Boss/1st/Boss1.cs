@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 public class Boss1 : EnemyLogicBase
 {
     public static Boss1 Instance;
-
+    public new Boss1HealthController enemyHealth =>GetComponent<Boss1HealthController>();
     [SerializeField] GameObject slashEffect;
     public Transform sideAttackTransform, upAttackTransform, downAttackTransform;
     public Vector3 sideAttackArea;
@@ -23,11 +25,11 @@ public class Boss1 : EnemyLogicBase
     [SerializeField] private float groundCheckX = 0.5f;
     [SerializeField] private LayerMask whatIsGround;
 
-    int hitCounter;
-    bool stunned, canStun;
-    bool alive;
+    [HideInInspector] public int hitCounter;
+    [HideInInspector] public bool stunned, canStun;
+    [HideInInspector] public bool alive;
     [HideInInspector] public float runSpeed;
-    public bool facingRight;
+    [HideInInspector] public bool facingRight;
 
 
     private void Awake()
@@ -73,6 +75,10 @@ public class Boss1 : EnemyLogicBase
         {
             attackCountdown -= Time.deltaTime;
         }
+        if (stunned)
+        {
+            rb.velocity = Vector3.zero;
+        }
     }
     public void Flip()
     {
@@ -95,18 +101,28 @@ public class Boss1 : EnemyLogicBase
             {
                 case EnemyStates.Boss1_Stage1:
                     {
+                        canStun = true;
+                        attackTimer = 6;
+                        runSpeed = speed;
                         break;
                     }
                 case EnemyStates.Boss1_Stage2:
                     {
+                        canStun = true;
+                        attackTimer = 5;
                         break;
                     }
                 case EnemyStates.Boss1_Stage3:
                     {
+                        canStun = false;
+                        attackTimer = 8;
                         break;
                     }
                 case EnemyStates.Boss1_Stage4:
                     {
+                        canStun = false;
+                        attackTimer = 10;
+                        runSpeed = speed / 2;
                         break;
                     }
             }
@@ -126,9 +142,14 @@ public class Boss1 : EnemyLogicBase
 
     [HideInInspector] public bool barrageAttack;
     public GameObject barrageFireBall;
+    [HideInInspector] public bool outbreakAttack;
+
+    [HideInInspector] public bool bounceAttack;
+    [HideInInspector] public float rotationDirectionToTarget;
+    [HideInInspector] public int bounceCount;
 
 
-
+    
     //control
     public void AttackHandler()
     {
@@ -143,6 +164,76 @@ public class Boss1 : EnemyLogicBase
                 StartCoroutine(Lunge());
             }
         }
+        if(currectEnemyState== EnemyStates.Boss1_Stage2)
+        {
+            if (Vector3.Distance(PlayerController.Instance.transform.position, rb.position) <= attackRange)
+            {
+                StartCoroutine(TripleSlash());
+            }
+            else
+            {
+                float _attackChosen = UnityEngine.Random.Range(1, 3);
+                switch (_attackChosen)
+                {
+                    case 1:
+                        {
+                            StartCoroutine(Lunge());
+                            break;
+                        }
+                    case 2:
+                        {
+                            DiveAttackJump();
+                            break;
+                        }
+                    case 3:
+                        {
+
+                            BarrageBendDown();
+                            break;
+                        }
+                }
+            }
+        }
+        if (currectEnemyState == EnemyStates.Boss1_Stage3)
+        {
+            float _attackChosen = UnityEngine.Random.Range(1, 4);
+            switch (_attackChosen)
+            {
+                case 1:
+                    {
+                        OutbreakBendDown();
+                        break;
+                    }
+                case 2:
+                    {
+                        DiveAttackJump();
+                        break;
+                    }
+                case 3:
+                    {
+
+                        BarrageBendDown();
+                        break;
+                    }
+                case 4:
+                    {
+
+                        BounceAttack();
+                        break;
+                    }
+            }
+        }
+        if (currectEnemyState == EnemyStates.Boss1_Stage4)
+        {
+            if (Vector3.Distance(PlayerController.Instance.transform.position, rb.position) <= attackRange)
+            {
+                StartCoroutine(Slash());
+            }
+            else
+            {
+                BounceAttack();
+            }
+        }
     }
 
     public void ResetAllAttacks()
@@ -155,6 +246,83 @@ public class Boss1 : EnemyLogicBase
 
         diveAttack = false;
         barrageAttack= false;
+        outbreakAttack= false;
+        bounceAttack = false;
+    }
+    // stage 3
+    void OutbreakBendDown()
+    {
+        attacking = true;
+        rb.velocity=Vector3.zero;
+        moveToPos = new Vector3(transform.position.x, rb.position.y, transform.position.x);
+        outbreakAttack=true;
+        animator.SetTrigger("BendDown");
+       
+    }
+    public IEnumerator Outbreak()
+    {
+        yield return new WaitForSeconds(1f);
+        animator.SetBool("Cast", true);
+        rb.velocity = Vector3.zero;
+        for (int i = 0; i < 30; i++)
+        {
+            Instantiate(barrageFireBall, transform.position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(110, 130)));//down
+            Instantiate(barrageFireBall, transform.position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(50, 70)));//dioganal Right
+            Instantiate(barrageFireBall, transform.position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(260, 280))); // Diogamal left
+            yield return new WaitForSeconds(0.2f);
+        }
+        yield return new WaitForSeconds(0.1f);
+        rb.constraints = RigidbodyConstraints.FreezePositionZ;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+
+
+        rb.velocity = new Vector3(rb.velocity.x, -10, 0f);
+         yield return new WaitForSeconds(0.1f);
+        animator.SetBool("Cast", false);
+        ResetAllAttacks();
+
+
+
+    }
+    void BounceAttack()
+    {
+        attacking = true;
+        bounceCount = UnityEngine.Random.Range(2, 5);
+        BounceBendDown();
+    }
+    int _bounces = 0;
+    public void CheckBounce()
+    {
+        if (_bounces < bounceCount-1)
+        {
+            _bounces++;
+            BounceBendDown();
+        }
+        else
+        {
+            _bounces = 0;
+            animator.Play("Boss_Run");
+        }
+    }
+    public void BounceBendDown()
+    {
+        rb.velocity = Vector3.zero;
+        moveToPos = new Vector3(PlayerController.Instance.transform.position.x, rb.position.y + 10, PlayerController.Instance.transform.position.z);
+        bounceAttack = true;
+        animator.SetTrigger("BendDown");
+    
+    
+    }
+    public void CalculateTargetAngle()
+    {
+        Vector3 _directionToTarget = (PlayerController.Instance.transform.position - transform.position).normalized;
+        float _angleOfTarget = Mathf.Atan2(_directionToTarget.y, _directionToTarget.x) * Mathf.Rad2Deg;
+        rotationDirectionToTarget = _angleOfTarget;
+
+
+
+
+
     }
     //stage 2
     void DiveAttackJump()
@@ -213,15 +381,6 @@ public class Boss1 : EnemyLogicBase
         yield return new WaitForSeconds(0.1f);
         animator.SetBool("Cast", false);
         ResetAllAttacks();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.GetComponent<PlayerController>()!=null && diveAttack)
-        {
-            other.GetComponent<PlayerController>().playerHealthController.DamageMoment(damage * 2, Vector2.zero, 0f);
-            PlayerController.Instance.playerStateList.recoilX = true;
-        }
     }
     //stage 1
     IEnumerator TripleSlash()
@@ -299,5 +458,16 @@ public class Boss1 : EnemyLogicBase
         yield return new WaitForSeconds(0.2f);
         animator.ResetTrigger("Slash");
         ResetAllAttacks() ;
+    }
+
+    public IEnumerator Stunned()
+    {
+        stunned = true;
+        hitCounter = 0;
+        animator.SetBool("Stunned", true);
+
+        yield return new WaitForSeconds(6f);
+        animator.SetBool("Stunned", false) ;
+        stunned = false;
     }
 }

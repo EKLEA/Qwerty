@@ -19,7 +19,7 @@ public class Boss_Idle : StateMachineBehaviour
         if(Boss1.Instance.attackCountdown<=0)
         {
             Boss1.Instance.AttackHandler();
-            Boss1.Instance.attackCountdown = Boss1.Instance.attackTimer;
+            Boss1.Instance.attackCountdown = UnityEngine.Random.Range(Boss1.Instance.attackTimer-1,Boss1.Instance.attackTimer+1);
 
         }
     }
