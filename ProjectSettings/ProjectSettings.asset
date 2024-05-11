@@ -764,8 +764,8 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: "\u041E\u0441\u043D\u043E\u0432\u043D\u043E\u0439"
-  metroPackageVersion: 
+  metroPackageName: 
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -773,7 +773,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: "\u041E\u0441\u043D\u043E\u0432\u043D\u043E\u0439"
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: "\u041E\u0441\u043D\u043E\u0432\u043D\u043E\u0439"
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
