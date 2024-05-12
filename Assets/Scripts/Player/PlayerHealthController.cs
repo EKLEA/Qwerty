@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerHealthController : DamagableObjWithLogic
 {
-    private PlayerController pController => GetComponent<PlayerController>();
     
     [SerializeField] private GameObject DamageEffect;
     bool restoreTime;
@@ -30,6 +30,10 @@ public class PlayerHealthController : DamagableObjWithLogic
         {
             Instance = this;
         }
+    }
+    public new void Start()
+    {
+
     }
     public bool isHeartHas
     {
@@ -104,7 +108,7 @@ public class PlayerHealthController : DamagableObjWithLogic
     {
         if (!isHeartHas)
         {
-            if (pController.rb.velocity.x == 0 && pController.playerStateList.grounded)
+            if (PlayerController.Instance.rb.velocity.x == 0 && PlayerController.Instance.playerStateList.grounded)
             {
                 restoreEnergyTimer += Time.deltaTime;
                 if (restoreEnergyTimer >= restoreTimeEnergy)
@@ -112,7 +116,7 @@ public class PlayerHealthController : DamagableObjWithLogic
                     energy += Time.deltaTime * energyDrainSpeed / 2;
                 }
             }
-            else if (pController.rb.velocity.x == 0 && !pController.playerStateList.grounded)
+            else if (PlayerController.Instance.rb.velocity.x == 0 && !PlayerController.Instance.playerStateList.grounded)
                 return;
             else
             {
@@ -123,18 +127,18 @@ public class PlayerHealthController : DamagableObjWithLogic
     }
     public override void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce)
     {
-        if (pController.playerStateList.alive)
+        if (PlayerController.Instance.playerStateList.alive)
             health -= _damageDone;
 
     }
     IEnumerator StopTakingDamage()
     {
         
-        pController.playerStateList.invincible = true;
+        PlayerController.Instance.playerStateList.invincible = true;
         GameObject  _damageEffect = Instantiate(DamageEffect,new Vector2(transform.position.x,transform.position.y+1.5f), Quaternion.identity);
         Destroy(_damageEffect, 1.5f);
         yield return new WaitForSeconds(1f);
-        pController.playerStateList.invincible=false;
+        PlayerController.Instance.playerStateList.invincible=false;
     }
     public void RestoreTimeScale()
     {
@@ -167,11 +171,11 @@ public class PlayerHealthController : DamagableObjWithLogic
     IEnumerator Death()
     {
         OnDeadCallBack?.Invoke();
-        pController.playerStateList.alive=false;
+        PlayerController.Instance.playerStateList.alive=false;
         Time.timeScale = 1f;
         GameObject _damageEffect = Instantiate(DamageEffect, new Vector2(transform.position.x, transform.position.y + 1.5f), Quaternion.identity);
         Destroy(_damageEffect, 1.5f);
-        pController.anim.SetTrigger("Death");
+        PlayerController.Instance.anim.SetTrigger("Death");
 
         yield return new WaitForSeconds(0.9f);
 
@@ -193,9 +197,9 @@ public class PlayerHealthController : DamagableObjWithLogic
 
    public void Heal()
    {
-        if (Input.GetButton("Cast/Heal") && pController.castOrHealTimer > 0.05f&& health<resHealth && energy>0 && !pController.playerStateList.jumping && !pController.playerStateList.dashing&& pController.rb.velocity== Vector3.zero)
+        if (Input.GetButton("Cast/Heal") && PlayerController.Instance.castOrHealTimer > 0.05f&& health<resHealth && energy>0 && !PlayerController.Instance.playerStateList.jumping && !PlayerController.Instance.playerStateList.dashing&& PlayerController.Instance.rb.velocity== Vector3.zero)
         {
-            pController.playerStateList.healing = true;
+            PlayerController.Instance.playerStateList.healing = true;
             healTimer += Time.deltaTime;
             if (healTimer>=timeToHeal)
             {
@@ -207,7 +211,7 @@ public class PlayerHealthController : DamagableObjWithLogic
         }
         else
         {
-            pController.playerStateList.healing=false;
+            PlayerController.Instance.playerStateList.healing=false;
             healTimer = 0;
         }
     }

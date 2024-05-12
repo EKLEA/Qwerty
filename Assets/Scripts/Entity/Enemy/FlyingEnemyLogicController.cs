@@ -8,15 +8,16 @@ public class FlyingEnemyLogicController : EnemyLogicBase
     [SerializeField] float chaseDistance;
     [SerializeField] float stunDruration;
     private Vector3 targetPosition;
-    protected void Start()
+    protected new void Start()
     {
+        base.Start();
         ChangeState(EnemyStates.FlyingEn_Idle);
         rb.useGravity = false;
         GetComponent<EnemyHealthController>().OnHealthChangedCallBack += CheckDeath;
     }
     public override  void UpdateEnemyStates()
     {
-        float dist = Vector2.Distance(transform.position, playerController.transform.position);
+        float dist = Vector2.Distance(transform.position, PlayerController.Instance.transform.position);
 
         switch(GetCurrectEnemyState)
         {
@@ -26,7 +27,7 @@ public class FlyingEnemyLogicController : EnemyLogicBase
                     ChangeState(EnemyStates.FlyingEn_Chase);
                 break;
             case EnemyStates.FlyingEn_Chase:
-                targetPosition = new Vector3(playerController.transform.position.x, playerController.transform.position.y+3, playerController.transform.position.z);
+                targetPosition = new Vector3(PlayerController.Instance.transform.position.x, PlayerController.Instance.transform.position.y+3, PlayerController.Instance.transform.position.z);
                 rb.MovePosition(Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * speed));
                 transform.eulerAngles = new Vector3(-90, 90, 0);
                 break;
@@ -48,7 +49,7 @@ public class FlyingEnemyLogicController : EnemyLogicBase
     protected override void Update()
     {
         base.Update();
-        if (!playerController.playerStateList.alive)
+        if (!PlayerController.Instance.playerStateList.alive)
             ChangeState(EnemyStates.FlyingEn_Idle);
     }
     void CheckDeath()

@@ -143,7 +143,7 @@ public class PlayerMoveHandler : MoveHandler
             }
             anim.SetBool("Falling", false);
             anim.SetBool("FallingDown", true);
-            PlayerController.Instance.pCollider.height = 7;
+            PlayerController.Instance.pCollider.size = new Vector3(1, 7, 1) ;
 
             pState.jumping = false;
             coyoteTimeCounter = coyoteTime;
@@ -152,7 +152,7 @@ public class PlayerMoveHandler : MoveHandler
         else
         {
             anim.SetBool("Falling", true);
-            PlayerController.Instance.pCollider.height = 4;
+            PlayerController.Instance.pCollider.size = new Vector3(1, 3.5f, 1);
 
             coyoteTimeCounter -= Time.deltaTime;
 

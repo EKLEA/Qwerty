@@ -15,8 +15,6 @@ public class EnemyHealthController : DamagableObjWithLogic
     [HideInInspector] public bool isRecoiling = false;
     protected bool hasTakenDamage = false;
     protected float recoilingTime =0;
-
-    [HideInInspector] protected PlayerController playerController => PlayerController.Instance;
     protected EnemyLogicBase enemyLogic=> GetComponent<EnemyLogicBase>();
     
     [SerializeField] protected int colliderDamage;
@@ -56,7 +54,7 @@ public class EnemyHealthController : DamagableObjWithLogic
     }
     protected void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.CompareTag("Player") && !playerController.playerStateList.invincible && playerController.playerHealthController.health>0)
+        if(other.gameObject.CompareTag("Player") && !PlayerController.Instance.playerStateList.invincible && PlayerController.Instance.playerHealthController.health>0)
         {
             ColliderAttack();
         }
@@ -65,9 +63,9 @@ public class EnemyHealthController : DamagableObjWithLogic
     {
         if (colliderDamage != 0)
         {
-            playerController.playerHealthController.DamageMoment(colliderDamage, Vector2.zero, 0);
-            if (playerController.playerStateList.alive)
-                playerController.playerHealthController.HitStopTime(0, 5, 0.5f);
+            PlayerController.Instance.playerHealthController.DamageMoment(colliderDamage, Vector2.zero, 0);
+            if (PlayerController.Instance.playerStateList.alive)
+                PlayerController.Instance.playerHealthController.HitStopTime(0, 5, 0.5f);
         }
     }
 }

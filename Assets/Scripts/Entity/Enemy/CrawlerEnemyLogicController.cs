@@ -11,7 +11,7 @@ public class CrawlerEnemyLogicController : EnemyLogicBase
     protected override void Update()
     {
         base.Update();
-        if (!playerController.playerStateList.alive)
+        if (!PlayerController.Instance. playerStateList.alive)
             ChangeState(EnemyStates.Crawler_Idle);
     }
     private void OnCollisionStay(Collision collision)

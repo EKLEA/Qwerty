@@ -26,7 +26,11 @@ public class FireBall : MonoBehaviour
         if (other.CompareTag ( "Enemy"))
         {
             other.GetComponent<EnemyHealthController>().DamageMoment(damage, (other.transform.position - transform.position).normalized, -hitForce);
-            Debug.Log(other.GetComponent<EnemyHealthController>().health);
         }
+    }
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject. CompareTag("Untagged"))
+            DestroyImmediate(gameObject);
     }
 }

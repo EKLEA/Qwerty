@@ -37,7 +37,7 @@ public class BarrageFireBall : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            other.GetComponent<PlayerController>().playerHealthController.DamageMoment(Boss1.Instance.damage, Vector3.zero, 0f);
+            other.GetComponent<PlayerController >().playerHealthController.DamageMoment(Boss1.Instance.damage, Vector3.zero, 0f);
             Destroy(gameObject);
                 }
     }

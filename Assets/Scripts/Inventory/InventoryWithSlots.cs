@@ -138,6 +138,7 @@ public class InventoryWithSlots
         
         if (fromSlot.slotType == SlotTypes.StaticSlot|| fromSlot.item.info.itemType==ItemTypes.CraftComponents)
         {
+            
             PlayerController.Instance.playerStateList.isDraging = false;
             return;
         }

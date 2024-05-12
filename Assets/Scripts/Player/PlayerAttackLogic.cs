@@ -175,17 +175,17 @@ public class PlayerAttackLogic : AttakingObjLogic
                 objectsToHit[i].gameObject.GetComponent<DamagableObj>().DamageMoment(damage, _recoilDir, _recoilStrenght);
                 if (objectsToHit[i].CompareTag("Enemy"))
                 {
-                    if (PlayerController.Instance.playerHealthController.energy + PlayerController.Instance.playerHealthController.energyGain > PlayerController.Instance.playerHealthController.resEnergy)
+                    if (PlayerHealthController.Instance.energy + PlayerHealthController.Instance.energyGain > PlayerHealthController.Instance.resEnergy)
                     {
-                        PlayerController.Instance.playerHealthController.energy = PlayerController.Instance.playerHealthController.resEnergy;
+                        PlayerHealthController.Instance.energy = PlayerHealthController.Instance.resEnergy;
                     }
                     else
                     {
-                        PlayerController.Instance.playerHealthController.energy += PlayerController.Instance.playerHealthController.energyGain;
+                        PlayerHealthController.Instance.energy += PlayerHealthController.Instance.energyGain;
                     }
 
                 }
-                PlayerController.Instance.playerHealthController.OnEnergyChangedCallBack?.Invoke();
+                PlayerHealthController.Instance.OnEnergyChangedCallBack?.Invoke();
             }
         }
 
@@ -240,7 +240,7 @@ public class PlayerAttackLogic : AttakingObjLogic
     {
         if((Input.GetButtonUp("Cast/Heal")&& PlayerController.Instance.castOrHealTimer<=0.05f 
             && timeSinceAttack >=timeBetweenCast
-            && PlayerController.Instance.playerHealthController.energy >= energySpellCost)
+            && PlayerHealthController.Instance.energy >= energySpellCost)
 
             &&(PlayerController.Instance.playerLevelList.SideCast
             || PlayerController.Instance.playerLevelList.DownCast
@@ -249,7 +249,7 @@ public class PlayerAttackLogic : AttakingObjLogic
             PlayerController.Instance.playerStateList.casting = true;
             timeSinceAttack= 0;
             StartCoroutine(CastCoroutine());
-            PlayerController.Instance.playerHealthController. OnEnergyChangedCallBack?.Invoke();
+            PlayerHealthController.Instance. OnEnergyChangedCallBack?.Invoke();
         }
         else
         {
@@ -273,7 +273,7 @@ public class PlayerAttackLogic : AttakingObjLogic
             else
                 _fireBall.transform.eulerAngles = new Vector2(_fireBall.transform.eulerAngles.x, 180);
             PlayerController.Instance.playerStateList.recoilX = true;
-            PlayerController.Instance.playerHealthController.energy -= energySpellCost;
+            PlayerHealthController.Instance.energy -= energySpellCost;
         }
         else if ((PlayerController.Instance.playerStateList.Axis.y > 0) && PlayerController.Instance.playerLevelList.UPCast)
         {
@@ -282,12 +282,12 @@ public class PlayerAttackLogic : AttakingObjLogic
 
             rb.velocity= Vector3.zero;
             Destroy(_upFireBall, timeOfUpAttack);
-            PlayerController.Instance.playerHealthController.energy -= energySpellCost;
+            PlayerHealthController.Instance.energy -= energySpellCost;
         }
         else if((PlayerController.Instance.playerStateList.Axis.y < 0 && !PlayerController.Instance.playerStateList.grounded)&& PlayerController.Instance.playerLevelList.DownCast)
         {
             downSpellFireball.SetActive(true);
-            PlayerController.Instance.playerHealthController.energy -= energySpellCost;
+            PlayerHealthController.Instance.energy -= energySpellCost;
         }
 
 

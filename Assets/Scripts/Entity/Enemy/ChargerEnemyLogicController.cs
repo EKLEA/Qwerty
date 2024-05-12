@@ -10,14 +10,15 @@ public class ChargerEnemyLogicController : EnemyLogicBase
     [SerializeField] float chargeDuration;
     [SerializeField] float JumpForce;
     [SerializeField] LayerMask whatIsGround;
-    private void Start()
+    protected new void Start()
     {
+        base.Start();
         ChangeState(EnemyStates.Charger_Idle);
     }
     protected override void Update()
     {
         base.Update();
-        if (!playerController.playerStateList.alive)
+        if (!PlayerController.Instance.playerStateList.alive)
             ChangeState(EnemyStates.Charger_Idle);
     }
    

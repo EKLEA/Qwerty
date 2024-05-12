@@ -14,7 +14,6 @@ public class OptionsController : MonoBehaviour
     private void Awake()
     {
         SaveData.Instance.LoadSettings(ref t);
-        Debug.Log(t);
         audioMixer.SetFloat("Volume", t);
         slider.value = t;
 

@@ -15,7 +15,7 @@ public class UIController : MonoBehaviour
 
     public static UIController Instance;
     Camera uiCam;
-    PlayerUseMoment playerUseMoment=> PlayerController.Instance.GetComponent<PlayerUseMoment>();
+    PlayerUseMoment playerUseMoment;
 
 
     
@@ -30,12 +30,13 @@ public class UIController : MonoBehaviour
             Instance = this;
         }
         sceneFader = GetComponentInChildren<SceneFader>();
+       
     }
 
     public SceneFader sceneFader;
     public void InitUIController()
     {
-        
+        playerUseMoment = PlayerController.Instance.gameObject.GetComponent<PlayerUseMoment>();
         uiCam = FollowPlayer.Instance.GetComponent<Camera>();
         playerUseMoment.OnOpenInventoryCallBack += OpenInv;
         playerUseMoment.OnChangeMenuEvent += ChangeMenu;

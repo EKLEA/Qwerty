@@ -65,6 +65,11 @@ public class GameManager : MonoBehaviour
     public void RespawnPlayer()
     {
         transitionedFromScene = "";
+        
+        
+        
+        
+        
         PlayerController.Instance.playerStateList.respawning = true;
         SaveData.Instance.LoadCheckPoint();
         if(SaveData.Instance.checkPointSceneName!=null)

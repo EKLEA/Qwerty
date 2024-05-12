@@ -20,8 +20,9 @@ public class HeartEnemyLogic : EnemyLogicBase
 
         SaveData.Instance.SaveHeartEnemy();
     }
-    private void Start()
+    protected new void Start()
     {
+        base.Start();
         ChangeState(EnemyStates.Coward_Idle);
 
         gameObject.GetComponent<EnemyHealthController>().OnDeadCallBack += CheckDeath;

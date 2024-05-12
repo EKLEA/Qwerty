@@ -44,8 +44,9 @@ public class Boss1 : EnemyLogicBase
         }
     }
 
-    protected void Start()
+    protected new void Start()
     {
+        base.Start();
         ChangeState(EnemyStates.Boss1_Stage1);
         alive = true;
 

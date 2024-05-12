@@ -7,14 +7,14 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    public Animator anim;
-    public PlayerMoveHandler moveHandler;
+    [HideInInspector] public Animator anim;
+    [HideInInspector] public PlayerMoveHandler moveHandler;
     PlayerAttackLogic attackLogic;
-    public PlayerHealthController playerHealthController;
-    public PlayerStateList playerStateList;
-    public PlayerLevelList playerLevelList;
-    public CapsuleCollider pCollider;
-    public Rigidbody rb;
+    [HideInInspector] public PlayerHealthController playerHealthController;
+    [HideInInspector] public PlayerStateList playerStateList;
+    [HideInInspector] public PlayerLevelList playerLevelList;
+    [HideInInspector] public BoxCollider pCollider;
+    [HideInInspector] public Rigidbody rb;
     public static PlayerController Instance;
     [HideInInspector] public float castOrHealTimer;
      Vector2 Axis;
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip dashAndAttackSound;
     public AudioClip spellCastSound;
     public AudioClip hurtSound;
-    public AudioSource audioSource => GetComponent<AudioSource>();
+    public AudioSource audioSource;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -45,27 +45,27 @@ public class PlayerController : MonoBehaviour
         playerHealthController = GetComponent<PlayerHealthController>();
         playerStateList = GetComponent<PlayerStateList>();
         playerLevelList = GetComponent<PlayerLevelList>();
-        pCollider = gameObject.GetComponent<CapsuleCollider>();
+        pCollider = gameObject.GetComponent<BoxCollider>();
         rb = gameObject.GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
     }
     private void Start()
     {
 
 
         PlayerInventory.Instance.InitInv();
-        
+       
         SaveData.Instance.LoadPlayerInv();
         SaveData.Instance.LoadPlayerLevelListData();
-        SaveData.Instance.LoadPlayerData();
+       
 
+        SaveData.Instance.LoadPlayerData();
         PlayerInventory.Instance.SetupPlayerVariables();
+
 
         PlayerHealthController.Instance.InitPlayerHealth();
         UIController.Instance.InitUIController();
-        
         UIController.Instance.uiHud.GetComponent<UIHud>().InitHud();
-
-       
 
     }
 

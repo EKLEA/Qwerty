@@ -11,16 +11,13 @@ using UnityEngine;
 public class PlayerInventory: MonoBehaviour
 {
 
-    public InventoryWithSlots collectableItems = new InventoryWithSlots(12, SlotTypes.StaticSlot, InventoryType.Equippement);
+    public InventoryWithSlots collectableItems;
     public InventoryWithSlots craftableItems;
-    public InventoryWithSlots craftComponents= new InventoryWithSlots(3, SlotTypes.StaticSlot, InventoryType.Storage);
-
-    public InventoryWithSlots abilities= new InventoryWithSlots(3, SlotTypes.StaticSlot, InventoryType.Equippement);// не сохронять
-
-
-    public InventoryWithSlots storageItems = new InventoryWithSlots(20, SlotTypes.DinamicSlot, InventoryType.Storage);
-    public InventoryWithSlots equippedItems = new InventoryWithSlots(3, SlotTypes.DinamicSlot, InventoryType.Equippement);
-    public InventoryWithSlots weaponAndPerks = new InventoryWithSlots(3, SlotTypes.DinamicSlot, InventoryType.Equippement);
+    public InventoryWithSlots abilities;
+    public InventoryWithSlots craftComponents;
+    public InventoryWithSlots storageItems;
+    public InventoryWithSlots equippedItems;
+    public InventoryWithSlots weaponAndPerks;
    
     public bool blockInv = true;
     public static PlayerInventory Instance;
@@ -38,6 +35,16 @@ public class PlayerInventory: MonoBehaviour
     }
     public void InitInv()
     {
+        collectableItems = new InventoryWithSlots(12, SlotTypes.StaticSlot, InventoryType.Equippement);
+        craftComponents = new InventoryWithSlots(3, SlotTypes.StaticSlot, InventoryType.Storage);
+
+        abilities = new InventoryWithSlots(3, SlotTypes.StaticSlot, InventoryType.Equippement);// не сохронять
+
+
+        storageItems = new InventoryWithSlots(20, SlotTypes.DinamicSlot, InventoryType.Storage);
+        equippedItems = new InventoryWithSlots(3, SlotTypes.DinamicSlot, InventoryType.Equippement);
+        weaponAndPerks = new InventoryWithSlots(3, SlotTypes.DinamicSlot, InventoryType.Equippement);
+
         InventorySlot[] slots = craftComponents.GetAllSlots();
 
         foreach(InventorySlot slot in slots)
@@ -121,6 +128,7 @@ public class PlayerInventory: MonoBehaviour
             PlayerController.Instance.playerLevelList.addHealth += (items[i].info as RobotPartInfo).partHp;
             PlayerController.Instance.playerLevelList.addEnergy += (items[i].info as RobotPartInfo).partEn;
         }
+        PlayerHealthController.Instance.UpdateHealthVar();
     }
    public void BlockPlayerInv()
     {

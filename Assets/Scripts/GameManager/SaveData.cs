@@ -185,10 +185,9 @@ public struct SaveData
         else
         {
             Debug.Log("Файл не существует");
-            PlayerController.Instance.playerHealthController.maxHealth = 5;
-            PlayerController.Instance.playerHealthController.maxEnergy = 5;
-
-            PlayerController.Instance.playerHealthController.isHeartHas = true;
+            PlayerHealthController.Instance.maxHealth = 5;
+            PlayerHealthController.Instance.maxEnergy = 5;
+            PlayerHealthController.Instance.isHeartHas = true;
         }
     }
 

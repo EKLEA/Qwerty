@@ -43,12 +43,12 @@ public class FollowPlayer : MonoBehaviour
             DY = 0;
         }
         if ((lookAt.position.x > transform.position.x + bound.x / 2) || (lookAt.position.x < transform.position.x - bound.x / 2))
-            DX = lookAt.position.x - transform.position.x;
+            DX = (lookAt.position.x - transform.position.x)*3;
         if ((lookAt.position.y > transform.position.y + bound.y / 2) || (lookAt.position.y < transform.position.y - bound.y / 2))
-            DY =3+ lookAt.position.y - transform.position.y;
+            DY =6+ lookAt.position.y - transform.position.y;
 
 
-        Vector3 targetPosition = new Vector3(DX, DY+3, 0);
+        Vector3 targetPosition = new Vector3(DX, DY, 0);
         transform.position = Vector3.Lerp(transform.position, transform.position + targetPosition, speed * Time.deltaTime*PlayerController.Instance.playerLevelList.movekf);
     }
 }

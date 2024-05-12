@@ -5,12 +5,17 @@ using UnityEngine;
 public class EnemyLogicBase : MonoBehaviour
 {
      protected float timer;
-    public EnemyHealthController enemyHealth=> GetComponent<EnemyHealthController>();
-    [HideInInspector] public  Rigidbody rb => GetComponent<Rigidbody>();
-    public Animator animator => GetComponent<Animator>();
-    [HideInInspector] protected PlayerController playerController => PlayerController.Instance;
+    public EnemyHealthController enemyHealth;
+    [HideInInspector] public Rigidbody rb;
+    public Animator animator;
 
     [SerializeField] protected float speed;
+    protected void Start()
+    {
+        enemyHealth = GetComponent<EnemyHealthController>();
+        rb = GetComponent<Rigidbody>();
+        animator =GetComponent<Animator>();
+    }
     protected  virtual void Update()
     {
         UpdateEnemyStates();
