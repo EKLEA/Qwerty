@@ -41,4 +41,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Lab/LabBoss.unity
     guid: 9b1bafd47927784438b9212efd633181
+  - enabled: 1
+    path: Assets/Scenes/Storehouse/StoreEnemy1.unity
+    guid: 83e9e61b06139e340839b7d27c7c5774
+  - enabled: 1
+    path: Assets/Scenes/Storehouse/StoreSave.unity
+    guid: 7a086e1a1405a1c4fae2fd19dec8a80b
+  - enabled: 1
+    path: Assets/Scenes/Storehouse/StoreCorridor.unity
+    guid: c90950c3cb75c284dbea7002f72dd30b
+  - enabled: 1
+    path: Assets/Scenes/Storehouse/StoreLoot1.unity
+    guid: 98e2f79a25881ac4c9b160cf1180f575
   m_configObjects: {}
