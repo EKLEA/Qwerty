@@ -11,6 +11,7 @@ using UnityEngine.Audio;
 public struct SaveData
 {
     public static SaveData Instance;
+    public static string SavePath;
 
     //map
     public HashSet<string> sceneNames;
@@ -42,41 +43,48 @@ public struct SaveData
 
     public void Initialize()
     {
-        if (!File.Exists(Application.persistentDataPath + "/save.checkPoint.data"))
+        if (!Directory.Exists(Application.persistentDataPath + SavePath))
         {
-            using (BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + "/save.checkPoint.data")))
-            {
-            }
+            Directory.CreateDirectory(Application.persistentDataPath + SavePath);
         }
-        if (!File.Exists(Application.persistentDataPath + "/save.player.data"))
+        else
         {
-            using (BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + "/save.player.data")))
+            if (!File.Exists(Application.persistentDataPath + SavePath + "/save.checkPoint.data"))
             {
+                using (BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + SavePath + "/save.checkPoint.data")))
+                {
+                }
             }
-        }
+            if (!File.Exists(Application.persistentDataPath + SavePath + "/save.player.data"))
+            {
+                using (BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + SavePath + "/save.player.data")))
+                {
+                }
+            }
 
-        if (!File.Exists(Application.persistentDataPath + "/save.pLevelList.data"))
-        {
-            using (BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + "/save.pLevelList.data")))
+            if (!File.Exists(Application.persistentDataPath + SavePath + "/save.pLevelList.data"))
             {
+                using (BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + SavePath + "/save.pLevelList.data")))
+                {
+                }
             }
-        }
-        if (!File.Exists(Application.persistentDataPath + "/save.inventory.data"))
-        {
-            using (BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + "/save.inventory.data")))
+            if (!File.Exists(Application.persistentDataPath + SavePath + "/save.inventory.data"))
             {
+                using (BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + SavePath + "/save.inventory.data")))
+                {
+                }
             }
-        }
-        if (!File.Exists(Application.persistentDataPath + "/save.shade.data"))
-        {
-            using (BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + "/save.shade.data")))
+            if (!File.Exists(Application.persistentDataPath + SavePath + "/save.shade.data"))
             {
+                using (BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + SavePath + "/save.shade.data")))
+                {
+                }
             }
-        }
-        if (!File.Exists(Application.persistentDataPath + "/save.settings.data"))
-        {
-            using (BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + "/save.settings.data")))
+            if (!File.Exists(Application.persistentDataPath + SavePath + "/save.settings.data"))
             {
+                using (BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + "/save.settings.data")))
+                {
+                }
             }
         }
 
@@ -118,7 +126,7 @@ public struct SaveData
     }
     public void SaveCheckPoint()
     {
-        using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + "/save.checkPoint.data")))
+        using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + SavePath + "/save.checkPoint.data")))
         {
             writer.Write(checkPointSceneName);
             writer.Write(checkPointPos.x);
@@ -129,9 +137,9 @@ public struct SaveData
 
     public void LoadCheckPoint()
     {
-        if (File.Exists(Application.persistentDataPath + "/save.checkPoint.data") && new FileInfo(Application.persistentDataPath + "/save.checkPoint.data").Length > 0)
+        if (File.Exists(Application.persistentDataPath + SavePath + "/save.checkPoint.data") && new FileInfo(Application.persistentDataPath + SavePath + "/save.checkPoint.data").Length > 0)
         {
-            using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.checkPoint.data")))
+            using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + SavePath + "/save.checkPoint.data")))
             {
                 checkPointSceneName = reader.ReadString();
                 checkPointPos.x = reader.ReadSingle();
@@ -144,7 +152,7 @@ public struct SaveData
 
     public void SavePlayerData()//помогите...
     {
-        using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + "/save.player.data")))
+        using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + SavePath + "/save.player.data")))
         {
             playerHealth = (int)PlayerController.Instance.playerHealthController.maxHealth;// сохранение базовых значений без предметов
             writer.Write(playerHealth);
@@ -163,9 +171,9 @@ public struct SaveData
     }
     public void LoadPlayerData()
     {
-        if (File.Exists(Application.persistentDataPath + "/save.player.data") && new FileInfo(Application.persistentDataPath + "/save.player.data").Length > 0)
+        if (File.Exists(Application.persistentDataPath + SavePath + "/save.player.data") && new FileInfo(Application.persistentDataPath + SavePath + "/save.player.data").Length > 0)
         {
-            using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.player.data")))
+            using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + SavePath + "/save.player.data")))
             {
                 playerHealth = reader.ReadInt32();
                 playerEnergy = reader.ReadSingle();
@@ -193,7 +201,7 @@ public struct SaveData
 
     public void SavePlayerLevelListData()
     {
-        using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + "/save.pLevelList.data")))
+        using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + SavePath + "/save.pLevelList.data")))
         {
             tempAddHpS = PlayerController.Instance.playerLevelList.tempAddHP;
             writer.Write(tempAddHpS);
@@ -223,9 +231,9 @@ public struct SaveData
     }
     public void LoadPlayerLevelListData()
     {
-        if (File.Exists(Application.persistentDataPath + "/save.pLevelList.data") && new FileInfo(Application.persistentDataPath + "/save.pLevelList.data").Length > 0)
+        if (File.Exists(Application.persistentDataPath + SavePath + "/save.pLevelList.data") && new FileInfo(Application.persistentDataPath + SavePath + "/save.pLevelList.data").Length > 0)
         {
-            using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.pLevelList.data")))
+            using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + SavePath + "/save.pLevelList.data")))
             {
                 tempAddHpS = reader.ReadSingle();
                 tempAddEnS = reader.ReadSingle();
@@ -263,7 +271,7 @@ public struct SaveData
 
     public void SavePlayerInv()
     {
-        using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + "/save.inventory.data")))
+        using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + SavePath + "/save.inventory.data")))
         {
             // equipped
             var slots = PlayerInventory.Instance.equippedItems.GetAllSlots();
@@ -355,9 +363,9 @@ public struct SaveData
 
     public void LoadPlayerInv()
     {
-        if (File.Exists(Application.persistentDataPath + "/save.inventory.data") && new FileInfo(Application.persistentDataPath + "/save.inventory.data").Length > 0)
+        if (File.Exists(Application.persistentDataPath + SavePath + "/save.inventory.data") && new FileInfo(Application.persistentDataPath + SavePath + "/save.inventory.data").Length > 0)
         {
-            using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.inventory.data")))
+            using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + SavePath + "/save.inventory.data")))
             {
                
                 string id;
@@ -457,9 +465,9 @@ public struct SaveData
 
     public void SaveHeartEnemy()
     {
-        if (File.Exists(Application.persistentDataPath + "/save.shade.data"))
+        if (File.Exists(Application.persistentDataPath + SavePath + "/save.shade.data"))
         {
-            using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + "/save.shade.data")))
+            using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + SavePath + "/save.shade.data")))
             {
                 sceneWithShade = SceneManager.GetActiveScene().name;
                 shadePos = HeartEnemyLogic.Instance.transform.position;
@@ -479,9 +487,9 @@ public struct SaveData
     }
     public void LoadHeartEnemy()
     {
-        if (File.Exists(Application.persistentDataPath + "/save.shade.data") && new FileInfo(Application.persistentDataPath + "/save.shade.data").Length > 0)
+        if (File.Exists(Application.persistentDataPath + SavePath + "/save.shade.data") && new FileInfo(Application.persistentDataPath + SavePath + "/save.shade.data").Length > 0)
         {
-            using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.shade.data")))
+            using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + SavePath + "/save.shade.data")))
             {
                 sceneWithShade = reader.ReadString();
                 shadePos.x = reader.ReadSingle();
