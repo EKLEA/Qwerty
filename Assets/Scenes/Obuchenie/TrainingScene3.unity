@@ -1520,6 +1520,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a0b8592b92dbf4bab95eb83aefc203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyHealth: {fileID: 0}
+  rb: {fileID: 0}
+  animator: {fileID: 0}
   speed: 0
   currectEnemyState: 0
   slashEffect: {fileID: 0}
@@ -3132,7 +3135,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1289154355}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 7688ddcc39eaff644b454016eec6c4f8, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -3237,7 +3240,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1304399956}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 7688ddcc39eaff644b454016eec6c4f8, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

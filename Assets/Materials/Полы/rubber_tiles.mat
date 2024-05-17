@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: rubber_tiles
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_Parent: {fileID: 2100000, guid: 7c090b09475fa4f4382b2b98e8cdd5ed, type: 2}
+  m_Parent: {fileID: 2100000, guid: fbffed57871f4ea4f958a5e241c4b32c, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _NORMALMAP

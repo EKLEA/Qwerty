@@ -8143,12 +8143,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 537051798}
     - target: {fileID: 2558719675519645883, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
+      propertyPath: jumpHeight
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2558719675519645883, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
       propertyPath: wallJumpingPower.x
       value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 2558719675519645883, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
       propertyPath: wallJumpingPower.y
       value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 2858767313086894094, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
+      propertyPath: m_Constraints
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 3060713371764538615, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
