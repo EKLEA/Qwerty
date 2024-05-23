@@ -73,9 +73,9 @@ public class PlayerInventory: MonoBehaviour
         for (int i = 0; i < slots.Length; i++)
             slots[i].requieType = ItemTypes.RobortParts;
 
-        slots[0].requieTypePart = RobotParts.Body;
-        slots[1].requieTypePart = RobotParts.Arm;
-        slots[2].requieTypePart = RobotParts.Legs;
+        slots[2].requieTypePart = RobotParts.Body;
+        slots[0].requieTypePart = RobotParts.Arm;
+        slots[1].requieTypePart = RobotParts.Legs;
 
 
 
@@ -115,7 +115,7 @@ public class PlayerInventory: MonoBehaviour
         collectableItems.OnInventoryItemAddedEvent += updateCollectablesStats;
        
     }
-    public void SetupPlayerVariables()
+    public void UpdatePlayerVariables()
     {
 
         PlayerController.Instance.playerLevelList.movekf = 1 ;

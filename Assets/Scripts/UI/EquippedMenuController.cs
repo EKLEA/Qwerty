@@ -17,6 +17,7 @@ public class EquippedMenuController : MonoBehaviour
     Image enBarFill;
     Image hpBarFill;
 
+    
     public void InitEquippedMenu()
     {
         SetBars();
@@ -60,13 +61,24 @@ public class EquippedMenuController : MonoBehaviour
     {
        foreach(UIInventorySlot slot in equippedGrid.slots)
         {
+            RefreshSlots();
             if (slot.slot.isEmpty )
             {
-                slot.GetComponent<Image>().color = new Color(1, 153 / 255f, 153, 255/255f);
+                
                 return false;
             }
             
         }
         return true;
+    }
+    public void RefreshSlots()//тут мб баг будет
+    {
+        foreach (UIInventorySlot slot in equippedGrid.slots)
+        {
+            if (slot.slot.isEmpty)
+                slot.GetComponent<Image>().color = new Color(1, 153 / 255f, 153, 255 / 255f);
+            slot.Refresh();
+
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,12 +22,15 @@ public class Console:MonoBehaviour
     //команды
     DebugCommand< string, int> AddItem;
     DebugCommand< string, int> RemoveItem;
+    DebugCommand< string, int> RemovePlayerVar;
     DebugCommand<int> AddHealth;
     DebugCommand<int> SetActHeart;
+    DebugCommand<int> SetInvLevel;
     DebugCommand<  int> AddEnergy;
     DebugCommand<  int,int> AddShard;
     DebugCommand Kill;
-    
+
+    DebugCommand ItemsID;
     DebugCommand Help;
 
     private void Awake()
@@ -53,7 +57,33 @@ public class Console:MonoBehaviour
                 PlayerController.Instance.playerHealthController.isHeartHas = false;
 
         });
+        SetInvLevel = new DebugCommand<int>("SetInvLevel", "Меняет значение уровня инвентаря", "SetInvLevel <0-2>", (t) =>
+        {
+           PlayerController.Instance.playerLevelList.levelTier = t;
+
+        });
+        RemovePlayerVar = new DebugCommand<string,int>("RemovePlayerVar", "Меняет значение хп или энергии игрока", "RemovePlayerVar <health or energy> <var>", (c,t) =>
+        {
+            if (c == "health")
+                PlayerHealthController.Instance.health -= t;
+            if (c == "energy")
+                PlayerHealthController.Instance.energy -= t;
+
+        });
         Help = new DebugCommand("Help", "Показывает все доступные команды", "Help", () => { showHelp = true; }); 
+        ItemsID = new DebugCommand("ItemsID", "Создает файл с айди предметов и их описанием в \n \\AppData\\LocalLow\\QWERTY\\IRIDIUM HEART", "ItemsID", () => 
+        {
+            using (StreamWriter writer = new StreamWriter(File.Create(Application.persistentDataPath + "/ItemsID.txt")))
+            {
+                writer.Write("ID" + "-----" + "Name"+ "-----" + "ItemType" + "-----"+"MaxInSlot"+ "\n");
+                foreach (InventoryItemInfo info in ItemBase.ItemsInfo.Values)
+                {
+                    writer.Write(info.id + "-----" + info.name + "-----" + info.itemType  +"-----" + info.maxItemsInInventortySlot + "\n");
+                }
+            }
+
+
+        }); 
 
 
 
@@ -66,6 +96,9 @@ public class Console:MonoBehaviour
             AddShard,
             Kill,
             SetActHeart,
+            SetInvLevel,
+            RemovePlayerVar,
+            ItemsID,
             Help,
         };
     }
@@ -94,13 +127,13 @@ public class Console:MonoBehaviour
         if (showHelp)
         {
             GUI.Box(new Rect(0, y, Screen.width, 240), "");
-            Rect viewport = new Rect(0, 0, Screen.width - 30, 50 * commandList.Count);
+            Rect viewport = new Rect(0, 0, Screen.width - 30, 160 * commandList.Count);
             scroll = GUI.BeginScrollView(new Rect(0, y + 5f, Screen.width, 220), scroll, viewport);
             for(int i = 0; i< commandList.Count; i++)
             {
                 DebugCommandBase command = commandList[i] as DebugCommandBase;
                 string label = $"{command.commandFormat} - {command.commandDescription}";
-                Rect labelRect = new Rect(10, 60 * i, viewport.width - 100, 60);
+                Rect labelRect = new Rect(10, 130 * i, viewport.width - 100, 130);
                 GUI.Label(labelRect, label,customTextFieldStyle);
             }
             GUI.EndScrollView();
@@ -149,6 +182,10 @@ public class Console:MonoBehaviour
                             
                         else
                             (commandList[i] as DebugCommand<string, int>).Invoke(prop[1], c);
+                    }
+                    else
+                    {
+                        (commandList[i] as DebugCommand<string, int>).Invoke(prop[1],Convert.ToInt32( prop[2]));
                     }
                 }
                 else if (commandList[i] as DebugCommand< int> != null)

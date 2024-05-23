@@ -761,6 +761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SavePath: Save2
+  btButton: {fileID: 1828254374}
 --- !u!114 &376636514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2262,8 +2263,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1010626997
 GameObject:
@@ -2301,7 +2302,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 400, y: -95.99999}
+  m_AnchoredPosition: {x: 400, y: -95}
   m_SizeDelta: {x: 500, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1010626999
@@ -2348,7 +2349,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 1819354025}
   m_HandleRect: {fileID: 1252374527}
   m_Direction: 0
-  m_MinValue: -40
+  m_MinValue: -60
   m_MaxValue: 0
   m_WholeNumbers: 0
   m_Value: 0
@@ -2608,6 +2609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SavePath: Save3
+  btButton: {fileID: 533398836}
 --- !u!114 &1102803921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3341,7 +3343,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -280, y: -85.99999}
-  m_SizeDelta: {x: 900, y: 80}
+  m_SizeDelta: {x: 800, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1474085242
 MonoBehaviour:
@@ -3953,7 +3955,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -280, y: 64.00001}
-  m_SizeDelta: {x: 900, y: 80}
+  m_SizeDelta: {x: 800, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1613685108
 MonoBehaviour:
@@ -4693,6 +4695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SavePath: Save1
+  btButton: {fileID: 1910282989}
 --- !u!114 &1857070470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5923,7 +5926,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2078064225
 GameObject:
@@ -5979,6 +5982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SavePath: Save4
+  btButton: {fileID: 2094346669}
 --- !u!114 &2078064228
 MonoBehaviour:
   m_ObjectHideFlags: 0

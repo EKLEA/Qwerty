@@ -29,22 +29,10 @@ public class UIInventorySlot : UISlot
         var otherItemUI = eventData.pointerDrag.GetComponent<UIInventoryItem>(); 
         var otherSlotUI = otherItemUI.GetComponentInParent<UIInventorySlot>();
 
-        var otherSlot = otherSlotUI.slot;
+        InventorySlot otherSlot= otherSlotUI.slot;
 
         var inventory = eventData.pointerDrag.GetComponentInParent<UIInventory>().inventory;
 
-
-        if (slot.requieType != ItemTypes.Any)
-        {
-            
-            if ( (otherSlot.item.info.itemType==ItemTypes.UsableItem && (slot.requieType != otherSlot.item.info.itemType )) || 
-                (otherSlot.item.info.itemType==ItemTypes.RobortParts &&(slot.requieTypePart != (otherSlot.item.info as RobotPartInfo).robotParts)) )
-                return;
-            else
-                inventory.TransitFromSlotToSlot(this, otherSlot, slot);
-                
-        }
-        else
             inventory.TransitFromSlotToSlot(this, otherSlot, slot);
 
 

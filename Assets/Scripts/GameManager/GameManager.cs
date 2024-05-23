@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
 
     [SerializeField] private FadeUI pauseMenu;
+    [SerializeField] private OptionsController options;
 
     [SerializeField] float fadeTime;
 
@@ -42,9 +43,10 @@ public class GameManager : MonoBehaviour
             SaveData.Instance.SavePlayerData();
             Debug.Log(SceneManager.GetActiveScene().name);
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused)
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused && !PlayerController.Instance.playerStateList.invOpened)
         {
             pauseMenu.StopAllCoroutines();
+            options.UpdateVars();
             pauseMenu.FadeUIIn(fadeTime);
             Time.timeScale = 0;
             gameIsPaused = true;

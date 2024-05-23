@@ -10,9 +10,12 @@ public class DelBT : MonoBehaviour, IPointerEnterHandler
     public string SavePath;
     Button bt =>GetComponent<Button>();
     UIAudio uiAudio => GetComponentInParent<UIAudio>();
+    [SerializeField] SaveBT btButton;
     private void OnEnable()
     {
-        if (Directory.Exists(Application.persistentDataPath + "/" +SavePath) && File.Exists(Application.persistentDataPath + "/"+ SavePath + "/save.checkPoint.data"))
+        if (Directory.Exists(Application.persistentDataPath + "/" +SavePath) 
+            && File.Exists(Application.persistentDataPath + "/"+ SavePath + "/save.checkPoint.data")
+            && new FileInfo(Application.persistentDataPath + "/" + SavePath + "/save.checkPoint.data").Length > 0)
         {
             bt.interactable = true;
         }
@@ -27,6 +30,7 @@ public class DelBT : MonoBehaviour, IPointerEnterHandler
         {
             Directory.Delete(Application.persistentDataPath + "/"+SavePath,true);
             bt.interactable = false;
+            btButton.UpdateBT();
         }
         else
         {

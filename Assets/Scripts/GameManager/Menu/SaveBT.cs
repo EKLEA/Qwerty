@@ -13,14 +13,20 @@ public class SaveBT : MonoBehaviour
     private void OnEnable()
     {
 
+       UpdateBT();
+    }
+    public void UpdateBT()
+    {
         string numbersOnly = new string(SavePath.Where(char.IsDigit).ToArray());
-        if (Directory.Exists(Application.persistentDataPath + "/" + SavePath) && File.Exists(Application.persistentDataPath + "/" + SavePath + "/save.checkPoint.data"))
+        if (Directory.Exists(Application.persistentDataPath + "/" + SavePath) 
+            && File.Exists(Application.persistentDataPath + "/" + SavePath + "/save.checkPoint.data") 
+            && new FileInfo(Application.persistentDataPath + "/" + SavePath + "/save.checkPoint.data").Length > 0)
         {
-            bt.GetComponentInChildren<TextMeshProUGUI>().text = "Продолжить "+numbersOnly;
+            bt.GetComponentInChildren<TextMeshProUGUI>().text = "Продолжить " + numbersOnly;
         }
         else
         {
-            bt.GetComponentInChildren<TextMeshProUGUI>().text = "Сохранение "+numbersOnly;
+            bt.GetComponentInChildren<TextMeshProUGUI>().text = "Сохранение " + numbersOnly;
         }
     }
     public void SetSavePath()

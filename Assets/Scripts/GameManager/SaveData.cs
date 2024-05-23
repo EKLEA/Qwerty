@@ -80,7 +80,7 @@ public struct SaveData
                 {
                 }
             }
-            if (!File.Exists(Application.persistentDataPath + SavePath + "/save.settings.data"))
+            if (!File.Exists(Application.persistentDataPath + "/save.settings.data"))
             {
                 using (BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + "/save.settings.data")))
                 {
@@ -385,7 +385,7 @@ public struct SaveData
                     {
                         item = new Item(ItemBase.ItemsInfo[id], countT);
                         item.state.IsEquipped = isEqut;
-                        slots[i].item = item;
+                        PlayerInventory.Instance.equippedItems.TryToAdd(null, item);
                     }
                 }
                 //weapon

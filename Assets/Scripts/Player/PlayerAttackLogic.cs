@@ -15,7 +15,10 @@ public class PlayerAttackLogic : AttakingObjLogic
             if (PlayerInventory.Instance != null)
             {
                 if (PlayerInventory.Instance.weaponAndPerks.GetAllSlots()[0].item != null)
+                {
+                   
                     return PlayerInventory.Instance.weaponAndPerks.GetAllSlots()[0].item;
+                }
                 else
                     return null;
             }

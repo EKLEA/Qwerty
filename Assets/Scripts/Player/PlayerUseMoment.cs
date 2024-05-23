@@ -22,10 +22,17 @@ public class PlayerUseMoment : MonoBehaviour
         if (Input.GetButtonDown("Use"))
             OnUsedEvent?.Invoke(this);
         if (Input.GetButtonDown("ChangeMenu"))
-            if(!PlayerController.Instance.playerStateList.isDraging)
+            if (!PlayerController.Instance.playerStateList.isDraging)
                 OnChangeMenuEvent?.Invoke(Input.GetAxisRaw("ChangeMenu"));
-        if (Input.GetButtonDown("Inventory")&& PlayerController.Instance.rb.velocity.x<2f&&PlayerController.Instance.playerStateList.grounded)
+        if (Input.GetButtonDown("Inventory") && PlayerController.Instance.rb.velocity.x < 2f && PlayerController.Instance.playerStateList.grounded)
+        {
             OnOpenInventoryCallBack?.Invoke();
+            PlayerInventory.Instance.UpdatePlayerVariables();
+
+
+            PlayerHealthController.Instance.InitPlayerHealth();
+            UIController.Instance.uiHud.GetComponent<UIHud>().InitHud();
+        }
         if (Input.GetMouseButtonDown(1))
             OnOpenContextMenuEvent?.Invoke(true);
         if (Input.GetMouseButtonDown(0))

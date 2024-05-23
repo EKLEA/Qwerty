@@ -16,7 +16,7 @@ MonoBehaviour:
   title: "\u0420\u0443\u043A\u0438 1-2"
   description: 
   maxItemsInInventortySlot: 1
-  spriteIcon: {fileID: 21300000, guid: a91e1225a1014774ba8ea0aecac61ea9, type: 3}
+  spriteIcon: {fileID: 21300000, guid: 61ddc054218c4cc4bba1c19dd181d1b0, type: 3}
   itemType: 5
   itemGO: {fileID: 0}
   requielevel: 1
@@ -26,6 +26,5 @@ MonoBehaviour:
   requeFluid: 1
   robotParts: 1
   partMoveKf: 0
-  partBaseDamage: 0
-  partbaseRange: 0
-  partBaseCooldown: 0
+  partHp: 0
+  partEn: 0

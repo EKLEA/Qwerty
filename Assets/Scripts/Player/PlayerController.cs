@@ -60,12 +60,17 @@ public class PlayerController : MonoBehaviour
        
 
         SaveData.Instance.LoadPlayerData();
-        PlayerInventory.Instance.SetupPlayerVariables();
+        PlayerInventory.Instance.UpdatePlayerVariables();
 
 
         PlayerHealthController.Instance.InitPlayerHealth();
         UIController.Instance.InitUIController();
         UIController.Instance.uiHud.GetComponent<UIHud>().InitHud();
+        if(PlayerInventory.Instance.weaponAndPerks.GetAllSlots()[0].item!=null)
+        {
+            PlayerInventory.Instance.EquippedMoment(true, PlayerInventory.Instance.weaponAndPerks.GetAllSlots()[0].item);
+            PlayerInventory.Instance.weaponAndPerks.GetAllSlots()[0].item.state.IsEquipped = true;
+        }
 
     }
 

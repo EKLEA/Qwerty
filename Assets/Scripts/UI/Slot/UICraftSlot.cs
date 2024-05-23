@@ -32,11 +32,18 @@ public class UICraftSlot : UISlotWithLock
                 locker.SetActive(true);
 
                 if (slot.item.info.requielevel > PlayerController.Instance.playerLevelList.levelTier)
+                {
                     locker.GetComponentInChildren<TextMeshProUGUI>().text = $"Нужна карта расширения {slot.item.info.requielevel} уровня";
+                    slot.isBlock = true;
+                }
                 else if (PlayerInventory.Instance.equippedItems.GetAllItems(slot.item.info.id).Length > 0 || PlayerInventory.Instance.storageItems.GetAllItems(slot.item.info.id).Length > 0)
+                {
+                    slot.isBlock = true;
                     locker.GetComponentInChildren<TextMeshProUGUI>().text = $"Предмет уже есть в инвентаре";
+                }
                 else
                 {
+                    slot.isBlock = false;
                     gameObject.GetComponent<Image>().enabled = true;
                     _uiInventoryItem.gameObject.SetActive(true);
                     nameOfItem.SetActive(true);

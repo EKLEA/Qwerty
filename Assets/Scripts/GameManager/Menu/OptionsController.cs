@@ -19,11 +19,15 @@ public class OptionsController : MonoBehaviour
 
         toggle.isOn = Screen.fullScreen;
     }
+    private void OnEnable()
+    {
+        UpdateVars();
+    }
     public void SaveSettings()
     {
         SaveData.Instance.SaveSettings(audioMixer);
     }
-    private void OnEnable()
+    public void UpdateVars()
     {
         slider.value = t;
 

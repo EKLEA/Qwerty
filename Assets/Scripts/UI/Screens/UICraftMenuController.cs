@@ -70,38 +70,43 @@ public class CraftMenuScript : UIInventoryScreen
 
     public void OnCraftItemSelected(UnityEngine.UI.Button selectedBT)
     {
-
+        
         tempBt = selectedBT;
 
-        button.SetActive(true);
+        
         requieCraftComponents.Remove(null,"Bolts", 1000);
         requieCraftComponents.Remove(null,"Fluid", 1000);
         requieCraftComponents.Remove(null, "Electronics", 1000);
         requieCraftComponentsGrid.GetComponent<UIInventory>().SetupInvntoryUI(requieCraftComponents);
 
         InventorySlot slot =selectedBT. GetComponentInParent<UICraftSlot>().slot;
-
-        requieCraftComponents.TryToAdd(null, new Item(ItemBase.ItemsInfo["Bolts"], (slot.item.info as CraftableItemInfo).requeBolts));
-        requieCraftComponents.TryToAdd(null, new Item(ItemBase.ItemsInfo["Fluid"], (slot.item.info as CraftableItemInfo).requeFluid));
-        requieCraftComponents.TryToAdd(null, new Item(ItemBase.ItemsInfo["Electronics"], (slot.item.info as CraftableItemInfo).requeElectronics));
-
-        itemSlot.GetComponentInChildren<UIInventorySlot>().SetSlot(slot);
-        itemSlot.GetComponentInChildren<UIInventorySlot>().Refresh();
-
-
-        
-
-        if ((playerInventory.craftComponents.GetItemCount("Bolts")>= (slot.item.info as CraftableItemInfo).requeBolts)&&
-            (playerInventory.craftComponents.GetItemCount("Fluid") >= (slot.item.info as CraftableItemInfo).requeFluid)&&
-            (playerInventory.craftComponents.GetItemCount("Electronics") >= (slot.item.info as CraftableItemInfo).requeElectronics))
-        {
-            //синюю обводку добавить в кнопку
-            bt.interactable = true;
-            bt.onClick.AddListener(() => OnButtonClick(tempBt));
-        }
+        if (slot.isBlock == true)
+            return;
         else
         {
-            bt.interactable = false;
-        }    
+            button.SetActive(true);
+            requieCraftComponents.TryToAdd(null, new Item(ItemBase.ItemsInfo["Bolts"], (slot.item.info as CraftableItemInfo).requeBolts));
+            requieCraftComponents.TryToAdd(null, new Item(ItemBase.ItemsInfo["Fluid"], (slot.item.info as CraftableItemInfo).requeFluid));
+            requieCraftComponents.TryToAdd(null, new Item(ItemBase.ItemsInfo["Electronics"], (slot.item.info as CraftableItemInfo).requeElectronics));
+
+            itemSlot.GetComponentInChildren<UIInventorySlot>().SetSlot(slot);
+            itemSlot.GetComponentInChildren<UIInventorySlot>().Refresh();
+
+
+
+
+            if ((playerInventory.craftComponents.GetItemCount("Bolts") >= (slot.item.info as CraftableItemInfo).requeBolts) &&
+                (playerInventory.craftComponents.GetItemCount("Fluid") >= (slot.item.info as CraftableItemInfo).requeFluid) &&
+                (playerInventory.craftComponents.GetItemCount("Electronics") >= (slot.item.info as CraftableItemInfo).requeElectronics))
+            {
+                //синюю обводку добавить в кнопку
+                bt.interactable = true;
+                bt.onClick.AddListener(() => OnButtonClick(tempBt));
+            }
+            else
+            {
+                bt.interactable = false;
+            }
+        } 
     }
 }
