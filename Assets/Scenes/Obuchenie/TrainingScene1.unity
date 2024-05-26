@@ -8144,7 +8144,7 @@ PrefabInstance:
       objectReference: {fileID: 537051798}
     - target: {fileID: 2558719675519645883, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
       propertyPath: jumpHeight
-      value: 15
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 2558719675519645883, guid: 6cf3f042a2c995040933cef61e4288ca, type: 3}
       propertyPath: wallJumpingPower.x
