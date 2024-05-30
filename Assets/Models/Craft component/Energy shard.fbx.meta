@@ -1,19 +1,9 @@
 fileFormatVersion: 2
-guid: f431d32a83ff06a4b8ae4a9356125ef1
+guid: 331e9f2e92cd3a24d95da37f542dbbae
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
   externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Carbon Fiber Electric Blue
-    second: {fileID: 2100000, guid: 84b0c3664347fe84eb0844912944bdaf, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Computer Chip sci fi colors
-    second: {fileID: 2100000, guid: f124a331540be4546a937369ffe6a587, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -23,12 +13,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Metal.006
-    second: {fileID: 2100000, guid: 0a9bc9deb0cd5624a8759a032117f61c, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: PCB Circuit Board 01
-    second: {fileID: 2100000, guid: ad6147fdb5fb70047bf1f15be49e9ba8, type: 2}
+    second: {fileID: 2100000, guid: 97758bb82ee1bdc4199e163e536e2a34, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
