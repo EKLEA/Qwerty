@@ -8,6 +8,7 @@ public class PlayerAttackLogic : AttakingObjLogic
    
     public GameObject Hand;
     [SerializeField] LayerMask attacableLayer;
+    public GameObject slashEffect;
     public  override Item item
     {
         get 
@@ -145,18 +146,21 @@ public class PlayerAttackLogic : AttakingObjLogic
                 int recoilLeftOrRight = PlayerController.Instance.playerStateList.lookRight ? 1 : -1;
 
                 Hit(sideAttackTransform, sideAttackArea, ref PlayerController.Instance.playerStateList.recoilX, Vector2.right*recoilLeftOrRight, recoilXSpeed);
+                SlashEffectAngle(slashEffect, -90, sideAttackTransform);
             }
            
             
             else if (PlayerController.Instance.playerStateList.Axis.y > 0)
             {
                 Hit(upAttackTransform, upAttackArea, ref PlayerController.Instance.playerStateList.recoilY, Vector2.up, recoilYSpeed);
+                SlashEffectAngle(slashEffect,0, upAttackTransform);
             }
             
             
             else if ( PlayerController.Instance.playerStateList.Axis.y < 0 && !PlayerController.Instance.playerStateList.grounded)
             {
                 Hit(downAttackTransform, downAttackArea, ref PlayerController.Instance.playerStateList.recoilY, Vector2.down, recoilYSpeed);
+                SlashEffectAngle(slashEffect,0, downAttackTransform);
             }
             timeSinceAttack = 0;
         }
@@ -193,6 +197,25 @@ public class PlayerAttackLogic : AttakingObjLogic
         }
 
 
+    }
+    void SlashEffectAngle( GameObject _slashEffect,int _effectAngle, Transform attackTransform)
+    {
+        _slashEffect = Instantiate(_slashEffect, attackTransform);
+       // Destroy(_slashEffect, 0.1f);
+        slashEffect.transform.rotation=Quaternion.identity;
+       if (_effectAngle == 0)
+        {
+            if(PlayerController.Instance.gameObject. transform.rotation.y>0)
+            {
+                _slashEffect.transform.localPosition = new Vector3(0, 0f, -3f);
+            }
+            else if (PlayerController.Instance.gameObject. transform.rotation.y<0)
+                _slashEffect.transform.localPosition = new Vector3(0, 0f, 3f);
+        }
+       else
+            _slashEffect.transform.localPosition = new Vector3(range, 0f, 0f);
+        _slashEffect.transform.eulerAngles= new Vector3(_effectAngle,90,0);
+        //_slashEffect.transform.localScale = new Vector2(transform.localScale.x,transform.localScale.y); 
     }
     public void Recoil()
     {

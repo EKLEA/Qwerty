@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static UnityEngine.Rendering.DebugUI;
 
-public class CraftMenuScript : UIInventoryScreen
+public class UICraftMenuScript : UIInventoryScreen
 {
     PlayerInventory playerInventory => PlayerController.Instance.GetComponent<PlayerInventory>();
 
@@ -17,6 +18,9 @@ public class CraftMenuScript : UIInventoryScreen
     public GameObject SlotPrefab;
     public GameObject requieCraftComponentsGrid;
     public GameObject itemSlot;
+    public TextMeshProUGUI textName;
+    public TextMeshProUGUI textHaract;
+    public TextMeshProUGUI textDesc;
     InventoryWithSlots requieCraftComponents = new InventoryWithSlots(3, SlotTypes.StaticSlot, InventoryType.Storage);
     UnityEngine.UI.Button bt;
     public override void InitUISceen()
@@ -70,7 +74,7 @@ public class CraftMenuScript : UIInventoryScreen
 
     public void OnCraftItemSelected(UnityEngine.UI.Button selectedBT)
     {
-        
+        bt.onClick.RemoveAllListeners();
         tempBt = selectedBT;
 
         
@@ -88,9 +92,23 @@ public class CraftMenuScript : UIInventoryScreen
             requieCraftComponents.TryToAdd(null, new Item(ItemBase.ItemsInfo["Bolts"], (slot.item.info as CraftableItemInfo).requeBolts));
             requieCraftComponents.TryToAdd(null, new Item(ItemBase.ItemsInfo["Fluid"], (slot.item.info as CraftableItemInfo).requeFluid));
             requieCraftComponents.TryToAdd(null, new Item(ItemBase.ItemsInfo["Electronics"], (slot.item.info as CraftableItemInfo).requeElectronics));
-
             itemSlot.GetComponentInChildren<UIInventorySlot>().SetSlot(slot);
             itemSlot.GetComponentInChildren<UIInventorySlot>().Refresh();
+            textName.text = "Название\n"+slot.item.info.title;
+            if (slot.item.info.itemType == ItemTypes.RobortParts)
+            {
+                textHaract.text = "Характеристики\n Коэффициент скорости - " + (slot.item.info as RobotPartInfo).partMoveKf + "\n" +
+                                  "Дополнительное здоровье - " + (slot.item.info as RobotPartInfo).partHp + "\n" +
+                                  "Дополнительная энергия - " + (slot.item.info as RobotPartInfo).partEn + "\n";
+            }
+            else if (slot.item.info.itemType == ItemTypes.Perks)
+            {
+                textHaract.text = "Характеристики\n Дополнительный урон - " + (slot.item.info as PerkInfo).partBaseDamage +" Рузльтирующий урон оружия - "+ (PlayerInventory.Instance.weaponAndPerks.GetAllSlots()[0].item == null ? (slot.item.info as PerkInfo).partBaseDamage : (PlayerInventory.Instance.weaponAndPerks.GetAllSlots()[0].item.info as WeaponItemInfo).damage+ (slot.item.info as PerkInfo).partBaseDamage)+ "\n" +
+                                  "Изменение дальности аттаки - " + (slot.item.info as PerkInfo).partBaseRange + " Рузльтирующая дальность аттаки оружия  - " + (PlayerInventory.Instance.weaponAndPerks.GetAllSlots()[0].item == null ? (slot.item.info as PerkInfo).partBaseRange : (PlayerInventory.Instance.weaponAndPerks.GetAllSlots()[0].item.info as WeaponItemInfo).range+ (slot.item.info as PerkInfo).partBaseRange) + "\n" +
+                                  "Изменение сокрости атаки - " + (slot.item.info as PerkInfo).partBaseCooldown + " Рузльтирующая скорость аттаки оружия - " + (PlayerInventory.Instance.weaponAndPerks.GetAllSlots()[0].item == null ? (slot.item.info as PerkInfo).partBaseCooldown : (PlayerInventory.Instance.weaponAndPerks.GetAllSlots()[0].item.info as WeaponItemInfo).cooldown + (slot.item.info as PerkInfo).partBaseCooldown) +"\n";
+            }
+            textDesc.text = "Описание\n"+slot.item.info.description;
+            
 
 
 

@@ -17,6 +17,6 @@ public class ItemsDropper : DamagableObj
     {
         health -= _damageDone;
         foreach (var itemInf in items)
-            ItemTakeDrop.SpawnItem(itemInf.itemInf.id, UnityEngine. Random.Range(1, 5));
+            ItemTakeDrop.SpawnItem(gameObject, itemInf.itemInf.id, UnityEngine. Random.Range(1, 5));
     }
 }
