@@ -23,6 +23,7 @@ public class EnemyHealthController : DamagableObjWithLogic
     public AudioClip hurtSound;
     protected virtual void Update()
     {
+        hasTakenDamage = false;
         if (GameManager.Instance.gameIsPaused) return;
         if (isRecoiling)
         {
