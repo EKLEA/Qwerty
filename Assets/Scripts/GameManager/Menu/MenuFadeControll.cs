@@ -13,6 +13,7 @@ public class MenuFadeControll : MonoBehaviour
         fadeUI = GetComponent<FadeUI>();
         fadeUI.FadeUIOut(fadeTime);
         ItemBase.Instance.Initialize();
+        MapDictionary.Instance.Initialize();
        
 
     }
