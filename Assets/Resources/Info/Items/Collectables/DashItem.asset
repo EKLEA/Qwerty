@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DashItem
   m_EditorClassIdentifier: 
   id: dashUnlock
-  title: Dash
+  title: "\u0420\u044B\u0432\u043E\u043A"
   description: 
   maxItemsInInventortySlot: 1
   spriteIcon: {fileID: 21300000, guid: 125834c799f6eba4f8cfab70a27984dd, type: 3}

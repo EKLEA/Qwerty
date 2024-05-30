@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: DoubleWallJump
   m_EditorClassIdentifier: 
   id: doubleJumpUnlock
-  title: "\u0434\u0432\u043E\u0439\u043D\u043E\u0439 \u043F\u0440\u044B\u0436\u043E\u0435"
+  title: "\u0434\u0432\u043E\u0439\u043D\u043E\u0439 \u043F\u0440\u044B\u0436\u043E\u043A"
   description: 
   maxItemsInInventortySlot: 1
-  spriteIcon: {fileID: 21300000, guid: 0093d2a34ffe66742b319673e79a4e3a, type: 3}
+  spriteIcon: {fileID: 21300000, guid: b2d9d669f6926354eae36c31ac0d0c03, type: 3}
   itemType: 2
   itemGO: {fileID: 0}
   requielevel: 0

@@ -47,11 +47,11 @@ public class PlayerAttackLogic : AttakingObjLogic
         get
         {
             if (PlayerController.Instance != null && item != null)
-                return (item.info as WeaponItemInfo).damage + PlayerInventory.Instance.weaponAndPerks.GetAllItems()
+                return (item.info as WeaponItemInfo).range + PlayerInventory.Instance.weaponAndPerks.GetAllItems()
                                                            .Where(rp => rp != null && rp.info is PerkInfo)
                                                            .Sum(rp => (rp.info as PerkInfo).partBaseRange);
             else
-                return 1;
+                return 3;
         }
     }
     private float coolDown
@@ -59,7 +59,7 @@ public class PlayerAttackLogic : AttakingObjLogic
         get
         {
             if (PlayerController.Instance != null && item != null)
-                return (item.info as WeaponItemInfo).damage + PlayerInventory.Instance.weaponAndPerks.GetAllItems()
+                return (item.info as WeaponItemInfo).cooldown + PlayerInventory.Instance.weaponAndPerks.GetAllItems()
                                                            .Where(rp => rp != null && rp.info is PerkInfo)
                                                            .Sum(rp => (rp.info as PerkInfo).partBaseCooldown);
             else
@@ -213,7 +213,9 @@ public class PlayerAttackLogic : AttakingObjLogic
                 _slashEffect.transform.localPosition = new Vector3(0, 0f, 3f);
         }
        else
-            _slashEffect.transform.localPosition = new Vector3(range, 0f, 0f);
+        {
+            _slashEffect.transform.localPosition = PlayerController.Instance.transform.rotation.y> 0?  new Vector3(range, 0f, 0f) :  new Vector3(-range, 0f, 0f);
+        }
         _slashEffect.transform.eulerAngles= new Vector3(_effectAngle,90,0);
         //_slashEffect.transform.localScale = new Vector2(transform.localScale.x,transform.localScale.y); 
     }

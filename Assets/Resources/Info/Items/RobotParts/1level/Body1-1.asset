@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Body1-1
   m_EditorClassIdentifier: 
   id: body1-1
-  title: "\u0442\u0435\u043B\u043E 1-1"
+  title: "\u0442\u0435\u043B\u043E 1-blue"
   description: 
   maxItemsInInventortySlot: 1
   spriteIcon: {fileID: 21300000, guid: 6464814055f7af745b266565d68a2a97, type: 3}
@@ -22,9 +22,9 @@ MonoBehaviour:
   requielevel: 1
   isCraftable: 1
   requeBolts: 1
-  requeElectronics: 1
-  requeFluid: 1
+  requeElectronics: 2
+  requeFluid: 3
   robotParts: 2
   partMoveKf: 0
-  partHp: 0
-  partEn: 0
+  partHp: 1
+  partEn: 3

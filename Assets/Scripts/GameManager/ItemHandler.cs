@@ -15,6 +15,12 @@ public class ItemHandler : MonoBehaviour
                     item.gameObject.SetActive(false);
 
             }
+            else if(item.itemInf.itemType == ItemTypes.UsableItem)
+            {
+                if (PlayerInventory.Instance.weaponAndPerks.GetAllItems(item.itemInf.id).Length == 1)
+                    item.gameObject.SetActive(false);
+
+            }
             else
             {
                 if (PlayerInventory.Instance.storageItems.GetAllItems(item.itemInf.id).Length == 1)
