@@ -18,6 +18,6 @@ MonoBehaviour:
   maxItemsInInventortySlot: 1000
   spriteIcon: {fileID: 21300000, guid: 127f2ad3f0fa9e043953b7ec7ec6365c, type: 3}
   itemType: 1
-  itemGO: {fileID: 1381131522682904408, guid: 55e72e3918e49e1448d6b1e1995cf45c, type: 3}
+  itemGO: {fileID: 4268452025768813785, guid: d63af61af62f2564b8f3acfb13ec450f, type: 3}
   requielevel: 0
   isCraftable: 0

@@ -100,7 +100,7 @@ public class UIController : MonoBehaviour
                 if (screens[menuID].GetComponentInChildren<EquippedMenuController>().CheckSlots())
                 {
                     screens[menuID].SetActive(false);
-
+                   
                     int t;
                     if (s > 0)
                         t = 1;

@@ -10,6 +10,7 @@ public class ChargerEnemyLogicController : EnemyLogicBase
     [SerializeField] float chargeDuration;
     [SerializeField] float JumpForce;
     [SerializeField] LayerMask whatIsGround;
+    public AudioClip walk;
     protected new void Start()
     {
         base.Start();
@@ -17,6 +18,7 @@ public class ChargerEnemyLogicController : EnemyLogicBase
     }
     protected override void Update()
     {
+        
         base.Update();
         if (!PlayerController.Instance.playerStateList.alive)
             ChangeState(EnemyStates.Charger_Idle);
@@ -42,11 +44,11 @@ public class ChargerEnemyLogicController : EnemyLogicBase
 
                 
                 Physics.Raycast(new Vector3(transform.position.x, 3, transform.position.z) + _ledgeCheckStart, _wallCheckDir, out RaycastHit _hit, ledgeCheckX * 10);
-
+                GetComponent<AudioSource>().Play();
 
                 if (_hit.collider != null && _hit.collider.gameObject.CompareTag("Player"))
                     ChangeState(EnemyStates.Charger_Suprised);
-
+                GetComponent<AudioSource>().Stop();
                 if (transform.rotation.y > 0)
                     rb.velocity = new Vector2(speed, rb.velocity.y);
                 else
@@ -58,6 +60,7 @@ public class ChargerEnemyLogicController : EnemyLogicBase
                 ChangeState(EnemyStates.Charger_Charge);
                 break;
             case EnemyStates.Charger_Charge:
+                GetComponent<AudioSource>().Play();
                 timer += Time.deltaTime;
                 if (timer < chargeDuration)
                 {
@@ -76,6 +79,7 @@ public class ChargerEnemyLogicController : EnemyLogicBase
                 else
                 {
                     timer = 0;
+                    GetComponent<AudioSource>().Stop();
                     ChangeState(EnemyStates.Charger_Idle);
                 }
 

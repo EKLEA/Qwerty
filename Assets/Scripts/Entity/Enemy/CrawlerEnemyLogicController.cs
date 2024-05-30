@@ -14,6 +14,7 @@ public class CrawlerEnemyLogicController : EnemyLogicBase
         if (!PlayerController.Instance. playerStateList.alive)
             ChangeState(EnemyStates.Crawler_Idle);
     }
+    /*
     private void OnCollisionStay(Collision collision)
     {
         rb.constraints = RigidbodyConstraints.FreezePositionY | rb.constraints;
@@ -21,7 +22,7 @@ public class CrawlerEnemyLogicController : EnemyLogicBase
     private void OnCollisionExit(Collision collision)
     {
         rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
-    }
+    }*/
     public override void UpdateEnemyStates()
     {
         switch (GetCurrectEnemyState)
@@ -30,8 +31,8 @@ public class CrawlerEnemyLogicController : EnemyLogicBase
                 Vector3 _ledgeCheckStart = transform.rotation.y > 0 ? new Vector3(ledgeCheckX, 0) : new Vector3(-ledgeCheckX, 0);
                 Vector2 _wallCheckDir = transform.rotation.y > 0 ? transform.right : -transform.right;
 
-                if (!Physics.Raycast(transform.position + _ledgeCheckStart, Vector2.down, ledgeCheckY, whatIsGround)
-                    || Physics.Raycast(transform.position, _wallCheckDir, ledgeCheckX, whatIsGround))
+                if (!Physics.Raycast(new Vector3(transform.position.x, 3, transform.position.z) + _ledgeCheckStart, Vector2.down, ledgeCheckY, whatIsGround)
+                    || Physics.Raycast(new Vector3(transform.position.x, 3, transform.position.z), _wallCheckDir, ledgeCheckX, whatIsGround))
                     ChangeState(EnemyStates.Crawler_Flip);
 
                 if (transform.rotation.y > 0)
@@ -44,7 +45,7 @@ public class CrawlerEnemyLogicController : EnemyLogicBase
                 if(timer > flipWaitTime)
                 {
                     timer = 0;
-                    transform.eulerAngles = new Vector3(0,transform.rotation.y*-1,0);
+                    transform.eulerAngles = transform.rotation.y > 0 ? new Vector3(0, -90, 0) : new Vector3(0, 90, 0);
                     ChangeState(EnemyStates.Crawler_Idle);
                 }
                 break;

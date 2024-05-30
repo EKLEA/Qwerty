@@ -6,6 +6,7 @@ using System.Xml;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 
 public class PlayerInventory: MonoBehaviour
@@ -145,7 +146,11 @@ public class PlayerInventory: MonoBehaviour
         if (ItemBase.ItemsInfo[id].itemType == ItemTypes.CraftComponents)
             Instance.craftComponents.TryToAdd(null, new Item(ItemBase.ItemsInfo[id],count));
         else if (ItemBase.ItemsInfo[id].itemType == ItemTypes.collectableItems)
-            Instance.collectableItems.TryToAdd(null, new Item(ItemBase.ItemsInfo[id], count));
+        {
+            if (Instance.collectableItems.GetAllItems(id).Length == 1)
+                return;
+            else Instance.collectableItems.TryToAdd(null, new Item(ItemBase.ItemsInfo[id], count));
+        }
         else
             Instance.storageItems.TryToAdd(null, new Item(ItemBase.ItemsInfo[id], count));
 
@@ -169,7 +174,7 @@ public class PlayerInventory: MonoBehaviour
             if (b)
             {
                 itemPrefab.transform.parent= PlayerController.Instance.GetComponent<PlayerUseMoment>().Hand.transform;
-                itemPrefab.transform.localPosition = new Vector3(-0.67f, -0.036f, -0.013f);
+                itemPrefab.transform.localPosition = new Vector3(7.72f, 0.34f, -0.24f);
                 itemPrefab.transform.localRotation = Quaternion.Euler(0, -90, 90);
             }
             else
@@ -182,6 +187,7 @@ public class PlayerInventory: MonoBehaviour
     }
     void updateCollectablesStats(object t,Item item, int count)
     {
+        
         switch (item.info.id)
         {
             case "dashUnlock":
@@ -189,6 +195,14 @@ public class PlayerInventory: MonoBehaviour
                 break;
             case "doubleJumpUnlock":
                 PlayerController.Instance.playerLevelList.canDoubleWallJump = true;
+                break;
+            case "Upgrade1":
+                PlayerController.Instance.playerLevelList.levelTier=1;
+                UIController.Instance.InitUIController();
+                break;
+            case "Upgrade2":
+                PlayerController.Instance.playerLevelList.levelTier= 2;
+                UIController.Instance.InitUIController();
                 break;
         }
       

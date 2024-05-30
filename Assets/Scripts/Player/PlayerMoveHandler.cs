@@ -62,6 +62,11 @@ public class PlayerMoveHandler : MoveHandler
             rb.velocity = new Vector2(PlayerController.Instance.playerStateList.Axis.x * speed * PlayerController.Instance.playerLevelList.movekf, rb.velocity.y);
 
             anim.SetBool("Runing", rb.velocity.x != 0 && Grounded());
+            if (Grounded() && rb.velocity.x>0.5f) 
+            {
+                PlayerController.Instance.audioSource.PlayOneShot(PlayerController.Instance.walk);
+            }
+            
             if (pState.recoilY)
                 airJumpCount = 0;
         }

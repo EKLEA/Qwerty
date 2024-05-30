@@ -8,6 +8,7 @@ public class FlyingEnemyLogicController : EnemyLogicBase
     [SerializeField] float chaseDistance;
     [SerializeField] float stunDruration;
     private Vector3 targetPosition;
+    public AudioClip flyingSound;
     protected new void Start()
     {
         base.Start();
@@ -48,6 +49,10 @@ public class FlyingEnemyLogicController : EnemyLogicBase
     }
     protected override void Update()
     {
+        if (!GetComponent<AudioSource>().isPlaying)
+        {
+            GetComponent<AudioSource>().PlayOneShot(flyingSound);
+        }
         base.Update();
         if (!PlayerController.Instance.playerStateList.alive)
             ChangeState(EnemyStates.FlyingEn_Idle);

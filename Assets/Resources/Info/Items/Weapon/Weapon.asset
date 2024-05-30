@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f10b86b5cd38e4ba48a750e8e6616a, type: 3}
+  m_Name: Weapon
+  m_EditorClassIdentifier: 
+  id: Weapon
+  title: "\u041E\u0440\u0443\u0436\u0438\u0435"
+  description: 
+  maxItemsInInventortySlot: 1
+  spriteIcon: {fileID: 21300000, guid: 34b01370901b4ed47ae4d81aa3da4399, type: 3}
+  itemType: 3
+  itemGO: {fileID: 4788658207548346350, guid: a976c295335511d4eadfa31d1df78fe2, type: 3}
+  requielevel: 0
+  isCraftable: 0
+  damage: 1
+  cooldown: 1
+  range: 1

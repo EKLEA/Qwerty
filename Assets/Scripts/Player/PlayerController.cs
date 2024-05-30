@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip dashAndAttackSound;
     public AudioClip spellCastSound;
     public AudioClip hurtSound;
+    public AudioClip walk;
     public AudioSource audioSource;
     private void Awake()
     {

@@ -22,6 +22,10 @@ public class EquippedMenuController : MonoBehaviour
     {
         SetBars();
         PlayerController.Instance.playerLevelList.OnShardAdded += UpdateBars;
+        if (PlayerController.Instance.playerHealthController.isHeartHas)
+            heart.GetComponent<Image>().color = new Color(121 / 256f, 211 / 256f, 255 / 256f);
+        else
+            heart.GetComponent<Image>().color = new Color(248 / 256f, 23 / 256f, 62 / 256f);
     }
     private void OnEnable()
     {
