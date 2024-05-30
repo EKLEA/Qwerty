@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -25,9 +26,11 @@ public class ItemTakeDrop : ExampleUsable
         playerUseMoment.OnUsedEvent -= Cheker;
         DestroyImmediate (gameObject);
     }
-    public static void SpawnItem(string id,int count)
+    public static void SpawnItem(GameObject gameobj, string id,int count)
     {
         GameObject gm= Instantiate(ItemBase.ItemsInfo[id].itemGO);
+        gm.transform.position= new Vector3(gameobj.transform.position.x+ UnityEngine.Random.Range(-3, 3), gameobj.transform.position.y+2.4f, gameobj.transform.position.z) ;
         gm.GetComponent<ItemTakeDrop>().count = count;
     }
+
 }

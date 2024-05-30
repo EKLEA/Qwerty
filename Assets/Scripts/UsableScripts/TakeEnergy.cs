@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TakeShard : ExampleUsable
+public class TakeEnergy : ExampleUsable
 {
-   public int _tempHP;
+    public int _tempEN;
     public override void UseMoment()
     {
-        PlayerController.Instance.playerLevelList.tempAddHP += _tempHP;
-        StartCoroutine(PlayerController.Instance.TakeShard(true));//енергия;
+        PlayerController.Instance.playerLevelList.tempAddEN += _tempEN;
+        StartCoroutine(PlayerController.Instance.TakeShard(false));// энергия
         playerUseMoment.OnUsedEvent -= Cheker;
         Destroy(gameObject);
+
         //коротина поднятия
     }
 }

@@ -182,13 +182,13 @@ public class InventoryWithSlots
                 
             }
 
-            if (fromSlot.item.info.itemType == ItemTypes.UsableItem && (toSlot.requieType != fromSlot.item.info.itemType))
+            if (fromSlot.item.info.itemType == ItemTypes.UsableItem && (toSlot.requieType== ItemTypes.UsableItem && toSlot.requieType != fromSlot.item.info.itemType))
             {
                 Debug.Log("2");
                 return;
 
             }
-            else if (toSlot.inventoryType == InventoryType.Equippement && ((fromSlot.item.info as RobotPartInfo).robotParts != toSlot.requieTypePart))
+            else if (toSlot.inventoryType == InventoryType.Equippement &&(fromSlot.item.info.itemType == ItemTypes.RobortParts &&((fromSlot.item.info as RobotPartInfo).robotParts != toSlot.requieTypePart)))
             {
                 return;
             }
