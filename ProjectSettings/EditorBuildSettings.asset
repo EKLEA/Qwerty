@@ -65,4 +65,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Storehouse/StoreUpgrade.unity
     guid: e33dcc3134d9bd8408967c0b4ab87537
+  - enabled: 1
+    path: Assets/Scenes/Factory/FactorySave.unity
+    guid: ff118f31e7b4b0643b16639e76a06e8c
+  - enabled: 1
+    path: Assets/Scenes/Factory/FactoryLoot1.unity
+    guid: 64defedb743672f4898d614afa0a6831
+  - enabled: 1
+    path: Assets/Scenes/Factory/FactoryEnemy1.unity
+    guid: 057410e4575cbef43bd24a919e6367ef
   m_configObjects: {}
