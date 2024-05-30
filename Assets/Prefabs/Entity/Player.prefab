@@ -6375,9 +6375,9 @@ MonoBehaviour:
   pCollider: {fileID: 0}
   rb: {fileID: 0}
   castOrHealTimer: 0
-  landingSound: {fileID: 0}
+  landingSound: {fileID: 8300000, guid: 20e5a360e9946cf47ac3fd130b74156f, type: 3}
   jumpSound: {fileID: 0}
-  dashAndAttackSound: {fileID: 0}
+  dashAndAttackSound: {fileID: 8300000, guid: 00ceccae0a110aa4385eccce634877f6, type: 3}
   spellCastSound: {fileID: 0}
   hurtSound: {fileID: 0}
   audioSource: {fileID: 0}
