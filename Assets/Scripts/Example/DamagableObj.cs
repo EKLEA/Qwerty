@@ -31,9 +31,6 @@ public class DamagableObj : MonoBehaviour
         }
         set
         {
-            if (defense > 0)
-                defense -= value;
-            else
                 hp = value;
                 OnHealthChangedCallBack?.Invoke();
                 if (hp <= 0)
@@ -42,15 +39,6 @@ public class DamagableObj : MonoBehaviour
                     Destroy(gameObject);
                 }
 
-        }
-    }
-    
-    public float defense
-    {
-        get { return df; }
-        set
-        {
-            df = value;
         }
     }
     public virtual void DamageMoment(float _damageDone, Vector2 _hitDirection, float _hitForce) { }

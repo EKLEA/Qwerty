@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerHealthController : DamagableObjWithLogic
 {
-    
+
     [SerializeField] private GameObject DamageEffect;
     bool restoreTime;
     float restoreTimeSpeed;
@@ -17,7 +17,7 @@ public class PlayerHealthController : DamagableObjWithLogic
     [SerializeField] private float restoreTimeEnergy;
     [SerializeField] float energyDrainSpeed;
     [SerializeField] public float energyGain;
-     public bool heartHas;
+    public bool heartHas;
 
     public static PlayerHealthController Instance;
     private void Awake()
@@ -37,9 +37,9 @@ public class PlayerHealthController : DamagableObjWithLogic
     }
     public bool isHeartHas
     {
-        get {  return heartHas; }
-        set 
-        { 
+        get { return heartHas; }
+        set
+        {
             heartHas = value;
         }
     }
@@ -58,17 +58,17 @@ public class PlayerHealthController : DamagableObjWithLogic
     {
         resHealth = maxHealth + PlayerController.Instance.playerLevelList.addHealth;
         resEnergy = maxEnergy + PlayerController.Instance.playerLevelList.addEnergy;
-       
+
     }
     public void IncreaseMaxHealth(int var)
     {
         maxHealth += var;
-        UpdateHealthVar() ;
+        UpdateHealthVar();
         OnHealthVarChange.Invoke(null);
     }
     public void IncreaseMaxEnergy(int var)
     {
-        maxEnergy+=var;
+        maxEnergy += var;
         UpdateHealthVar();
         OnHealthVarChange.Invoke(null);
     }
@@ -80,27 +80,22 @@ public class PlayerHealthController : DamagableObjWithLogic
         }
         set
         {
-            if(value<hp)
+            if (value < hp)
             {
                 PlayerController.Instance.audioSource.PlayOneShot(PlayerController.Instance.hurtSound);
-                if (defense > 0)
-                    defense -= value;
+                hp = value;
+                if (health <= 0)
+                {
+                    StartCoroutine(Death());
+                }
                 else
                 {
-                    hp = value;
-                    if (health <= 0)
-                    {
-                        StartCoroutine(Death());
-                    }
-                    else
-                    {
-                        StartCoroutine(StopTakingDamage());
-                    }
+                    StartCoroutine(StopTakingDamage());
                 }
             }
             else
                 hp = value;
-            OnHealthChangedCallBack?.Invoke();
+        OnHealthChangedCallBack?.Invoke();
 
         }
     }
