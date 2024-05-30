@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: dashUnlock
   title: "\u0420\u044B\u0432\u043E\u043A"
-  description: 
+  description: '-'
   maxItemsInInventortySlot: 1
   spriteIcon: {fileID: 21300000, guid: 125834c799f6eba4f8cfab70a27984dd, type: 3}
   itemType: 2
-  itemGO: {fileID: 0}
+  itemGO: {fileID: 1615435143055824979, guid: 2197516d944f9d6459726ec1b8061a0d, type: 3}
   requielevel: 0
   isCraftable: 0

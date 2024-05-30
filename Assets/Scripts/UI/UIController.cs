@@ -165,6 +165,7 @@ public class UIController : MonoBehaviour
         yield return new WaitForSeconds(0.07f);
         
         menuID = 0;
+        screens[menuID].GetComponent<UIInventoryScreen>().InitUISceen();
         uiHud.SetActive(false);
         playerUIInterface.SetActive(true);
         screens[menuID].SetActive(true);
@@ -175,6 +176,7 @@ public class UIController : MonoBehaviour
         // анимация закрытия
         yield return new WaitForSeconds(0.07f);
         playerUIInterface.SetActive(false);
+        screens[menuID].GetComponent<UIInventoryScreen>().InitUISceen();
         screens[menuID].SetActive(false);
         uiHud.SetActive(true);
         PlayerController.Instance.playerStateList.invOpened = false;

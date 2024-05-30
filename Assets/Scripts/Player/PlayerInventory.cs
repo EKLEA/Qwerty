@@ -196,11 +196,17 @@ public class PlayerInventory: MonoBehaviour
                 PlayerController.Instance.playerLevelList.canDoubleWallJump = true;
                 break;
             case "Upgrade1":
-                PlayerController.Instance.playerLevelList.levelTier=1;
+                if (PlayerController.Instance.playerLevelList.levelTier > 1)
+                    return;
+                else
+                    PlayerController.Instance.playerLevelList.levelTier=1;
                 UIController.Instance.InitUIController();
                 break;
             case "Upgrade2":
-                PlayerController.Instance.playerLevelList.levelTier= 2;
+                if (PlayerController.Instance.playerLevelList.levelTier > 2)
+                    return;
+                else
+                    PlayerController.Instance.playerLevelList.levelTier = 2;
                 UIController.Instance.InitUIController();
                 break;
         }

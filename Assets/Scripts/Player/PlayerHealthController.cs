@@ -88,7 +88,6 @@ public class PlayerHealthController : DamagableObjWithLogic
                 else
                 {
                     hp = value;
-                    OnHealthChangedCallBack?.Invoke();
                     if (health <= 0)
                     {
                         StartCoroutine(Death());
@@ -101,6 +100,7 @@ public class PlayerHealthController : DamagableObjWithLogic
             }
             else
                 hp = value;
+            OnHealthChangedCallBack?.Invoke();
 
         }
     }
@@ -135,7 +135,7 @@ public class PlayerHealthController : DamagableObjWithLogic
     {
         
         PlayerController.Instance.playerStateList.invincible = true;
-        GameObject  _damageEffect = Instantiate(DamageEffect,new Vector2(transform.position.x,transform.position.y+1.5f), Quaternion.identity);
+        GameObject  _damageEffect = Instantiate(DamageEffect,new Vector2(transform.position.x,transform.position.y+3f), Quaternion.identity);
         Destroy(_damageEffect, 1.5f);
         yield return new WaitForSeconds(1f);
         PlayerController.Instance.playerStateList.invincible=false;

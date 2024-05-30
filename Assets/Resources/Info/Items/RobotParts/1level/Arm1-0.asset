@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: arm1-0
   title: "\u0420\u0443\u043A\u0438 1-red"
-  description: fffffff
+  description: '-'
   maxItemsInInventortySlot: 1
   spriteIcon: {fileID: 21300000, guid: 2fa09b58d89ed7540a1f1d4a2ee4dfb4, type: 3}
   itemType: 5

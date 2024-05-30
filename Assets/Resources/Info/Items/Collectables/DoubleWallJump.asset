@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: doubleJumpUnlock
   title: "\u0434\u0432\u043E\u0439\u043D\u043E\u0439 \u043F\u0440\u044B\u0436\u043E\u043A"
-  description: 
+  description: '-'
   maxItemsInInventortySlot: 1
   spriteIcon: {fileID: 21300000, guid: b2d9d669f6926354eae36c31ac0d0c03, type: 3}
   itemType: 2
-  itemGO: {fileID: 0}
+  itemGO: {fileID: 2517600750307622881, guid: c55e621adf16e4f45bcd5b2967a1c0bd, type: 3}
   requielevel: 0
   isCraftable: 0

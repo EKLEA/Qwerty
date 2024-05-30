@@ -21,7 +21,6 @@ public class CheckPoint : ExampleUsable
         SaveData.Instance.SavePlayerData();
         SaveData.Instance.SavePlayerLevelListData();
         SaveData.Instance.SavePlayerInv();
-        playerUseMoment.OnUsedEvent -= Cheker;
     }
     private new void OnTriggerExit(Collider other)
     {

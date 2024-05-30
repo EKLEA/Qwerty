@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: perk1-2
   title: "\u041F\u0435\u0440\u043A 1-2"
-  description: 
+  description: '-'
   maxItemsInInventortySlot: 1
-  spriteIcon: {fileID: 0}
+  spriteIcon: {fileID: 21300000, guid: 51aaf1440e268074984ff34c846eb0fa, type: 3}
   itemType: 4
   itemGO: {fileID: 0}
   requielevel: 1
@@ -25,5 +25,5 @@ MonoBehaviour:
   requeElectronics: 2
   requeFluid: 2
   partBaseDamage: 1
-  partBaseRange: 0
-  partBaseCooldown: 1
+  partBaseRange: 2
+  partBaseCooldown: 0.25

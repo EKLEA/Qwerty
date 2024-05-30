@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: body1-2
   title: "\u0442\u0435\u043B\u043E 1-green"
-  description: 
+  description: '-'
   maxItemsInInventortySlot: 1
   spriteIcon: {fileID: 21300000, guid: aa80cff585572b942beea218e72cc152, type: 3}
   itemType: 5
